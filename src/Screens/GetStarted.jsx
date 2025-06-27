@@ -1,194 +1,92 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-import Swiper from 'react-native-swiper'; // You'll need to install this library: npm install react-native-swiper
+import { StyleSheet, View, Text, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
-// Assuming these images are in your assets folder
-const ChooseProductsImage = require('../../assets/images/product.png'); // Replace with your actual path
-const MakePaymentImage = require('../../assets/images/payment.png');     // Replace with your actual path
-const GetYourOrderImage = require('../../assets/images/order.png'); // Replace with your actual path
-
-const OnboardingScreen = ({ navigation }) => {
-  const handleSkip = () => {
-    navigation.navigate('Home'); // Navigate to your main app screen
-  };
-
-  const handleGetStarted = () => {
-    navigation.navigate('Home'); // Navigate to your main app screen
-  };
+const SplashScreen = ({ navigation }) => {
+//   const handleGetStarted = () => {
+//     // Navigate to your main application screen, onboarding, or login screen
+//     navigation.navigate('Onboarding'); // Example: Navigating to an Onboarding screen
+//   };
 
   return (
-    <Swiper
-      loop={false}
-      showsButtons={false}
-      showsPagination={true}
-      dotStyle={styles.dotStyle}
-      activeDotStyle={styles.activeDotStyle}
-      paginationStyle={styles.paginationStyle}
-    >
-      {/* Page 1: Choose Products */}
-      <View style={styles.slide}>
-        <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
-          <Text style={styles.skipText}>Skip</Text>
-        </TouchableOpacity>
-        <Text style={styles.pageNumber}>1/3</Text>
-        <Image source={ChooseProductsImage} style={styles.image} resizeMode="contain" />
-        <Text style={styles.title}>Choose Products</Text>
-        <Text style={styles.description}>
-          Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.
-        </Text>
-        <TouchableOpacity style={styles.nextButton} onPress={() => { /* Swiper automatically handles next for you */ }}>
-          <Text style={styles.nextText}>Next</Text>
-        </TouchableOpacity>
-      </View>
+    <View style={styles.container}>
+      <ImageBackground
+        source={require('../../assets/images/GetStartedBack.jpg')} // Your specified background image path
+        style={styles.backgroundImage}
+        resizeMode="cover" // Ensures the image covers the entire background
+      >
+        <View style={styles.overlay}>
+          <View style={styles.textContainer}>
+            <Text style={styles.title}>You want</Text>
+            <Text style={styles.titleBold}>Authentic, here</Text>
+            <Text style={styles.titleBold}>you go!</Text>
+            <Text style={styles.subtitle}>Find it here, buy it now!</Text>
+          </View>
 
-      {/* Page 2: Make Payment */}
-      <View style={styles.slide}>
-        <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
-          <Text style={styles.skipText}>Skip</Text>
-        </TouchableOpacity>
-        <Text style={styles.pageNumber}>2/3</Text>
-        <Image source={MakePaymentImage} style={styles.image} resizeMode="contain" />
-        <Text style={styles.title}>Make Payment</Text>
-        <Text style={styles.description}>
-          Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.
-        </Text>
-        <View style={styles.navigationButtons}>
-          <TouchableOpacity style={styles.prevButton} onPress={() => { /* Swiper automatically handles prev for you */ }}>
-            <Text style={styles.prevText}>Prev</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.nextButton} onPress={() => { /* Swiper automatically handles next for you */ }}>
-            <Text style={styles.nextText}>Next</Text>
+          {/* Get Started Button */}
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Get Started</Text>
           </TouchableOpacity>
         </View>
-      </View>
-
-      {/* Page 3: Get Your Order */}
-      <View style={styles.slide}>
-        <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
-          <Text style={styles.skipText}>Skip</Text>
-        </TouchableOpacity>
-        <Text style={styles.pageNumber}>3/3</Text>
-        <Image source={GetYourOrderImage} style={styles.image} resizeMode="contain" />
-        <Text style={styles.title}>Get Your Order</Text>
-        <Text style={styles.description}>
-          Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.
-        </Text>
-        <View style={styles.navigationButtons}>
-          <TouchableOpacity style={styles.prevButton} onPress={() => { /* Swiper automatically handles prev for you */ }}>
-            <Text style={styles.prevText}>Prev</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.getStartedButton} onPress={()=>navigation.navigate('LoginScreen')}>
-            <Text style={styles.getStartedText}>Get Started</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </Swiper>
+      </ImageBackground>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  slide: {
+  container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+  },
+  backgroundImage: {
+    flex: 1,
+    justifyContent: 'flex-end', // Aligns content (overlay) to the bottom
+    width: '100%',
+    height: '100%',
+  },
+  overlay: {
+    // backgroundColor: 'rgba(0,0,0,0.5)', // Semi-transparent black overlay
     paddingHorizontal: 20,
+    paddingVertical: 40, // Adjust vertical padding as needed
+    justifyContent: 'flex-end', // Aligns text and button within the overlay to its bottom
+    minHeight: height * 0.4, // Ensures the overlay covers enough of the bottom screen
   },
-  skipButton: {
-    position: 'absolute',
-    top: 50, // Adjust as needed
-    right: 20,
-    zIndex: 1,
-  },
-  skipText: {
-    fontSize: 16,
-    color: '#888',
-  },
-  pageNumber: {
-    position: 'absolute',
-    top: 50, // Adjust as needed
-    left: 20,
-    fontSize: 16,
-    color: '#888',
-  },
-  image: {
-    width: width * 0.8,
-    height: height * 0.4,
-    marginBottom: 30,
+  textContainer: {
+    marginBottom: 40, // Space between text block and the button
   },
   title: {
-    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 10,
+    fontSize: 30,
+    color: 'white',
     textAlign: 'center',
-    color: '#333',
+    lineHeight: 38, // Enhances readability of multi-line text
   },
-  description: {
+  titleBold: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center',
+    lineHeight: 38,
+  },
+  subtitle: {
     fontSize: 16,
+    color: 'white',
     textAlign: 'center',
-    color: '#666',
-    marginBottom: 50,
+    marginTop: 10,
+    lineHeight: 22,
   },
-  dotStyle: {
-    backgroundColor: '#ccc',
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginHorizontal: 3,
+  button: {
+    backgroundColor: '#FF6F00', // Bright orange, matching typical UI
+    paddingVertical: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    width: '100%', // Makes the button full width within its padding
   },
-  activeDotStyle: {
-    backgroundColor: '#FF6F00', // Orange color for active dot
-    width: 20,
-    height: 8,
-    borderRadius: 4,
-    marginHorizontal: 3,
-  },
-  paginationStyle: {
-    bottom: height * 0.05, // Adjust vertical position of dots
-  },
-  navigationButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    paddingHorizontal: 20,
-    position: 'absolute',
-    bottom: 30, // Position above the pagination dots
-  },
-  nextButton: {
-    backgroundColor: '#FF6F00',
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 25,
-  },
-  nextText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  prevButton: {
-    backgroundColor: '#E0E0E0',
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 25,
-  },
-  prevText: {
-    color: '#666',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  getStartedButton: {
-    backgroundColor: '#FF6F00',
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 25,
-  },
-  getStartedText: {
-    color: '#fff',
+  buttonText: {
+    color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
   },
 });
 
-export default OnboardingScreen;
+export default SplashScreen;

@@ -11,6 +11,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Search from './src/Screens/Search';
 import Settings from './src/Screens/Settings';
 import Wishlist from './src/Screens/Wishlist';
+import Cart from './src/Screens/Cart';
+
 const Stack = createNativeStackNavigator();
 const StackNavigator = ()=>{
   return(
@@ -21,10 +23,6 @@ const StackNavigator = ()=>{
       <Stack.Screen name="ForgotPassword" component={ForgotPassword}  />
       <Stack.Screen name="GetStarted" component={GetStarted}  />
       <Stack.Screen name="MainTabs" component={TabNavigator} />
-      {/* <Stack.Screen name="ProductsPage" component={ProductsPage}  />   */}
-      {/* <Stack.Screen name="Search" component={Search}  />                */}
-      {/* <Stack.Screen name="Settings" component={Settings}  />            */}
-      {/* <Stack.Screen name="Wishlist" component={Wishlist}  />            */}
       </Stack.Navigator>
   )
 }
@@ -32,11 +30,12 @@ const StackNavigator = ()=>{
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator >
       <Tab.Screen name="ProductsPage" component={ProductsPage} />
+      <Tab.Screen name="Wishlist" component={Wishlist} />
+      <Tab.Screen name="Cart" component={Cart} />
       <Tab.Screen name="Search" component={Search} />
       <Tab.Screen name="Settings" component={Settings} />
-      <Tab.Screen name="Wishlist" component={Wishlist} />
     </Tab.Navigator>
   );
 };

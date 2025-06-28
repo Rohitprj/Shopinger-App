@@ -1,14 +1,3 @@
-// import { View, Text } from 'react-native'
-// import React from 'react'
-
-// export default function ProductsPage() {
-//   return (
-//     <View>
-//       <Text>ProductsPage</Text>
-//     </View>
-//   )
-// }
-
 import React from 'react';
 import {
   View,
@@ -35,12 +24,6 @@ const App = () => {
             style={styles.logo}
           />
           <View style={styles.headerRight}>
-            {/* <TouchableOpacity style={styles.headerIconContainer}>
-              <Image
-                // source={require('./assets/bell_icon.png')} // Replace with your bell icon
-                style={styles.headerIcon}
-              />
-            </TouchableOpacity> */}
             <TouchableOpacity style={styles.headerAvatarContainer}>
               <Image
             source={require('../../assets/images/Profile.png')} // Replace with your logo path
@@ -118,19 +101,11 @@ const App = () => {
         </ScrollView>
 
         {/* 50-40% Off Banner */}
-        <View style={styles.bannerContainer}>
+        {/* <View style={styles.bannerContainer}> */}
           <Image
-            // source={require('./assets/promo_banner.png')} // Replace with your promo banner image
-            style={styles.bannerImage}
+            source={require('../../assets/products/carousel.png')} // Replace with your promo banner image
+            style={{alignSelf:"center"}}
           />
-          <View style={styles.bannerTextOverlay}>
-            <Text style={styles.bannerTitle}>50-40% OFF</Text>
-            <Text style={styles.bannerSubtitle}>All Collections</Text>
-            <TouchableOpacity style={styles.shopNowButton}>
-              <Text style={styles.shopNowButtonText}>Shop Now</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
 
         {/* Deal of the Day */}
         <View style={styles.dealOfTheDayContainer}>
@@ -151,7 +126,7 @@ const App = () => {
         <View style={styles.productGrid}>
           <View style={styles.productCard}>
             <Image
-              // source={require('./assets/woman_kurta.png')} // Replace with your product image
+              source={require('../../assets/products/kurta.png')} // Replace with your product image
               style={styles.productImage}
             />
             <Text style={styles.productTitle}>Woman's Printed Kurta</Text>
@@ -162,7 +137,7 @@ const App = () => {
               <Text style={styles.productPrice}>$28.00</Text>
               <View style={styles.ratingContainer}>
                 <Image
-                  // source={require('./assets/star_icon.png')} // Replace with your star icon
+                  // source={require('../../assets/products/kurta.png')} // Replace with your star icon
                   style={styles.starIcon}
                 />
                 <Text style={styles.ratingText}>4.8</Text>
@@ -173,7 +148,7 @@ const App = () => {
           {/* Product Grid 2 (Nike Air Max) */}
           <View style={styles.productCard}>
             <Image
-              // source={require('./assets/nike_airmax.png')} // Replace with your product image
+              source={require('../../assets/products/shoes.png')} // Replace with your product image
               style={styles.productImage}
             />
             <Text style={styles.productTitle}>Nike Air Max</Text>
@@ -184,7 +159,7 @@ const App = () => {
               <Text style={styles.productPrice}>$110.00</Text>
               <View style={styles.ratingContainer}>
                 <Image
-                  // source={require('./assets/star_icon.png')} // Replace with your star icon
+                  // source={require('../../assets/products/shoes.png')} // Replace with your star icon
                   style={styles.starIcon}
                 />
                 <Text style={styles.ratingText}>4.7</Text>
@@ -202,41 +177,34 @@ const App = () => {
           <View>
             <Text style={styles.specialOfferTitle}>Special Offers</Text>
             <Text style={styles.specialOfferText}>
-              We'll make sure you get the best offers you'll ever find.
+              We'll make sure you get the best offers{"\n"}you'll ever find.
             </Text>
           </View>
         </View>
 
         {/* Flat and Heels Banner */}
-        <View style={styles.flatHeelsBannerContainer}>
+        {/* <View style={styles.flatHeelsBannerContainer}> */}
           <Image
-            // source={require('./assets/heels_banner.png')} // Replace with your heels banner
+            source={require('../../assets/products/heels.png')} // Replace with your heels banner
             style={styles.flatHeelsBannerImage}
           />
-          <View style={styles.flatHeelsBannerContent}>
-            <Text style={styles.flatHeelsBannerTitle}>Flat and Heels</Text>
-            <Text style={styles.flatHeelsBannerSubtitle}>Best collection of flat & Heels</Text>
-            <TouchableOpacity style={styles.viewNowButton}>
-              <Text style={styles.viewNowButtonText}>View Now</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Trending Products */}
-        <View style={styles.trendingProductsHeader}>
-          <Text style={styles.sectionTitle}>Trending Products</Text>
-          <TouchableOpacity style={styles.viewAllButton}>
-            <Text style={styles.viewAllButtonText}>View All</Text>
+        <View style={{...styles.dealOfTheDayContainer,backgroundColor:"pink"}}>
+          <View style={styles.dealTimerContainer}>
+          <Text style={styles.dealOfTheDayTitle}>Trending Products</Text>
             <Image
-              // source={require('./assets/arrow_right.png')} // Replace with your arrow icon
-              style={styles.arrowRightIcon}
+              // source={require('./assets/timer_icon.png')} // Replace with your timer icon
+              style={styles.dealTimerIcon}
             />
+            <Text style={styles.dealTimerText}>19h: 23m: 54s Remaining</Text>
+          </View>
+          <TouchableOpacity style={{ alignItems: 'flex-end', justifyContent:"center", flex: 1 }}>
+            <Text style={styles.viewAllText}>View All</Text>
           </TouchableOpacity>
         </View>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.trendingProductsContainer}>
           <View style={styles.trendingProductCard}>
             <Image
-              // source={require('./assets/watch.png')} // Replace with your watch image
+              source={require('../../assets/products/watch.png')} // Replace with your watch image
               style={styles.trendingProductImage}
             />
             <Text style={styles.trendingProductBrand}>RWC</Text>
@@ -255,7 +223,7 @@ const App = () => {
 
           <View style={styles.trendingProductCard}>
             <Image
-              // source={require('./assets/white_shoes.png')} // Replace with your shoes image
+              source={require('../../assets/products/whiteSneakers.png')} // Replace with your shoes image
               style={styles.trendingProductImage}
             />
             <Text style={styles.trendingProductBrand}>Lusion</Text>
@@ -274,7 +242,7 @@ const App = () => {
 
           <View style={styles.trendingProductCard}>
             <Image
-              // source={require('./assets/denim_jacket.png')} // Replace with your jacket image
+              source={require('../../assets/products/watch.png')}// Replace with your jacket image
               style={styles.trendingProductImage}
             />
             <Text style={styles.trendingProductBrand}>Levi's</Text>
@@ -293,8 +261,11 @@ const App = () => {
         </ScrollView>
 
         {/* Hot Summer Sale Banner */}
+        <View style={{backgroundColor:"white",width:"90%",alignSelf:"center",borderRadius:10,}}>
+
+        
         <Image
-          // source={require('./assets/hot_summer_sale.png')} // Replace with your hot summer sale banner
+          source={require('../../assets/products/hotSummerSale.png')}  // Replace with your hot summer sale banner
           style={styles.hotSummerSaleBanner}
         />
 
@@ -308,58 +279,16 @@ const App = () => {
             <Text style={styles.viewAllButtonOrangeText}>View All</Text>
           </TouchableOpacity>
         </View>
-
+       </View>
         {/* Sponsored Ad */}
         <Text style={styles.sponsoredText}>Sponsored</Text>
         <Image
-          // source={require('./assets/sponsored_ad.png')} // Replace with your sponsored ad image
+          source={require('../../assets/products/off.png')} // Replace with your sponsored ad image
           style={styles.sponsoredAdImage}
         />
-        <View style={styles.sponsoredAdOverlay}>
-          <Text style={styles.sponsoredAdTitle}>UP TO</Text>
-          <Text style={styles.sponsoredAdDiscount}>50% OFF</Text>
-        </View>
         <Text style={styles.sponsoredAdSubtitleText}>Up to 50% off</Text>
       </ScrollView>
 
-      {/* Bottom Tabs */}
-      {/* <View style={styles.bottomTabs}>
-        <TouchableOpacity style={styles.tabItem}>
-          <Image
-            // source={require('./assets/home_tab.png')} // Replace with your home tab icon
-            style={[styles.tabIcon, styles.activeTabIcon]}
-          />
-          <Text style={[styles.tabText, styles.activeTabText]}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem}>
-          <Image
-            // source={require('./assets/heart_tab.png')} // Replace with your heart tab icon
-            style={styles.tabIcon}
-          />
-          <Text style={styles.tabText}>Wishlist</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem}>
-          <Image
-            // source={require('./assets/cart_tab.png')} // Replace with your cart tab icon
-            style={styles.tabIcon}
-          />
-          <Text style={styles.tabText}>Cart</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem}>
-          <Image
-            // source={require('./assets/search_tab.png')} // Replace with your search tab icon
-            style={styles.tabIcon}
-          />
-          <Text style={styles.tabText}>Search</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem}>
-          <Image
-            // source={require('./assets/settings_tab.png')} // Replace with your settings tab icon
-            style={styles.tabIcon}
-          />
-          <Text style={styles.tabText}>Settings</Text>
-        </TouchableOpacity>
-      </View> */}
     </SafeAreaView>
   );
 };
@@ -667,11 +596,11 @@ const styles = StyleSheet.create({
     height: 200, // Fixed height for the banner
   },
   flatHeelsBannerImage: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'cover',
-    position: 'absolute',
+    width: '92%',
+    height: 150,
     borderRadius: 10,
+    marginHorizontal: 15,
+    marginTop: 10,
   },
   flatHeelsBannerContent: {
     position: 'absolute',
@@ -706,6 +635,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 15,
     marginTop: 20,
+    backgroundColor:"pink"
   },
   viewAllButton: {
     flexDirection: 'row',
@@ -768,31 +698,32 @@ const styles = StyleSheet.create({
     color: '#ff6600',
   },
   hotSummerSaleBanner: {
-    width: width - 30,
+    width: '100%',
     height: 150,
-    resizeMode: 'contain',
-    marginHorizontal: 15,
-    marginTop: 20,
-    borderRadius: 10,
+    alignSelf: 'center',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
   newArrivalsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end', // Align the "View All" button with the bottom of the text
-    marginHorizontal: 15,
-    marginTop: 20,
+    // marginHorizontal: 15,
+    // marginTop: 20,
     marginBottom: 10,
   },
   newArrivalsSubtitle: {
     fontSize: 14,
     color: '#777',
     marginTop: 5,
+    marginHorizontal: 15,
   },
   viewAllButtonOrange: {
     backgroundColor: '#ff6600',
     paddingHorizontal: 15,
     paddingVertical: 8,
     borderRadius: 20,
+    right: 15, // Align to the right side
   },
   viewAllButtonOrangeText: {
     color: '#fff',

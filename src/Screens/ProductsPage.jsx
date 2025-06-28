@@ -134,15 +134,15 @@ const App = () => {
 
         {/* Deal of the Day */}
         <View style={styles.dealOfTheDayContainer}>
-          <Text style={styles.dealOfTheDayTitle}>Deal of the Day</Text>
           <View style={styles.dealTimerContainer}>
+          <Text style={styles.dealOfTheDayTitle}>Deal of the Day</Text>
             <Image
               // source={require('./assets/timer_icon.png')} // Replace with your timer icon
               style={styles.dealTimerIcon}
             />
             <Text style={styles.dealTimerText}>19h: 23m: 54s Remaining</Text>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity style={{ alignItems: 'flex-end', justifyContent:"center", flex: 1 }}>
             <Text style={styles.viewAllText}>View All</Text>
           </TouchableOpacity>
         </View>
@@ -323,7 +323,7 @@ const App = () => {
       </ScrollView>
 
       {/* Bottom Tabs */}
-      <View style={styles.bottomTabs}>
+      {/* <View style={styles.bottomTabs}>
         <TouchableOpacity style={styles.tabItem}>
           <Image
             // source={require('./assets/home_tab.png')} // Replace with your home tab icon
@@ -359,7 +359,7 @@ const App = () => {
           />
           <Text style={styles.tabText}>Settings</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 };
@@ -494,6 +494,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     overflow: 'hidden',
     position: 'relative',
+    backgroundColor:"pink"
   },
   bannerImage: {
     width: '100%',
@@ -530,20 +531,21 @@ const styles = StyleSheet.create({
   },
   dealOfTheDayContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     marginHorizontal: 15,
     marginTop: 20,
+    backgroundColor:"#4392F9",
+    borderRadius: 10,
+    paddingHorizontal: 15,
   },
   dealOfTheDayTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#fff',
   },
   dealTimerContainer: {
-    flexDirection: 'row',
+    // flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#ffe0b2', // Light orange background
+    // backgroundColor: '#ffe0b2', // Light orange background
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 5,
@@ -556,12 +558,16 @@ const styles = StyleSheet.create({
   },
   dealTimerText: {
     fontSize: 12,
-    color: '#e65100', // Darker orange text
+    color: '#fff', // Darker orange text
   },
   viewAllText: {
     fontSize: 14,
-    color: '#ff6600',
+    color: '#fff',
     fontWeight: 'bold',
+    borderWidth:1,
+    borderColor: '#fff',
+    padding:5,
+    borderRadius: 5,
   },
   productGrid: {
     flexDirection: 'row',

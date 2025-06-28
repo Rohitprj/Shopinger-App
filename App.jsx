@@ -12,6 +12,10 @@ import Search from './src/Screens/Search';
 import Settings from './src/Screens/Settings';
 import Wishlist from './src/Screens/Wishlist';
 import Cart from './src/Screens/Cart';
+import ReviewsScreen from './src/Screens/Reviews';
+import AddReviewScreen from './src/Screens/AddReview';
+import CheckoutScreen from './src/Screens/Checkout';
+import CheckoutProduct from './src/Screens/CheckoutProduct';
 
 const Stack = createNativeStackNavigator();
 const StackNavigator = ()=>{
@@ -23,6 +27,10 @@ const StackNavigator = ()=>{
       <Stack.Screen name="ForgotPassword" component={ForgotPassword}  />
       <Stack.Screen name="GetStarted" component={GetStarted}  />
       <Stack.Screen name="MainTabs" component={TabNavigator} />
+      <Stack.Screen name="Reviews" component={ReviewsScreen} />
+      <Stack.Screen name="AddReview" component={AddReviewScreen} />
+      <Stack.Screen name="Checkout" component={CheckoutScreen} />
+      <Stack.Screen name="CheckoutProduct" component={CheckoutProduct} />
       </Stack.Navigator>
   )
 }

@@ -236,7 +236,7 @@ const ProductDetailsScreen = ({ navigation }) => {
               />
               <Text style={styles.addToCartText}>Add to Cart</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.buyNowButton}>
+            <TouchableOpacity style={styles.buyNowButton} onPress={() => navigation.navigate('Checkout')}>
               <Image
                 // source={require('./assets/buy_now_icon.png')} // Buy now icon
                 style={styles.buyNowIcon}
@@ -257,7 +257,7 @@ const ProductDetailsScreen = ({ navigation }) => {
                 style={styles.reviewsOverallStarIcon}
               />
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Reviews')}>
               <Text style={styles.viewAllReviewsText}>View all</Text>
               <Image
                 // source={require('./assets/arrow_right_small.png')} // Small arrow right icon

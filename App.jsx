@@ -30,7 +30,7 @@ const StackNavigator = ()=>{
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
   return (
-    <Tab.Navigator >
+    <Tab.Navigator screenOptions={{headerShown: false}}>
       <Tab.Screen name="ProductsPage" component={ProductsPage} />
       <Tab.Screen name="Wishlist" component={Wishlist} />
       <Tab.Screen name="Cart" component={Cart} />

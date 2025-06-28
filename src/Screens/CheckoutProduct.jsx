@@ -456,6 +456,7 @@ import {
   Image,
   ScrollView,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -511,7 +512,7 @@ const StaticCheckoutCartItem = ({ item }) => {
   );
 };
 
-const StaticCheckoutPage = () => { // Renamed to reflect static nature
+const StaticCheckoutPage = ({navigation}) => { // Renamed to reflect static nature
   return (
     <SafeAreaView style={styles.safeArea}>
       {/* Header - static */}
@@ -596,9 +597,9 @@ const StaticCheckoutPage = () => { // Renamed to reflect static nature
         </View>
 
         {/* Proceed to Payment Button - static, no press handler */}
-        <View style={styles.proceedButton}>
+        <TouchableOpacity style={styles.proceedButton} onPress={() =>navigation.navigate("ShoppingBag") }>
           <Text style={styles.proceedButtonText}>Proceed to Payment</Text>
-        </View>
+        </TouchableOpacity>
 
         {/* Extra space at the bottom */}
         <View style={{ height: 40 }} />

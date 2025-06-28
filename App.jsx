@@ -16,6 +16,8 @@ import ReviewsScreen from './src/Screens/Reviews';
 import AddReviewScreen from './src/Screens/AddReview';
 import CheckoutScreen from './src/Screens/Checkout';
 import CheckoutProduct from './src/Screens/CheckoutProduct';
+import StaticShoppingBagScreen from './src/Screens/ShoppingBag';
+import Payment from './src/Screens/Payment';
 
 const Stack = createNativeStackNavigator();
 const StackNavigator = ()=>{
@@ -31,6 +33,8 @@ const StackNavigator = ()=>{
       <Stack.Screen name="AddReview" component={AddReviewScreen} />
       <Stack.Screen name="Checkout" component={CheckoutScreen} />
       <Stack.Screen name="CheckoutProduct" component={CheckoutProduct} />
+      <Stack.Screen name="ShoppingBag" component={StaticShoppingBagScreen} />
+      <Stack.Screen name="Payment" component={Payment} />
       </Stack.Navigator>
   )
 }

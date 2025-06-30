@@ -290,11 +290,11 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalIcon: {
-    width: 80, // Size of the checkmark icon
+    width: 80, 
     height: 80,
     resizeMode: 'contain',
     marginBottom: 20,
-    tintColor: '#ff6600', // Example tint color for the icon if it's a template
+    tintColor: '#ff6600', 
   },
   modalText: {
     fontSize: 18,

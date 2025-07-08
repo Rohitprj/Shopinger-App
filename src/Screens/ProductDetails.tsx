@@ -1024,7 +1024,7 @@ const ProductDetailsScreen = ({ navigation }) => {
           {/* The API doesn't directly provide a "model" field like "Nike Air Max 270",
               You might need to parse it from the name or description, or leave static.
               For now, I'm keeping it static as it's not directly in the API as a separate field. */}
-          <Text style={styles.productModel}>Nike Air Max 270 (All Colours)</Text>
+          {/* <Text style={styles.productModel}>Nike Air Max 270 (All Colours)</Text> */}
           <View style={styles.priceRatingRow}>
             <Text style={styles.originalPrice}>₹{sellingPrice}</Text>
             <Text style={styles.discountedPrice}>₹{price}</Text>

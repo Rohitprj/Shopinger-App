@@ -1,0 +1,77 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": 10,
+      "name": "Rousrie Madhubani Art Framed Painting For Home, Living Room, Hall | Traditional Rajasthani Pichwai Art Paitnings With Frame",
+      "slug": "rousrie-madhubani-art-framed-painting-for-home-living-room-hall-or-traditional-rajasthani-pichwai-art-paitnings-with-frame",
+      "description": "Transform your living space with this exquisite set of 4 Madhubani and Pichwai art paintings from Rousrie. These traditional wall hangings beautifully blend the artistic heritage of Bihar's Madhubani and Rajasthan's Pichwai styles, creating a stunning multi-coloured display. Each piece measures 22 by 22 cm and features motivational themes, perfect for adding an inspiring touch to your home décor. The modern-styled wall mount design makes installation hassle-free, while the wooden construction ensures durability. Ideal for indoor settings, particularly in living rooms and halls, these decorative panels bring a perfect fusion of traditional artistry and contemporary aesthetics. The set includes 4 pieces that can be arranged to create a captivating wall arrangement. Whether you're an art enthusiast or looking to add a cultural touch to your space, these framed paintings serve as a perfect conversation starter and focal point in any room.\r\n",
+      "mainCategoryId": 21,
+      "subCategoryId": 18,
+      "subSubCategoryId": 18,
+      "vendorId": 3,
+      "createdAt": "2025-07-03T05:51:41.961Z",
+      "updatedAt": "2025-07-03T05:51:41.961Z",
+      "isTrending": false,
+      "isRecommended": false,
+      "isSale": false,
+      "isPopular": false,
+      "mainCategory": {
+        "id": 21,
+        "name": "Home & Kitchen",
+        "slug": "home-and-kitchen",
+        "description": "Quick water absorption & Drying:High-absorbent nanoparticles are used to make the microfibre dish drying Rack for dinnerware. Because of its softness and absorbency, the drying Rack dries fast and effectively conceals stains. Furthermore, the thickness of the dish Rack effectively shields surfaces, cutlery, and glasses from deterioration and contamination.     Easy to Manage and Clean: It is possible to keep the kitchen drying Rack in the drawer without taking up additional space by rolling it up. Simply give the kitchen counter Rack a thorough underwater rinsing if necessary. Once cleaned, it can be dried by natural air circulation by being put on the countertop or hung.     Anti-slip and Durable: The dish drying rack Rack's rubber backing on the bottom provides good anti-skid properties. heat-resistant, waterproof, and non-slip. Place everyday objects on the drying Rack, and they will stay put because the non-slip bottom will absorb into the table. Additionally, the rubber's bottom helps shield the table from spill damage. Dish drying pads for kitchen tableware are long-lasting, wear- and tear-resistant, and both.     Kitchens, bars, bathrooms, etc. can be used in situations where you need to keep dry, and can be cut into coffee Racks, pet food Rack, placeRacks, etc. according to your needs to meet your different needs.     Select number of Racks as per your requirement: You can choose more number of Racks instead of buying big Rack for easy usage and storage",
+        "imgUrl": "/uploads/0c226de4dff05dda.jpg",
+        "createdAt": "2025-07-03T05:35:54.893Z",
+        "updatedAt": "2025-07-03T05:35:54.893Z"
+      },
+      "subCategory": {
+        "id": 18,
+        "mainCategoryId": 21,
+        "name": "Home Décor",
+        "slug": "home-decor",
+        "description": "Perfect decoration: Different kinds of artificial plants indoors, using a unique design. Place it anywhere, it blends into the scene and brings comfort, making you prefer to stay there.     Safe material: the fake plant is made of Quality plastic, realistic looking, straight and lush, the pot is covered with a layer of green grass, full of the feeling of nature.     No sunlight or water needed, artificial indoor plants do not wilt, change color and keep a fresh look in all seasons. It is the best choice for decoration for people who are busy and go out frequently.     Wide applications: the set of 8 small flower pots can be used for indoor and outdoor decoration, office, window sill, bathroom, kitchen, dressing table, bookshelf, etc. Create a simple bright and clean style.     Note: Fake plants have a little odor, just leave them in a ventilated environment for a period of time. Due to the packaging, the sheets will be squeezed, please comb the sheets to make them look more fluffy.",
+        "imgUrl": "/uploads/e528025da3969c9c.jpg",
+        "createdAt": "2025-07-03T05:45:34.387Z",
+        "updatedAt": "2025-07-03T05:45:34.387Z"
+      },
+      "subSubCategory": {
+        "id": 18,
+        "subCategoryId": 18,
+        "name": "Wall Art",
+        "slug": "wall-art",
+        "description": "     QUALITY :- The artwork is printed on 310 GSM thick paper with high quality printer and vibrant colors, to give it rich look.     USE WHEREVER YOU WANT - The stylish picture frames are multi-use home and office decoration item that can also be used in hostels & study room, classrooms & corridors as well as shops & cafes. In short, if you can find a wall to nail, these framed posters will stay & convey.     GREAT FOR GIFTING - These framed postersencourage everyone to live a positive life and achieve more. Its longevity and great use would give them something to remember you forever. It’s a great Motivational Gift for Girl, Men, Boy, Student, Brother & Friends.It serves as a perfect gift for your loved ones, colleagues and friends.     Art print can be hung on wall. Best for Painting wall's.Can be Used as a Gift for Your Friends, Sweetheart, Business Partner or Family Members.     We Hope You Can Find Something That Will Make You Relaxed, Make You Think, Inspire You…Or Will Just Make Your Room Look So Much Cooler",
+        "imgUrl": "/uploads/fe51ca51f3af5d8c.jpg",
+        "createdAt": "2025-07-03T05:46:51.277Z",
+        "updatedAt": "2025-07-03T05:46:51.277Z"
+      },
+      "variants": [
+        {
+          "id": 33,
+          "productId": 10,
+          "sku": "Motivational, Traditional ",
+          "price": "279",
+          "sellingprice": "799",
+          "stock": 50,
+          "images": [
+            "/uploads/bd03298117dc67dc.jpg",
+            "/uploads/a7a1ba1c7431611f.jpg"
+          ],
+          "height": null,
+          "weight": null,
+          "length": null,
+          "breadth": null,
+          "createdAt": "2025-07-03T05:51:41.964Z",
+          "updatedAt": "2025-07-03T05:51:41.964Z",
+          "attributes": []
+        }
+      ],
+      "_count": {
+        "ProductReview": 0
+      },
+      "ProductReview": [],
+      "averageRating": null,
+      "isWishlisted": false
+    }
+  ]
+}

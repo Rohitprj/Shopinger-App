@@ -275,7 +275,7 @@
 //         {/* Hot Summer Sale Banner */}
 //         <View style={{backgroundColor:"white",width:"90%",alignSelf:"center",borderRadius:10,}}>
 
-        
+
 //         <Image
 //           source={require('../../assets/products/hotSummerSale.png')}  // Replace with your hot summer sale banner
 //           style={styles.hotSummerSaleBanner}
@@ -834,7 +834,7 @@ import axiosInstance from '../utils/AxiosInstance'; // Ensure this path is corre
 
 const { width } = Dimensions.get('window');
 
-const App = () => {
+const App = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [errorCategories, setErrorCategories] = useState(null);
@@ -859,11 +859,16 @@ const App = () => {
   }, []);
 
   const renderCategoryItem = ({ item }) => (
-    <TouchableOpacity style={styles.categoryItem}>
-      <Image
-        source={{ uri: item.category_image }}
+    <TouchableOpacity style={styles.categoryItem} onPress={() => navigation.navigate('ProductAllData')}>
+      {/* <Image
+        source={{ uri: item.imgUrl }}
         style={styles.categoryIcon}
         onError={(e) => console.log('Image loading error:', e.nativeEvent.error)}
+      /> */}
+      <Image
+        source={{ uri: item.imgUrl ? `https://shopinger.co.in${item.imgUrl}` : 'https://placehold.co/50x50/cccccc/000000?text=No+Image' }}
+        style={styles.categoryIcon}
+        onError={(e) => console.log('Image loading error for category:', e.nativeEvent.error, 'URL:', item.imgUrl ? `https://shopinger.co.in${item.imgUrl}` : 'N/A')}
       />
       <Text style={styles.categoryText}>{item.name}</Text>
     </TouchableOpacity>

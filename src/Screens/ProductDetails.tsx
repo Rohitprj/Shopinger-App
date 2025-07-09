@@ -1577,6 +1577,885 @@
 
 // export default ProductDetailsScreen;
 
+// import React, {useState, useEffect} from 'react';
+// import {
+//   View,
+//   Text,
+//   StyleSheet,
+//   ScrollView,
+//   Image,
+//   TouchableOpacity,
+//   Dimensions,
+//   FlatList,
+//   ActivityIndicator, // Import ActivityIndicator for loading state
+// } from 'react-native';
+// import {SafeAreaView} from 'react-native-safe-area-context';
+// import axios from 'axios'; // Import axios
+// import axiosInstance from '../utils/AxiosInstance';
+
+// const {width, height} = Dimensions.get('window');
+
+// const REVIEWS_DATA = [
+//   {
+//     id: '1',
+//     avatar: require('../../assets/images/user1.png'), // Replace with actual avatar
+//     name: 'Jenny Wilson',
+//     date: '10 Sep, 2020',
+//     rating: '4.8',
+//     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque malesuada eget vitae ame.',
+//   },
+//   {
+//     id: '2',
+//     avatar: require('../../assets/images/user2.png'), // Replace with actual avatar
+//     name: 'Ronald Richards',
+//     date: '10 Sep, 2020',
+//     rating: '4.8',
+//     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque malesuada eget vitae ame.',
+//   },
+//   {
+//     id: '3',
+//     avatar: require('../../assets/images/user1.png'), // Replace with actual avatar
+//     name: 'Guy Hawkins',
+//     date: '10 Sep, 2020',
+//     rating: '4.8',
+//     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque malesuada eget vitae ame.',
+//   },
+//   {
+//     id: '4',
+//     avatar: require('../../assets/images/user2.png'), // Replace with actual avatar
+//     name: 'Savannah Nguyen',
+//     date: '10 Sep, 2020',
+//     rating: '4.8',
+//     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque malesuada eget vitae ame.',
+//   },
+// ];
+
+// // Sample data for "Similar to" products (kept static as per your request for 'rest static')
+// const SIMILAR_PRODUCTS_DATA = [
+//   {
+//     id: 's1',
+//     image: require('../../assets/products/black.png'), // Replace with image
+//     title: 'Nike Sneakers',
+//     description: 'Black Air Force 1 Low',
+//     price: '₹2,000',
+//     oldPrice: '₹1,500',
+//     rating: '4.8',
+//     reviews: '48,090',
+//   },
+//   {
+//     id: 's2',
+//     image: require('../../assets/products/sneaker.png'), // Replace with image
+//     title: 'Nike Sneakers',
+//     description: 'White Black Print S-',
+//     price: '₹1,900',
+//     oldPrice: '₹1,200',
+//     rating: '4.7',
+//     reviews: '230,000',
+//   },
+//   {
+//     id: 's3',
+//     image: require('../../assets/products/black.png'), // Replace with image
+//     title: 'Nike Sneakers',
+//     description: 'Dark Grey Air Max',
+//     price: '₹2,200',
+//     oldPrice: '₹1,800',
+//     rating: '4.9',
+//     reviews: '120,000',
+//   },
+//   {
+//     id: 's4',
+//     image: require('../../assets/products/sneaker.png'), // Replace with image
+//     title: 'Nike Sneakers',
+//     description: 'Red Air Jordan 1',
+//     price: '₹2,500',
+//     oldPrice: '₹2,000',
+//     rating: '4.6',
+//     reviews: '95,000',
+//   },
+// ];
+
+// const ProductDetailsScreen = ({navigation}) => {
+//   const [activeImageIndex, setActiveImageIndex] = useState(0);
+//   const [productData, setProductData] = useState(null);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+
+//   // Function to fetch product details using axios
+//   const fetchProductDetails = async () => {
+//     setLoading(true); // Set loading to true before fetching
+//     setError(null); // Clear previous errors
+//     try {
+//       // Use apiInstance.get and specify the relative path
+//       const response = await axiosInstance.get(
+//         "web/get-products/leotude-men's-oversized-half-sleeve-round-neck-t-shirt-(po3_fs49_bsd_sul_lsnls_p_beige-maron_3xl)",
+//       );
+
+//       // Axios wraps the response data in a 'data' property
+//       if (
+//         response.data.success &&
+//         response.data.data &&
+//         response.data.data.product
+//       ) {
+//         setProductData(response.data.data.product);
+//       } else {
+//         setError('Product data not found or API response indicates failure.');
+//       }
+//     } catch (e) {
+//       console.error('Failed to fetch product details:', e);
+//       // Handle different types of axios errors
+//       if (e.response) {
+//         setError(
+//           `Server error: ${e.response.status} - ${
+//             e.response.data?.message || 'Unknown error'
+//           }`,
+//         );
+//       } else if (e.request) {
+//         // The request was made but no response was received
+//         setError(
+//           'No response from server. Please check your internet connection.',
+//         );
+//       } else {
+//         // Something happened in setting up the request that triggered an Error
+//         setError(`Error: ${e.message}`);
+//       }
+//     } finally {
+//       setLoading(false); // Always set loading to false after attempt
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchProductDetails(); // Call the fetch function on component mount
+//   }, []); // Empty dependency array means this runs once on mount
+
+//   const onScroll = event => {
+//     const slideSize = event.nativeEvent.layoutMeasurement.width;
+//     const index = Math.floor(event.nativeEvent.contentOffset.x / slideSize);
+//     setActiveImageIndex(index);
+//   };
+
+//   const renderReviewCard = ({item}) => (
+//     <View style={styles.reviewCard}>
+//       <View style={styles.reviewHeader}>
+//         <Image source={item.avatar} style={styles.reviewAvatar} />
+//         <View style={styles.reviewInfo}>
+//           <Text style={styles.reviewerName}>{item.name}</Text>
+//           <Text style={styles.reviewDate}>{item.date}</Text>
+//         </View>
+//         <View style={styles.reviewRatingContainer}>
+//           <Text style={styles.reviewRating}>{item.rating}</Text>
+//           <Image
+//             source={{
+//               uri: 'https://placehold.co/14x14/FFD700/000000?text=%E2%98%85',
+//             }} // Placeholder star icon
+//             style={styles.reviewStarIcon}
+//           />
+//         </View>
+//       </View>
+//       <Text style={styles.reviewText}>{item.text}</Text>
+//     </View>
+//   );
+
+//   const renderSimilarProductCard = ({item}) => (
+//     <TouchableOpacity style={styles.similarProductCard}>
+//       <Image source={item.image} style={styles.similarProductImage} />
+//       <Text style={styles.similarProductTitle}>{item.title}</Text>
+//       <Text style={styles.similarProductDescription}>{item.description}</Text>
+//       <View style={styles.similarProductPriceContainer}>
+//         <Text style={styles.similarProductPrice}>{item.price}</Text>
+//         <Text style={styles.similarProductOldPrice}>{item.oldPrice}</Text>
+//       </View>
+//       <View style={styles.similarProductRatingContainer}>
+//         <Image
+//           source={{
+//             uri: 'https://placehold.co/12x12/FFD700/000000?text=%E2%98%85',
+//           }} // Placeholder star icon
+//           style={styles.similarProductStarIcon}
+//         />
+//         <Text style={styles.similarProductRatingText}>{item.rating}</Text>
+//         <Text style={styles.similarProductReviewCount}>({item.reviews})</Text>
+//       </View>
+//     </TouchableOpacity>
+//   );
+
+//   if (loading) {
+//     return (
+//       <SafeAreaView style={styles.safeArea}>
+//         <View style={styles.loadingContainer}>
+//           <ActivityIndicator size="large" color="#ff6600" />
+//           <Text style={{marginTop: 10}}>Loading product details...</Text>
+//         </View>
+//       </SafeAreaView>
+//     );
+//   }
+
+//   if (error || !productData) {
+//     return (
+//       <SafeAreaView style={styles.safeArea}>
+//         <View style={styles.errorContainer}>
+//           <Text style={styles.errorText}>
+//             {error || 'No product data available.'}
+//           </Text>
+//           <TouchableOpacity
+//             style={styles.retryButton}
+//             onPress={fetchProductDetails} // Call the fetch function on retry
+//           >
+//             <Text style={styles.retryButtonText}>Retry</Text>
+//           </TouchableOpacity>
+//         </View>
+//       </SafeAreaView>
+//     );
+//   }
+
+//   // Extract images from the first variant, or handle if no variants/images
+//   const productImages =
+//     productData.variants &&
+//     productData.variants.length > 0 &&
+//     productData.variants[0].images.length > 0
+//       ? productData.variants[0].images.map(imagePath => ({
+//           uri: `https://shopinger.co.in${imagePath}`,
+//         }))
+//       : [];
+
+//   // Default product image if no images from API
+//   const defaultProductImage = require('../../assets/products/sneaker.png');
+//   const imagesToDisplay =
+//     productImages.length > 0 ? productImages : [defaultProductImage];
+
+//   // Extract price and selling price from the first variant
+//   const price =
+//     productData.variants && productData.variants.length > 0
+//       ? productData.variants[0].price
+//       : 'N/A';
+//   const sellingPrice =
+//     productData.variants && productData.variants.length > 0
+//       ? productData.variants[0].sellingprice
+//       : 'N/A';
+
+//   // Calculate discount (ensure both are numbers)
+//   let discountPercentage = '0% Off';
+//   if (
+//     price !== 'N/A' &&
+//     sellingPrice !== 'N/A' &&
+//     !isNaN(parseFloat(price)) &&
+//     !isNaN(parseFloat(sellingPrice))
+//   ) {
+//     const originalPriceNum = parseFloat(sellingPrice); // Assuming sellingprice is the original
+//     const discountedPriceNum = parseFloat(price); // Assuming price is the discounted price
+//     if (originalPriceNum > 0) {
+//       discountPercentage = `${Math.round(
+//         ((originalPriceNum - discountedPriceNum) / originalPriceNum) * 100,
+//       )}% Off!`;
+//     }
+//   }
+
+//   // Extract product attributes like size and color for display or selection
+//   const productAttributes =
+//     productData.variants && productData.variants.length > 0
+//       ? productData.variants[0].attributes || []
+//       : [];
+
+//   const availableSizes = productAttributes
+//     .filter(attr => attr.key === 'Size')
+//     .map(attr => attr.value);
+
+//   // The API response for description includes \r\n characters, which can be cleaned up
+//   const cleanDescription = productData.description
+//     ? productData.description.replace(/\\r\\n/g, '\n').trim()
+//     : 'No description available.';
+
+//   return (
+//     <SafeAreaView style={styles.safeArea}>
+//       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+//         {/* Product Image Carousel */}
+//         <View style={styles.imageCarouselContainer}>
+//           <ScrollView
+//             horizontal
+//             pagingEnabled
+//             showsHorizontalScrollIndicator={false}
+//             onScroll={onScroll}
+//             scrollEventThrottle={16} // Invoked at most once every 16ms
+//           >
+//             {imagesToDisplay.map((img, index) => (
+//               <Image key={index} source={img} style={styles.carouselImage} />
+//             ))}
+//           </ScrollView>
+//           <View style={styles.paginationDots}>
+//             {imagesToDisplay.map((_, index) => (
+//               <View
+//                 key={index}
+//                 style={[
+//                   styles.paginationDot,
+//                   index === activeImageIndex && styles.activePaginationDot,
+//                 ]}
+//               />
+//             ))}
+//           </View>
+//         </View>
+
+//         {/* Product Details Section */}
+//         <View style={styles.detailsSection}>
+//           {/* Size Selection - Dynamically populated if available */}
+//           {availableSizes.length > 0 && (
+//             <ScrollView
+//               horizontal
+//               showsHorizontalScrollIndicator={false}
+//               contentContainerStyle={styles.sizeOptionsContainer}>
+//               {availableSizes.map((size, index) => (
+//                 <TouchableOpacity
+//                   key={index}
+//                   style={[
+//                     styles.sizeButton,
+//                     // You'll need state to manage which size is selected
+//                     // For now, let's just highlight the first one or a default
+//                     index === 0 && styles.selectedSizeButton,
+//                   ]}>
+//                   <Text
+//                     style={[
+//                       styles.sizeButtonText,
+//                       index === 0 && styles.selectedSizeButtonText,
+//                     ]}>
+//                     {size}
+//                   </Text>
+//                 </TouchableOpacity>
+//               ))}
+//             </ScrollView>
+//           )}
+
+//           <Text style={styles.productName}>{productData.name}</Text>
+//           <View style={styles.priceRatingRow}>
+//             <Text style={styles.originalPrice}>₹{sellingPrice}</Text>
+//             <Text style={styles.discountedPrice}>₹{price}</Text>
+//             <Text style={styles.discountPercentage}>{discountPercentage}</Text>
+//           </View>
+//           <View style={styles.ratingRow}>
+//             <Image
+//               source={{
+//                 uri: 'https://placehold.co/16x16/FFD700/000000?text=%E2%98%85',
+//               }} // Placeholder star icon
+//               style={styles.starIcon}
+//             />
+//             <Text style={styles.productRating}>4.8</Text>
+//             <Text style={styles.productReviewCount}>(60,290)</Text>
+//           </View>
+
+//           <Text style={styles.sectionHeading}>Product details</Text>
+//           <Text style={styles.productDescriptionText}>{cleanDescription}</Text>
+
+//           {/* Action Buttons */}
+//           <View style={styles.actionButtonsContainer}>
+//             <TouchableOpacity
+//               style={styles.addToCartButton}
+//               onPress={() => navigation.navigate('CheckoutProduct')}>
+//               <Image
+//                 source={{
+//                   uri: 'https://placehold.co/20x20/FF6600/FFFFFF?text=Cart',
+//                 }} // Placeholder cart icon
+//                 style={styles.addToCartIcon}
+//               />
+//               <Text style={styles.addToCartText}>Add to Cart</Text>
+//             </TouchableOpacity>
+//             <TouchableOpacity
+//               style={styles.buyNowButton}
+//               onPress={() => navigation.navigate('Checkout')}>
+//               <Image
+//                 source={{
+//                   uri: 'https://placehold.co/20x20/FFFFFF/FF6600?text=Buy',
+//                 }} // Placeholder buy icon
+//                 style={styles.buyNowIcon}
+//               />
+//               <Text style={styles.buyNowText}>Buy Now</Text>
+//             </TouchableOpacity>
+//           </View>
+//         </View>
+
+//         {/* Reviews Section - Kept static as requested */}
+//         <View style={styles.reviewsSection}>
+//           <View style={styles.reviewsHeader}>
+//             <Text style={styles.reviewsTitle}>245 Reviews</Text>
+//             <View style={styles.reviewsOverallRating}>
+//               <Text style={styles.reviewsOverallRatingText}>4.8</Text>
+//               <Image
+//                 source={{
+//                   uri: 'https://placehold.co/14x14/FFD700/000000?text=%E2%98%85',
+//                 }} // Placeholder star icon
+//                 style={styles.reviewsOverallStarIcon}
+//               />
+//             </View>
+//             <TouchableOpacity onPress={() => navigation.navigate('Reviews')}>
+//               <Text style={styles.viewAllReviewsText}>View all</Text>
+//               <Image
+//                 source={{
+//                   uri: 'https://placehold.co/10x10/FF6600/FFFFFF?text=%3E',
+//                 }} // Placeholder small arrow right icon
+//                 style={styles.viewAllReviewsArrow}
+//               />
+//             </TouchableOpacity>
+//           </View>
+//           <FlatList
+//             data={REVIEWS_DATA}
+//             renderItem={renderReviewCard}
+//             keyExtractor={item => item.id}
+//             showsVerticalScrollIndicator={false}
+//             scrollEnabled={false} // Make reviews part of parent scroll, not independently scrollable
+//           />
+//         </View>
+
+//         {/* Similar Products Section - Kept static as requested */}
+//         <View style={styles.similarProductsSection}>
+//           <Text style={styles.similarProductsTitle}>Similar to 182+ Items</Text>
+//           <FlatList
+//             horizontal
+//             data={SIMILAR_PRODUCTS_DATA}
+//             renderItem={renderSimilarProductCard}
+//             keyExtractor={item => item.id}
+//             showsHorizontalScrollIndicator={false}
+//             contentContainerStyle={styles.similarProductsList}
+//           />
+//         </View>
+
+//         {/* Extra space at the bottom for content to scroll above bottom tabs */}
+//         {/* <View style={{ height: 80 }} /> */}
+//       </ScrollView>
+//     </SafeAreaView>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   safeArea: {
+//     flex: 1,
+//     backgroundColor: '#fff',
+//   },
+//   loadingContainer: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: '#f8f8f8',
+//   },
+//   errorContainer: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: '#f8f8f8',
+//     padding: 20,
+//   },
+//   errorText: {
+//     fontSize: 16,
+//     color: 'red',
+//     textAlign: 'center',
+//     marginBottom: 20,
+//   },
+//   retryButton: {
+//     backgroundColor: '#ff6600',
+//     paddingVertical: 10,
+//     paddingHorizontal: 20,
+//     borderRadius: 8,
+//   },
+//   retryButtonText: {
+//     color: '#fff',
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//   },
+//   header: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//     paddingHorizontal: 15,
+//     paddingVertical: 10,
+//     backgroundColor: '#fff',
+//   },
+//   backArrowIcon: {
+//     width: 24,
+//     height: 24,
+//     resizeMode: 'contain',
+//   },
+//   headerIconsRight: {
+//     flexDirection: 'row',
+//   },
+//   headerRightIconContainer: {
+//     marginLeft: 15,
+//   },
+//   headerRightIcon: {
+//     width: 22,
+//     height: 22,
+//     resizeMode: 'contain',
+//     tintColor: '#333', // Adjust tint color if needed
+//   },
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#f8f8f8',
+//   },
+//   imageCarouselContainer: {
+//     height: width * 0.9, // Adjust height based on aspect ratio of your images
+//     backgroundColor: '#fff',
+//     marginBottom: 10,
+//     position: 'relative',
+//   },
+//   carouselImage: {
+//     width: width,
+//     height: '100%',
+//     resizeMode: 'contain', // or 'cover' depending on your image aspect ratio
+//   },
+//   paginationDots: {
+//     flexDirection: 'row',
+//     position: 'absolute',
+//     bottom: 10,
+//     alignSelf: 'center',
+//   },
+//   paginationDot: {
+//     width: 8,
+//     height: 8,
+//     borderRadius: 4,
+//     backgroundColor: '#ccc',
+//     marginHorizontal: 3,
+//   },
+//   activePaginationDot: {
+//     backgroundColor: '#ff6600', // Active dot color
+//   },
+//   detailsSection: {
+//     backgroundColor: '#fff',
+//     padding: 15,
+//     marginBottom: 10,
+//   },
+//   sizeOptionsContainer: {
+//     paddingVertical: 10,
+//   },
+//   sizeButton: {
+//     borderWidth: 1,
+//     borderColor: '#eee',
+//     borderRadius: 8,
+//     paddingHorizontal: 15,
+//     paddingVertical: 8,
+//     marginRight: 10,
+//     backgroundColor: '#f9f9f9',
+//   },
+//   selectedSizeButton: {
+//     borderColor: '#ff6600',
+//     backgroundColor: '#fff0e6', // Light orange background
+//   },
+//   sizeButtonText: {
+//     fontSize: 14,
+//     fontWeight: '500',
+//     color: '#555',
+//   },
+//   selectedSizeButtonText: {
+//     color: '#ff6600',
+//   },
+//   productName: {
+//     fontSize: 22,
+//     fontWeight: 'bold',
+//     color: '#333',
+//     marginTop: 15,
+//   },
+//   productModel: {
+//     fontSize: 16,
+//     color: '#666',
+//     marginTop: 5,
+//   },
+//   priceRatingRow: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     marginTop: 10,
+//   },
+//   originalPrice: {
+//     fontSize: 16,
+//     color: '#999',
+//     textDecorationLine: 'line-through',
+//     marginRight: 10,
+//   },
+//   discountedPrice: {
+//     fontSize: 22,
+//     fontWeight: 'bold',
+//     color: '#ff6600',
+//     marginRight: 10,
+//   },
+//   discountPercentage: {
+//     fontSize: 14,
+//     color: '#ff6600',
+//     backgroundColor: '#fff0e6',
+//     paddingHorizontal: 8,
+//     paddingVertical: 4,
+//     borderRadius: 5,
+//     fontWeight: 'bold',
+//   },
+//   ratingRow: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     marginTop: 10,
+//   },
+//   starIcon: {
+//     width: 16,
+//     height: 16,
+//     resizeMode: 'contain',
+//     marginRight: 5,
+//   },
+//   productRating: {
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//     color: '#333',
+//     marginRight: 5,
+//   },
+//   productReviewCount: {
+//     fontSize: 14,
+//     color: '#777',
+//   },
+//   sectionHeading: {
+//     fontSize: 18,
+//     fontWeight: 'bold',
+//     color: '#333',
+//     marginTop: 20,
+//     marginBottom: 10,
+//   },
+//   productDescriptionText: {
+//     fontSize: 14,
+//     color: '#555',
+//     lineHeight: 20,
+//   },
+//   readMoreText: {
+//     color: '#ff6600',
+//     fontWeight: 'bold',
+//   },
+//   actionButtonsContainer: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     marginTop: 25,
+//   },
+//   addToCartButton: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     backgroundColor: '#fff',
+//     borderWidth: 1,
+//     borderColor: '#ff6600',
+//     borderRadius: 10,
+//     paddingVertical: 15,
+//     marginRight: 10,
+//   },
+//   addToCartIcon: {
+//     width: 20,
+//     height: 20,
+//     resizeMode: 'contain',
+//     tintColor: '#ff6600',
+//     marginRight: 10,
+//   },
+//   addToCartText: {
+//     color: '#ff6600',
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//   },
+//   buyNowButton: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     backgroundColor: '#ff6600',
+//     borderRadius: 10,
+//     paddingVertical: 15,
+//     marginLeft: 10,
+//   },
+//   buyNowIcon: {
+//     width: 20,
+//     height: 20,
+//     resizeMode: 'contain',
+//     tintColor: '#fff',
+//     marginRight: 10,
+//   },
+//   buyNowText: {
+//     color: '#fff',
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//   },
+//   reviewsSection: {
+//     backgroundColor: '#fff',
+//     marginTop: 10,
+//     padding: 15,
+//     marginBottom: 10,
+//   },
+//   reviewsHeader: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//     marginBottom: 15,
+//   },
+//   reviewsTitle: {
+//     fontSize: 18,
+//     fontWeight: 'bold',
+//     color: '#333',
+//   },
+//   reviewsOverallRating: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     backgroundColor: '#fff0e6',
+//     borderRadius: 5,
+//     paddingHorizontal: 8,
+//     paddingVertical: 4,
+//   },
+//   reviewsOverallRatingText: {
+//     fontSize: 14,
+//     fontWeight: 'bold',
+//     color: '#ff6600',
+//     marginRight: 5,
+//   },
+//   reviewsOverallStarIcon: {
+//     width: 14,
+//     height: 14,
+//     resizeMode: 'contain',
+//     tintColor: '#ff6600',
+//   },
+//   viewAllReviewsText: {
+//     fontSize: 14,
+//     color: '#ff6600',
+//     fontWeight: 'bold',
+//   },
+//   viewAllReviewsArrow: {
+//     position: 'absolute',
+//     right: -15, // Position outside the text
+//     top: '25%',
+//     width: 10,
+//     height: 10,
+//     resizeMode: 'contain',
+//     tintColor: '#ff6600',
+//   },
+//   reviewCard: {
+//     borderBottomWidth: 1,
+//     borderBottomColor: '#eee',
+//     paddingVertical: 15,
+//   },
+//   reviewHeader: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     marginBottom: 10,
+//   },
+//   reviewAvatar: {
+//     width: 40,
+//     height: 40,
+//     borderRadius: 20,
+//     marginRight: 10,
+//   },
+//   reviewInfo: {
+//     flex: 1,
+//   },
+//   reviewerName: {
+//     fontSize: 15,
+//     fontWeight: 'bold',
+//     color: '#333',
+//   },
+//   reviewDate: {
+//     fontSize: 12,
+//     color: '#777',
+//     marginTop: 2,
+//   },
+//   reviewRatingContainer: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     backgroundColor: '#fff0e6',
+//     borderRadius: 5,
+//     paddingHorizontal: 8,
+//     paddingVertical: 4,
+//   },
+//   reviewRating: {
+//     fontSize: 14,
+//     fontWeight: 'bold',
+//     color: '#ff6600',
+//     marginRight: 5,
+//   },
+//   reviewStarIcon: {
+//     width: 14,
+//     height: 14,
+//     resizeMode: 'contain',
+//     tintColor: '#ff6600',
+//   },
+//   reviewText: {
+//     fontSize: 14,
+//     color: '#555',
+//     lineHeight: 20,
+//   },
+//   similarProductsSection: {
+//     backgroundColor: '#fff',
+//     marginTop: 10,
+//     paddingTop: 15,
+//     paddingBottom: 20,
+//   },
+//   similarProductsTitle: {
+//     fontSize: 18,
+//     fontWeight: 'bold',
+//     color: '#333',
+//     marginHorizontal: 15,
+//     marginBottom: 15,
+//   },
+//   similarProductsList: {
+//     paddingHorizontal: 15,
+//   },
+//   similarProductCard: {
+//     width: width * 0.4, // Adjust width for horizontal cards
+//     backgroundColor: '#fff',
+//     borderRadius: 10,
+//     padding: 10,
+//     marginRight: 15,
+//     shadowColor: '#000',
+//     shadowOffset: {width: 0, height: 1},
+//     shadowOpacity: 0.1,
+//     shadowRadius: 3,
+//     elevation: 2,
+//   },
+//   similarProductImage: {
+//     width: '100%',
+//     height: 120,
+//     resizeMode: 'contain',
+//     borderRadius: 8,
+//     marginBottom: 8,
+//   },
+//   similarProductTitle: {
+//     fontSize: 14,
+//     fontWeight: 'bold',
+//     color: '#333',
+//     marginBottom: 4,
+//   },
+//   similarProductDescription: {
+//     fontSize: 11,
+//     color: '#777',
+//     marginBottom: 8,
+//     minHeight: 25, // To keep card heights consistent
+//   },
+//   similarProductPriceContainer: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     marginBottom: 5,
+//   },
+//   similarProductPrice: {
+//     fontSize: 15,
+//     fontWeight: 'bold',
+//     color: '#ff6600',
+//     marginRight: 5,
+//   },
+//   similarProductOldPrice: {
+//     fontSize: 12,
+//     color: '#999',
+//     textDecorationLine: 'line-through',
+//   },
+//   similarProductRatingContainer: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//   },
+//   similarProductStarIcon: {
+//     width: 12,
+//     height: 12,
+//     resizeMode: 'contain',
+//     marginRight: 3,
+//   },
+//   similarProductRatingText: {
+//     fontSize: 12,
+//     color: '#777',
+//     marginRight: 5,
+//   },
+//   similarProductReviewCount: {
+//     fontSize: 11,
+//     color: '#999',
+//   },
+// });
+
+// export default ProductDetailsScreen;
+
 import React, {useState, useEffect} from 'react';
 import {
   View,
@@ -1588,10 +2467,11 @@ import {
   Dimensions,
   FlatList,
   ActivityIndicator, // Import ActivityIndicator for loading state
+  Alert, // Import Alert for user feedback
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import axios from 'axios'; // Import axios
-import axiosInstance from '../utils/AxiosInstance';
+import axios from 'axios'; // Import axios (though you're using axiosInstance)
+import axiosInstance from '../utils/AxiosInstance'; // Your configured axios instance
 
 const {width, height} = Dimensions.get('window');
 
@@ -1679,6 +2559,10 @@ const ProductDetailsScreen = ({navigation}) => {
   const [productData, setProductData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // State to hold the currently selected variant
+  const [selectedVariant, setSelectedVariant] = useState(null);
+  // State to hold selected attribute values (e.g., {color: "Red", size: "M"})
+  const [selectedAttributes, setSelectedAttributes] = useState({});
 
   // Function to fetch product details using axios
   const fetchProductDetails = async () => {
@@ -1690,19 +2574,31 @@ const ProductDetailsScreen = ({navigation}) => {
         "web/get-products/leotude-men's-oversized-half-sleeve-round-neck-t-shirt-(po3_fs49_bsd_sul_lsnls_p_beige-maron_3xl)",
       );
 
-      // Axios wraps the response data in a 'data' property
       if (
         response.data.success &&
         response.data.data &&
         response.data.data.product
       ) {
-        setProductData(response.data.data.product);
+        const fetchedProduct = response.data.data.product;
+        setProductData(fetchedProduct);
+
+        // Set the first variant as selected by default if variants exist
+        if (fetchedProduct.variants && fetchedProduct.variants.length > 0) {
+          const defaultVariant = fetchedProduct.variants[0];
+          setSelectedVariant(defaultVariant);
+
+          // Initialize selected attributes from the default variant
+          const initialAttributes = {};
+          defaultVariant.attributes.forEach(attr => {
+            initialAttributes[attr.key.toLowerCase()] = attr.value;
+          });
+          setSelectedAttributes(initialAttributes);
+        }
       } else {
         setError('Product data not found or API response indicates failure.');
       }
     } catch (e) {
       console.error('Failed to fetch product details:', e);
-      // Handle different types of axios errors
       if (e.response) {
         setError(
           `Server error: ${e.response.status} - ${
@@ -1710,12 +2606,10 @@ const ProductDetailsScreen = ({navigation}) => {
           }`,
         );
       } else if (e.request) {
-        // The request was made but no response was received
         setError(
           'No response from server. Please check your internet connection.',
         );
       } else {
-        // Something happened in setting up the request that triggered an Error
         setError(`Error: ${e.message}`);
       }
     } finally {
@@ -1732,6 +2626,55 @@ const ProductDetailsScreen = ({navigation}) => {
     const index = Math.floor(event.nativeEvent.contentOffset.x / slideSize);
     setActiveImageIndex(index);
   };
+
+  // --- New function for Add to Cart ---
+  const handleAddToCart = async () => {
+    navigation.navigate('CheckoutProduct');
+    if (!selectedVariant) {
+      Alert.alert('Error', 'Please select a product variant first.');
+      return;
+    }
+
+    try {
+      const payload = {
+        variantId: selectedVariant.id,
+        quantity: 1, // Quantity is always 1 as per your requirement
+        attributes: selectedAttributes, // Use the selected attributes
+      };
+
+      console.log('Add to cart payload:', payload); // Log payload for debugging
+
+      const response = await axiosInstance.post('/web/add-to-cart', payload);
+
+      if (response.data.success) {
+        Alert.alert('Success', 'Product added to cart!', [
+          {
+            text: 'OK',
+            onPress: () => navigation.navigate('CheckoutProduct'), // Navigate on OK press
+          },
+        ]);
+      } else {
+        Alert.alert(
+          'Failed to Add to Cart',
+          response.data.message || 'Something went wrong.',
+        );
+      }
+    } catch (error) {
+      console.error('Error adding product to cart:', error);
+      let errorMessage = 'Could not add product to cart. Please try again.';
+      if (error.response) {
+        // Server responded with a status other than 2xx
+        errorMessage =
+          error.response.data.message ||
+          `Server Error: ${error.response.status}`;
+      } else if (error.request) {
+        // Request was made but no response received
+        errorMessage = 'Network Error: No response from server.';
+      }
+      Alert.alert('Error', errorMessage);
+    }
+  };
+  // --- End of New function ---
 
   const renderReviewCard = ({item}) => (
     <View style={styles.reviewCard}>
@@ -1806,30 +2749,78 @@ const ProductDetailsScreen = ({navigation}) => {
     );
   }
 
-  // Extract images from the first variant, or handle if no variants/images
+  // Determine available colors and sizes from ALL variants to allow selection
+  const availableColors = {};
+  const availableSizes = {};
+
+  productData.variants.forEach(variant => {
+    variant.attributes.forEach(attr => {
+      if (attr.key.toLowerCase() === 'color') {
+        availableColors[attr.value] = true;
+      } else if (attr.key.toLowerCase() === 'size') {
+        availableSizes[attr.value] = true;
+      }
+    });
+  });
+
+  const uniqueColors = Object.keys(availableColors);
+  const uniqueSizes = Object.keys(availableSizes);
+
+  // Function to handle attribute selection (e.g., when a color or size is tapped)
+  const handleAttributeSelection = (key, value) => {
+    const newSelectedAttributes = {
+      ...selectedAttributes,
+      [key.toLowerCase()]: value,
+    };
+    setSelectedAttributes(newSelectedAttributes);
+
+    // Find the variant that matches the currently selected attributes
+    const matchingVariant = productData.variants.find(variant => {
+      let matches = true;
+      for (const attrKey in newSelectedAttributes) {
+        const variantHasAttr = variant.attributes.some(
+          attr =>
+            attr.key.toLowerCase() === attrKey &&
+            attr.value === newSelectedAttributes[attrKey],
+        );
+        if (!variantHasAttr) {
+          matches = false;
+          break;
+        }
+      }
+      return matches;
+    });
+
+    if (matchingVariant) {
+      setSelectedVariant(matchingVariant);
+    } else {
+      setSelectedVariant(null); // No variant matches the selection
+      // You might want to show a message to the user that this combination is not available
+      Alert.alert(
+        'Selection Mismatch',
+        'This combination of attributes is not available for this product.',
+      );
+    }
+  };
+
+  // Extract images from the currently selected variant
   const productImages =
-    productData.variants &&
-    productData.variants.length > 0 &&
-    productData.variants[0].images.length > 0
-      ? productData.variants[0].images.map(imagePath => ({
+    selectedVariant &&
+    selectedVariant.images &&
+    selectedVariant.images.length > 0
+      ? selectedVariant.images.map(imagePath => ({
           uri: `https://shopinger.co.in${imagePath}`,
         }))
       : [];
 
-  // Default product image if no images from API
+  // Default product image if no images from API or selected variant
   const defaultProductImage = require('../../assets/products/sneaker.png');
   const imagesToDisplay =
     productImages.length > 0 ? productImages : [defaultProductImage];
 
-  // Extract price and selling price from the first variant
-  const price =
-    productData.variants && productData.variants.length > 0
-      ? productData.variants[0].price
-      : 'N/A';
-  const sellingPrice =
-    productData.variants && productData.variants.length > 0
-      ? productData.variants[0].sellingprice
-      : 'N/A';
+  // Extract price and selling price from the selected variant
+  const price = selectedVariant ? selectedVariant.price : 'N/A';
+  const sellingPrice = selectedVariant ? selectedVariant.sellingprice : 'N/A';
 
   // Calculate discount (ensure both are numbers)
   let discountPercentage = '0% Off';
@@ -1847,16 +2838,6 @@ const ProductDetailsScreen = ({navigation}) => {
       )}% Off!`;
     }
   }
-
-  // Extract product attributes like size and color for display or selection
-  const productAttributes =
-    productData.variants && productData.variants.length > 0
-      ? productData.variants[0].attributes || []
-      : [];
-
-  const availableSizes = productAttributes
-    .filter(attr => attr.key === 'Size')
-    .map(attr => attr.value);
 
   // The API response for description includes \r\n characters, which can be cleaned up
   const cleanDescription = productData.description
@@ -1894,31 +2875,66 @@ const ProductDetailsScreen = ({navigation}) => {
 
         {/* Product Details Section */}
         <View style={styles.detailsSection}>
-          {/* Size Selection - Dynamically populated if available */}
-          {availableSizes.length > 0 && (
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.sizeOptionsContainer}>
-              {availableSizes.map((size, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={[
-                    styles.sizeButton,
-                    // You'll need state to manage which size is selected
-                    // For now, let's just highlight the first one or a default
-                    index === 0 && styles.selectedSizeButton,
-                  ]}>
-                  <Text
+          {/* Color Selection */}
+          {uniqueColors.length > 0 && (
+            <View style={{marginBottom: 10}}>
+              <Text style={styles.sectionHeading}>Colors</Text>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.sizeOptionsContainer}>
+                {uniqueColors.map((color, index) => (
+                  <TouchableOpacity
+                    key={index}
                     style={[
-                      styles.sizeButtonText,
-                      index === 0 && styles.selectedSizeButtonText,
-                    ]}>
-                    {size}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
+                      styles.colorButton,
+                      selectedAttributes.color === color &&
+                        styles.selectedColorButton,
+                    ]}
+                    onPress={() => handleAttributeSelection('color', color)}>
+                    <Text
+                      style={[
+                        styles.colorButtonText,
+                        selectedAttributes.color === color &&
+                          styles.selectedColorButtonText,
+                      ]}>
+                      {color}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
+          )}
+
+          {/* Size Selection */}
+          {uniqueSizes.length > 0 && (
+            <View>
+              <Text style={styles.sectionHeading}>Sizes</Text>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.sizeOptionsContainer}>
+                {uniqueSizes.map((size, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[
+                      styles.sizeButton,
+                      selectedAttributes.size === size &&
+                        styles.selectedSizeButton,
+                    ]}
+                    onPress={() => handleAttributeSelection('size', size)}>
+                    <Text
+                      style={[
+                        styles.sizeButtonText,
+                        selectedAttributes.size === size &&
+                          styles.selectedSizeButtonText,
+                      ]}>
+                      {size}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
           )}
 
           <Text style={styles.productName}>{productData.name}</Text>
@@ -1945,18 +2961,25 @@ const ProductDetailsScreen = ({navigation}) => {
           <View style={styles.actionButtonsContainer}>
             <TouchableOpacity
               style={styles.addToCartButton}
-              onPress={() => navigation.navigate('CheckoutProduct')}>
+              onPress={handleAddToCart} // Call the new handleAddToCart function
+              disabled={!selectedVariant || selectedVariant.stock === 0} // Disable if no variant selected or out of stock
+            >
               <Image
                 source={{
                   uri: 'https://placehold.co/20x20/FF6600/FFFFFF?text=Cart',
                 }} // Placeholder cart icon
                 style={styles.addToCartIcon}
               />
-              <Text style={styles.addToCartText}>Add to Cart</Text>
+              <Text style={styles.addToCartText}>
+                {selectedVariant && selectedVariant.stock === 0
+                  ? 'Out of Stock'
+                  : 'Add to Cart'}
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buyNowButton}
-              onPress={() => navigation.navigate('Checkout')}>
+              onPress={() => navigation.navigate('Checkout')}
+              disabled={!selectedVariant || selectedVariant.stock === 0}>
               <Image
                 source={{
                   uri: 'https://placehold.co/20x20/FFFFFF/FF6600?text=Buy',
@@ -2138,6 +3161,28 @@ const styles = StyleSheet.create({
     color: '#555',
   },
   selectedSizeButtonText: {
+    color: '#ff6600',
+  },
+  // New styles for color selection
+  colorButton: {
+    borderWidth: 1,
+    borderColor: '#eee',
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    marginRight: 10,
+    backgroundColor: '#f9f9f9',
+  },
+  selectedColorButton: {
+    borderColor: '#ff6600',
+    backgroundColor: '#fff0e6',
+  },
+  colorButtonText: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#555',
+  },
+  selectedColorButtonText: {
     color: '#ff6600',
   },
   productName: {
@@ -2455,1095 +3500,3 @@ const styles = StyleSheet.create({
 });
 
 export default ProductDetailsScreen;
-
-// import React, {useState, useEffect} from 'react';
-// import {
-//   View,
-//   Text,
-//   StyleSheet,
-//   ScrollView,
-//   Image,
-//   TouchableOpacity,
-//   Dimensions,
-//   FlatList,
-//   ActivityIndicator, // Import ActivityIndicator for loading state
-// } from 'react-native';
-// import {SafeAreaView} from 'react-native-safe-area-context';
-// import axios from 'axios'; // Import axios
-// import axiosInstance from '../utils/AxiosInstance'; // Import the shared axios instance
-
-// const {width, height} = Dimensions.get('window');
-
-// // Removed the local apiInstance creation as you're importing axiosInstance.
-
-// const REVIEWS_DATA = [
-//   {
-//     id: '1',
-//     avatar: require('../../assets/images/user1.png'), // Replace with actual avatar
-//     name: 'Jenny Wilson',
-//     date: '10 Sep, 2020',
-//     rating: '4.8',
-//     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque malesuada eget vitae ame.',
-//   },
-//   {
-//     id: '2',
-//     avatar: require('../../assets/images/user2.png'), // Replace with actual avatar
-//     name: 'Ronald Richards',
-//     date: '10 Sep, 2020',
-//     rating: '4.8',
-//     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque malesuada eget vitae ame.',
-//   },
-//   {
-//     id: '3',
-//     avatar: require('../../assets/images/user1.png'), // Replace with actual avatar
-//     name: 'Guy Hawkins',
-//     date: '10 Sep, 2020',
-//     rating: '4.8',
-//     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque malesuada eget vitae ame.',
-//   },
-//   {
-//     id: '4',
-//     avatar: require('../../assets/images/user2.png'), // Replace with actual avatar
-//     name: 'Savannah Nguyen',
-//     date: '10 Sep, 2020',
-//     rating: '4.8',
-//     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque malesuada eget vitae ame.',
-//   },
-// ];
-
-// // Sample data for "Similar to" products (kept static as per your request for 'rest static')
-// const SIMILAR_PRODUCTS_DATA = [
-//   {
-//     id: 's1',
-//     image: require('../../assets/products/black.png'), // Replace with image
-//     title: 'Nike Sneakers',
-//     description: 'Black Air Force 1 Low',
-//     price: '₹2,000',
-//     oldPrice: '₹1,500',
-//     rating: '4.8',
-//     reviews: '48,090',
-//   },
-//   {
-//     id: 's2',
-//     image: require('../../assets/products/sneaker.png'), // Replace with image
-//     title: 'Nike Sneakers',
-//     description: 'White Black Print S-',
-//     price: '₹1,900',
-//     oldPrice: '₹1,200',
-//     rating: '4.7',
-//     reviews: '230,000',
-//   },
-//   {
-//     id: 's3',
-//     image: require('../../assets/products/black.png'), // Replace with image
-//     title: 'Nike Sneakers',
-//     description: 'Dark Grey Air Max',
-//     price: '₹2,200',
-//     oldPrice: '₹1,800',
-//     rating: '4.9',
-//     reviews: '120,000',
-//   },
-//   {
-//     id: 's4',
-//     image: require('../../assets/products/sneaker.png'), // Replace with image
-//     title: 'Nike Sneakers',
-//     description: 'Red Air Jordan 1',
-//     price: '₹2,500',
-//     oldPrice: '₹2,000',
-//     rating: '4.6',
-//     reviews: '95,000',
-//   },
-// ];
-
-// const ProductDetailsScreen = ({navigation}) => {
-//   const [activeImageIndex, setActiveImageIndex] = useState(0);
-//   const [productData, setProductData] = useState(null);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const [selectedSize, setSelectedSize] = useState(null); // State for selected size
-//   const [cartQuantity, setCartQuantity] = useState(1); // State for quantity to add to cart
-//   const [message, setMessage] = useState(null); // State for success/error messages
-
-//   // Function to fetch product details using axios
-//   const fetchProductDetails = async () => {
-//     setLoading(true); // Set loading to true before fetching
-//     setError(null); // Clear previous errors
-//     setMessage(null); // Clear any previous messages
-//     try {
-//       // Use axiosInstance.get and specify the relative path
-//       const response = await axiosInstance.get(
-//         "web/get-products/leotude-men's-oversized-half-sleeve-round-neck-t-shirt-(po3_fs49_bsd_sul_lsnls_p_beige-maron_3xl)",
-//       );
-
-//       // Axios wraps the response data in a 'data' property
-//       if (
-//         response.data.success &&
-//         response.data.data &&
-//         response.data.data.product
-//       ) {
-//         setProductData(response.data.data.product);
-//         // Set initial selected size if available
-//         const attributes =
-//           response.data.data.product.variants[0]?.attributes || [];
-//         const initialSize = attributes.find(attr => attr.key === 'Size')?.value;
-//         if (initialSize) {
-//           setSelectedSize(initialSize);
-//         }
-//       } else {
-//         // Set a specific error message if data is not found or API indicates failure
-//         setError('Product data not found or API response indicates failure.');
-//       }
-//     } catch (e) {
-//       console.error('Failed to fetch product details:', e);
-//       // Handle different types of axios errors
-//       if (e.response) {
-//         // The request was made and the server responded with a status code
-//         // that falls out of the range of 2xx
-//         setError(
-//           `Server error: ${e.response.status} - ${
-//             e.response.data?.message || 'Unknown error'
-//           }`,
-//         );
-//       } else if (e.request) {
-//         // The request was made but no response was received
-//         setError(
-//           'No response from server. Please check your internet connection.',
-//         );
-//       } else {
-//         // Something happened in setting up the request that triggered an Error
-//         setError(`Error: ${e.message}`);
-//       }
-//     } finally {
-//       setLoading(false); // Always set loading to false after attempt
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchProductDetails(); // Call the fetch function on component mount
-//   }, []); // Empty dependency array means this runs once on mount
-
-//   const onScroll = event => {
-//     const slideSize = event.nativeEvent.layoutMeasurement.width;
-//     const index = Math.floor(event.nativeEvent.contentOffset.x / slideSize);
-//     setActiveImageIndex(index);
-//   };
-
-//   // Function to handle adding product to cart
-//   const handleAddToCart = async () => {
-//     if (
-//       !productData ||
-//       !productData.variants ||
-//       productData.variants.length === 0
-//     ) {
-//       setMessage({
-//         type: 'error',
-//         text: 'Product data or variant not available.',
-//       });
-//       return;
-//     }
-
-//     // Assuming the first variant is the one being displayed/selected
-//     const selectedVariant = productData.variants[0];
-//     const variantId = selectedVariant.id;
-
-//     // Transform attributes array to object for the API payload
-//     const attributesObject = {};
-//     selectedVariant.attributes.forEach(attr => {
-//       attributesObject[attr.key.toLowerCase()] = attr.value;
-//     });
-
-//     // Example: If the API expects 'color' and 'storage', and your product data has 'Color' and 'Size'
-//     // You might need to map them explicitly if the keys don't match exactly.
-//     // For now, I'm using the lowercased key from the product data.
-//     // If 'storage' is not in productData attributes, it won't be sent unless explicitly added.
-//     // For demonstration, I'll add 'storage' if it's not present, as per your curl example.
-//     if (!attributesObject.storage) {
-//       // This is a placeholder; in a real app, 'storage' would come from product data or user selection
-//       attributesObject.storage = '128GB';
-//     }
-//     // Ensure 'color' is present as per curl example, using product data's 'Color'
-//     if (
-//       attributesObject.color &&
-//       attributesObject.color !== attributesObject.Color
-//     ) {
-//       attributesObject.color = attributesObject.Color; // Prioritize product data's color
-//     } else if (!attributesObject.color) {
-//       attributesObject.color =
-//         selectedVariant.attributes.find(attr => attr.key === 'Color')?.value ||
-//         'black'; // Fallback
-//     }
-
-//     const payload = {
-//       variantId: variantId,
-//       quantity: cartQuantity, // Use the state quantity
-//       attributes: attributesObject,
-//     };
-
-//     // Replace with your actual authentication token (e.g., from AsyncStorage)
-//     // For demonstration, using the static token from your curl command.
-//     const authToken =
-//       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzUxNzA1NzA1LCJleHAiOjE3NTIzMTA1MDV9.ZX-uZjFPty7GCoNvEfhPjvXs5HIGcdiRq0BzUfoWQ_8';
-
-//     try {
-//       setLoading(true);
-//       setMessage(null); // Clear previous messages
-//       const response = await axiosInstance.post('web/add-to-cart', payload, {
-//         headers: {
-//           Authorization: `Bearer ${authToken}`,
-//           'Content-Type': 'application/json',
-//         },
-//       });
-
-//       if (response.data.success) {
-//         setMessage({
-//           type: 'success',
-//           text: 'Product added to cart successfully!',
-//         });
-//         console.log('Add to cart success:', response.data);
-//         // Optionally navigate to cart or show a confirmation
-//         // navigation.navigate('Cart');
-//       } else {
-//         setMessage({
-//           type: 'error',
-//           text: response.data.message || 'Failed to add product to cart.',
-//         });
-//         console.error('Add to cart failed:', response.data);
-//       }
-//     } catch (e) {
-//       console.error('Add to cart API error:', e);
-//       if (e.response) {
-//         setMessage({
-//           type: 'error',
-//           text: `Server error: ${e.response.status} - ${
-//             e.response.data?.message || 'Unknown error during add to cart.'
-//           }`,
-//         });
-//       } else if (e.request) {
-//         setMessage({
-//           type: 'error',
-//           text: 'Network error: No response from server for add to cart.',
-//         });
-//       } else {
-//         setMessage({type: 'error', text: `Error: ${e.message}`});
-//       }
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const renderReviewCard = ({item}) => (
-//     <View style={styles.reviewCard}>
-//       <View style={styles.reviewHeader}>
-//         <Image source={item.avatar} style={styles.reviewAvatar} />
-//         <View style={styles.reviewInfo}>
-//           <Text style={styles.reviewerName}>{item.name}</Text>
-//           <Text style={styles.reviewDate}>{item.date}</Text>
-//         </View>
-//         <View style={styles.reviewRatingContainer}>
-//           <Text style={styles.reviewRating}>{item.rating}</Text>
-//           <Image
-//             source={{
-//               uri: 'https://placehold.co/14x14/FFD700/000000?text=%E2%98%85',
-//             }} // Placeholder star icon
-//             style={styles.reviewStarIcon}
-//           />
-//         </View>
-//       </View>
-//       <Text style={styles.reviewText}>{item.text}</Text>
-//     </View>
-//   );
-
-//   const renderSimilarProductCard = ({item}) => (
-//     <TouchableOpacity style={styles.similarProductCard}>
-//       <Image source={item.image} style={styles.similarProductImage} />
-//       <Text style={styles.similarProductTitle}>{item.title}</Text>
-//       <Text style={styles.similarProductDescription}>{item.description}</Text>
-//       <View style={styles.similarProductPriceContainer}>
-//         <Text style={styles.similarProductPrice}>{item.price}</Text>
-//         <Text style={styles.similarProductOldPrice}>{item.oldPrice}</Text>
-//       </View>
-//       <View style={styles.similarProductRatingContainer}>
-//         <Image
-//           source={{
-//             uri: 'https://placehold.co/12x12/FFD700/000000?text=%E2%98%85',
-//           }} // Placeholder star icon
-//           style={styles.similarProductStarIcon}
-//         />
-//         <Text style={styles.similarProductRatingText}>{item.rating}</Text>
-//         <Text style={styles.similarProductReviewCount}>({item.reviews})</Text>
-//       </View>
-//     </TouchableOpacity>
-//   );
-
-//   if (loading) {
-//     return (
-//       <SafeAreaView style={styles.safeArea}>
-//         <View style={styles.loadingContainer}>
-//           <ActivityIndicator size="large" color="#ff6600" />
-//           <Text style={{marginTop: 10}}>Loading product details...</Text>
-//         </View>
-//       </SafeAreaView>
-//     );
-//   }
-
-//   if (error || !productData) {
-//     return (
-//       <SafeAreaView style={styles.safeArea}>
-//         <View style={styles.errorContainer}>
-//           <Text style={styles.errorText}>
-//             {error || 'No product data available.'}
-//           </Text>
-//           <TouchableOpacity
-//             style={styles.retryButton}
-//             onPress={fetchProductDetails} // Call the fetch function on retry
-//           >
-//             <Text style={styles.retryButtonText}>Retry</Text>
-//           </TouchableOpacity>
-//         </View>
-//       </SafeAreaView>
-//     );
-//   }
-
-//   // Extract images from the first variant, or handle if no variants/images
-//   const productImages =
-//     productData.variants &&
-//     productData.variants.length > 0 &&
-//     productData.variants[0].images.length > 0
-//       ? productData.variants[0].images.map(imagePath => ({
-//           uri: `https://shopinger.co.in${imagePath}`,
-//         }))
-//       : [];
-
-//   // Default product image if no images from API
-//   const defaultProductImage = require('../../assets/products/sneaker.png');
-//   const imagesToDisplay =
-//     productImages.length > 0 ? productImages : [defaultProductImage];
-
-//   // Extract price and selling price from the first variant
-//   const price =
-//     productData.variants && productData.variants.length > 0
-//       ? productData.variants[0].price
-//       : 'N/A';
-//   const sellingPrice =
-//     productData.variants && productData.variants.length > 0
-//       ? productData.variants[0].sellingprice
-//       : 'N/A';
-
-//   // Calculate discount (ensure both are numbers)
-//   let discountPercentage = '0% Off';
-//   if (
-//     price !== 'N/A' &&
-//     sellingPrice !== 'N/A' &&
-//     !isNaN(parseFloat(price)) &&
-//     !isNaN(parseFloat(sellingPrice))
-//   ) {
-//     const originalPriceNum = parseFloat(sellingPrice); // Assuming sellingprice is the original
-//     const discountedPriceNum = parseFloat(price); // Assuming price is the discounted price
-//     if (originalPriceNum > 0) {
-//       discountPercentage = `${Math.round(
-//         ((originalPriceNum - discountedPriceNum) / originalPriceNum) * 100,
-//       )}% Off!`;
-//     }
-//   }
-
-//   // Extract product attributes like size and color for display or selection
-//   const productAttributes =
-//     productData.variants && productData.variants.length > 0
-//       ? productData.variants[0].attributes || []
-//       : [];
-
-//   const availableSizes = productAttributes
-//     .filter(attr => attr.key === 'Size')
-//     .map(attr => attr.value);
-
-//   // The API response for description includes \r\n characters, which can be cleaned up
-//   const cleanDescription = productData.description
-//     ? productData.description.replace(/\\r\\n/g, '\n').trim()
-//     : 'No description available.';
-
-//   return (
-//     <SafeAreaView style={styles.safeArea}>
-//       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-//         {/* Product Image Carousel */}
-//         <View style={styles.imageCarouselContainer}>
-//           <ScrollView
-//             horizontal
-//             pagingEnabled
-//             showsHorizontalScrollIndicator={false}
-//             onScroll={onScroll}
-//             scrollEventThrottle={16} // Invoked at most once every 16ms
-//           >
-//             {imagesToDisplay.map((img, index) => (
-//               <Image key={index} source={img} style={styles.carouselImage} />
-//             ))}
-//           </ScrollView>
-//           <View style={styles.paginationDots}>
-//             {imagesToDisplay.map((_, index) => (
-//               <View
-//                 key={index}
-//                 style={[
-//                   styles.paginationDot,
-//                   index === activeImageIndex && styles.activePaginationDot,
-//                 ]}
-//               />
-//             ))}
-//           </View>
-//         </View>
-
-//         {/* Product Details Section */}
-//         <View style={styles.detailsSection}>
-//           {/* Size Selection - Dynamically populated if available */}
-//           {availableSizes.length > 0 && (
-//             <ScrollView
-//               horizontal
-//               showsHorizontalScrollIndicator={false}
-//               contentContainerStyle={styles.sizeOptionsContainer}>
-//               {availableSizes.map((size, index) => (
-//                 <TouchableOpacity
-//                   key={index}
-//                   style={[
-//                     styles.sizeButton,
-//                     selectedSize === size && styles.selectedSizeButton, // Highlight selected size
-//                   ]}
-//                   onPress={() => setSelectedSize(size)} // Update selected size on press
-//                 >
-//                   <Text
-//                     style={[
-//                       styles.sizeButtonText,
-//                       selectedSize === size && styles.selectedSizeButtonText,
-//                     ]}>
-//                     {size}
-//                   </Text>
-//                 </TouchableOpacity>
-//               ))}
-//             </ScrollView>
-//           )}
-
-//           <Text style={styles.productName}>{productData.name}</Text>
-//           <View style={styles.priceRatingRow}>
-//             <Text style={styles.originalPrice}>₹{sellingPrice}</Text>
-//             <Text style={styles.discountedPrice}>₹{price}</Text>
-//             <Text style={styles.discountPercentage}>{discountPercentage}</Text>
-//           </View>
-//           <View style={styles.ratingRow}>
-//             <Image
-//               source={{
-//                 uri: 'https://placehold.co/16x16/FFD700/000000?text=%E2%98%85',
-//               }} // Placeholder star icon
-//               style={styles.starIcon}
-//             />
-//             <Text style={styles.productRating}>4.8</Text>
-//             <Text style={styles.productReviewCount}>(60,290)</Text>
-//           </View>
-
-//           <Text style={styles.sectionHeading}>Product details</Text>
-//           <Text style={styles.productDescriptionText}>{cleanDescription}</Text>
-
-//           {/* Quantity Selector */}
-//           <View style={styles.quantitySelectorContainer}>
-//             <Text style={styles.sectionHeading}>Quantity</Text>
-//             <View style={styles.quantityControls}>
-//               <TouchableOpacity
-//                 style={styles.quantityButton}
-//                 onPress={() => setCartQuantity(prev => Math.max(1, prev - 1))}>
-//                 <Text style={styles.quantityButtonText}>-</Text>
-//               </TouchableOpacity>
-//               <Text style={styles.currentQuantityText}>{cartQuantity}</Text>
-//               <TouchableOpacity
-//                 style={styles.quantityButton}
-//                 onPress={() => setCartQuantity(prev => prev + 1)}>
-//                 <Text style={styles.quantityButtonText}>+</Text>
-//               </TouchableOpacity>
-//             </View>
-//           </View>
-
-//           {/* Action Buttons */}
-//           <View style={styles.actionButtonsContainer}>
-//             <TouchableOpacity
-//               style={styles.addToCartButton}
-//               onPress={handleAddToCart} // Call the new add to cart function
-//             >
-//               <Image
-//                 source={{
-//                   uri: 'https://placehold.co/20x20/FF6600/FFFFFF?text=Cart',
-//                 }} // Placeholder cart icon
-//                 style={styles.addToCartIcon}
-//               />
-//               <Text style={styles.addToCartText}>Add to Cart</Text>
-//             </TouchableOpacity>
-//             <TouchableOpacity
-//               style={styles.buyNowButton}
-//               onPress={() => navigation.navigate('Checkout')}>
-//               <Image
-//                 source={{
-//                   uri: 'https://placehold.co/20x20/FFFFFF/FF6600?text=Buy',
-//                 }} // Placeholder buy icon
-//                 style={styles.buyNowIcon}
-//               />
-//               <Text style={styles.buyNowText}>Buy Now</Text>
-//             </TouchableOpacity>
-//           </View>
-//           {/* Message display for success/error */}
-//           {message && (
-//             <View
-//               style={[
-//                 styles.messageContainer,
-//                 message.type === 'error'
-//                   ? styles.errorMessage
-//                   : styles.successMessage,
-//               ]}>
-//               <Text
-//                 style={
-//                   message.type === 'error'
-//                     ? styles.errorMessageText
-//                     : styles.successMessageText
-//                 }>
-//                 {message.text}
-//               </Text>
-//             </View>
-//           )}
-//         </View>
-
-//         {/* Reviews Section - Kept static as requested */}
-//         <View style={styles.reviewsSection}>
-//           <View style={styles.reviewsHeader}>
-//             <Text style={styles.reviewsTitle}>245 Reviews</Text>
-//             <View style={styles.reviewsOverallRating}>
-//               <Text style={styles.reviewsOverallRatingText}>4.8</Text>
-//               <Image
-//                 source={{
-//                   uri: 'https://placehold.co/14x14/FFD700/000000?text=%E2%98%85',
-//                 }} // Placeholder star icon
-//                 style={styles.reviewsOverallStarIcon}
-//               />
-//             </View>
-//             <TouchableOpacity onPress={() => navigation.navigate('Reviews')}>
-//               <Text style={styles.viewAllReviewsText}>View all</Text>
-//               <Image
-//                 source={{
-//                   uri: 'https://placehold.co/10x10/FF6600/FFFFFF?text=%3E',
-//                 }} // Placeholder small arrow right icon
-//                 style={styles.viewAllReviewsArrow}
-//               />
-//             </TouchableOpacity>
-//           </View>
-//           <FlatList
-//             data={REVIEWS_DATA}
-//             renderItem={renderReviewCard}
-//             keyExtractor={item => item.id}
-//             showsVerticalScrollIndicator={false}
-//             scrollEnabled={false} // Make reviews part of parent scroll, not independently scrollable
-//           />
-//         </View>
-
-//         {/* Similar Products Section - Kept static as requested */}
-//         <View style={styles.similarProductsSection}>
-//           <Text style={styles.similarProductsTitle}>Similar to 182+ Items</Text>
-//           <FlatList
-//             horizontal
-//             data={SIMILAR_PRODUCTS_DATA}
-//             renderItem={renderSimilarProductCard}
-//             keyExtractor={item => item.id}
-//             showsHorizontalScrollIndicator={false}
-//             contentContainerStyle={styles.similarProductsList}
-//           />
-//         </View>
-
-//         {/* Extra space at the bottom for content to scroll above bottom tabs */}
-//         {/* <View style={{ height: 80 }} /> */}
-//       </ScrollView>
-//     </SafeAreaView>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   safeArea: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//   },
-//   loadingContainer: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: '#f8f8f8',
-//   },
-//   errorContainer: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: '#f8f8f8',
-//     padding: 20,
-//   },
-//   errorText: {
-//     fontSize: 16,
-//     color: 'red',
-//     textAlign: 'center',
-//     marginBottom: 20,
-//   },
-//   retryButton: {
-//     backgroundColor: '#ff6600',
-//     paddingVertical: 10,
-//     paddingHorizontal: 20,
-//     borderRadius: 8,
-//   },
-//   retryButtonText: {
-//     color: '#fff',
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//   },
-//   header: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     alignItems: 'center',
-//     paddingHorizontal: 15,
-//     paddingVertical: 10,
-//     backgroundColor: '#fff',
-//   },
-//   backArrowIcon: {
-//     width: 24,
-//     height: 24,
-//     resizeMode: 'contain',
-//   },
-//   headerIconsRight: {
-//     flexDirection: 'row',
-//   },
-//   headerRightIconContainer: {
-//     marginLeft: 15,
-//   },
-//   headerRightIcon: {
-//     width: 22,
-//     height: 22,
-//     resizeMode: 'contain',
-//     tintColor: '#333', // Adjust tint color if needed
-//   },
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#f8f8f8',
-//   },
-//   imageCarouselContainer: {
-//     height: width * 0.9, // Adjust height based on aspect ratio of your images
-//     backgroundColor: '#fff',
-//     marginBottom: 10,
-//     position: 'relative',
-//   },
-//   carouselImage: {
-//     width: width,
-//     height: '100%',
-//     resizeMode: 'contain', // or 'cover' depending on your image aspect ratio
-//   },
-//   paginationDots: {
-//     flexDirection: 'row',
-//     position: 'absolute',
-//     bottom: 10,
-//     alignSelf: 'center',
-//   },
-//   paginationDot: {
-//     width: 8,
-//     height: 8,
-//     borderRadius: 4,
-//     backgroundColor: '#ccc',
-//     marginHorizontal: 3,
-//   },
-//   activePaginationDot: {
-//     backgroundColor: '#ff6600', // Active dot color
-//   },
-//   detailsSection: {
-//     backgroundColor: '#fff',
-//     padding: 15,
-//     marginBottom: 10,
-//   },
-//   sizeOptionsContainer: {
-//     paddingVertical: 10,
-//   },
-//   sizeButton: {
-//     borderWidth: 1,
-//     borderColor: '#eee',
-//     borderRadius: 8,
-//     paddingHorizontal: 15,
-//     paddingVertical: 8,
-//     marginRight: 10,
-//     backgroundColor: '#f9f9f9',
-//   },
-//   selectedSizeButton: {
-//     borderColor: '#ff6600',
-//     backgroundColor: '#fff0e6', // Light orange background
-//   },
-//   sizeButtonText: {
-//     fontSize: 14,
-//     fontWeight: '500',
-//     color: '#555',
-//   },
-//   selectedSizeButtonText: {
-//     color: '#ff6600',
-//   },
-//   productName: {
-//     fontSize: 22,
-//     fontWeight: 'bold',
-//     color: '#333',
-//     marginTop: 15,
-//   },
-//   productModel: {
-//     fontSize: 16,
-//     color: '#666',
-//     marginTop: 5,
-//   },
-//   priceRatingRow: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     marginTop: 10,
-//   },
-//   originalPrice: {
-//     fontSize: 16,
-//     color: '#999',
-//     textDecorationLine: 'line-through',
-//     marginRight: 10,
-//   },
-//   discountedPrice: {
-//     fontSize: 22,
-//     fontWeight: 'bold',
-//     color: '#ff6600',
-//     marginRight: 10,
-//   },
-//   discountPercentage: {
-//     fontSize: 14,
-//     color: '#ff6600',
-//     backgroundColor: '#fff0e6',
-//     paddingHorizontal: 8,
-//     paddingVertical: 4,
-//     borderRadius: 5,
-//     fontWeight: 'bold',
-//   },
-//   ratingRow: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     marginTop: 10,
-//   },
-//   starIcon: {
-//     width: 16,
-//     height: 16,
-//     resizeMode: 'contain',
-//     marginRight: 5,
-//   },
-//   productRating: {
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//     color: '#333',
-//     marginRight: 5,
-//   },
-//   productReviewCount: {
-//     fontSize: 14,
-//     color: '#777',
-//   },
-//   sectionHeading: {
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//     color: '#333',
-//     marginTop: 20,
-//     marginBottom: 10,
-//   },
-//   productDescriptionText: {
-//     fontSize: 14,
-//     color: '#555',
-//     lineHeight: 20,
-//   },
-//   readMoreText: {
-//     color: '#ff6600',
-//     fontWeight: 'bold',
-//   },
-//   quantitySelectorContainer: {
-//     marginTop: 20,
-//     marginBottom: 10,
-//   },
-//   quantityControls: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     marginTop: 10,
-//   },
-//   quantityButton: {
-//     width: 40,
-//     height: 40,
-//     borderRadius: 8,
-//     borderWidth: 1,
-//     borderColor: '#ddd',
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: '#f0f0f0',
-//   },
-//   quantityButtonText: {
-//     fontSize: 20,
-//     fontWeight: 'bold',
-//     color: '#333',
-//   },
-//   currentQuantityText: {
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//     marginHorizontal: 15,
-//     color: '#333',
-//   },
-//   actionButtonsContainer: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     marginTop: 25,
-//   },
-//   addToCartButton: {
-//     flex: 1,
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     backgroundColor: '#fff',
-//     borderWidth: 1,
-//     borderColor: '#ff6600',
-//     borderRadius: 10,
-//     paddingVertical: 15,
-//     marginRight: 10,
-//   },
-//   addToCartIcon: {
-//     width: 20,
-//     height: 20,
-//     resizeMode: 'contain',
-//     tintColor: '#ff6600',
-//     marginRight: 10,
-//   },
-//   addToCartText: {
-//     color: '#ff6600',
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//   },
-//   buyNowButton: {
-//     flex: 1,
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     backgroundColor: '#ff6600',
-//     borderRadius: 10,
-//     paddingVertical: 15,
-//     marginLeft: 10,
-//   },
-//   buyNowIcon: {
-//     width: 20,
-//     height: 20,
-//     resizeMode: 'contain',
-//     tintColor: '#fff',
-//     marginRight: 10,
-//   },
-//   buyNowText: {
-//     color: '#fff',
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//   },
-//   messageContainer: {
-//     padding: 10,
-//     borderRadius: 8,
-//     marginTop: 15,
-//     alignItems: 'center',
-//   },
-//   errorMessage: {
-//     backgroundColor: '#ffe0e0',
-//     borderColor: 'red',
-//     borderWidth: 1,
-//   },
-//   errorMessageText: {
-//     color: 'red',
-//     fontSize: 14,
-//     textAlign: 'center',
-//   },
-//   successMessage: {
-//     backgroundColor: '#e0ffe0',
-//     borderColor: 'green',
-//     borderWidth: 1,
-//   },
-//   successMessageText: {
-//     color: 'green',
-//     fontSize: 14,
-//     textAlign: 'center',
-//   },
-//   reviewsSection: {
-//     backgroundColor: '#fff',
-//     marginTop: 10,
-//     padding: 15,
-//     marginBottom: 10,
-//   },
-//   reviewsHeader: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     alignItems: 'center',
-//     marginBottom: 15,
-//   },
-//   reviewsTitle: {
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//     color: '#333',
-//   },
-//   reviewsOverallRating: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     backgroundColor: '#fff0e6',
-//     borderRadius: 5,
-//     paddingHorizontal: 8,
-//     paddingVertical: 4,
-//   },
-//   reviewsOverallRatingText: {
-//     fontSize: 14,
-//     fontWeight: 'bold',
-//     color: '#ff6600',
-//     marginRight: 5,
-//   },
-//   reviewsOverallStarIcon: {
-//     width: 14,
-//     height: 14,
-//     resizeMode: 'contain',
-//     tintColor: '#ff6600',
-//   },
-//   viewAllReviewsText: {
-//     fontSize: 14,
-//     color: '#ff6600',
-//     fontWeight: 'bold',
-//   },
-//   viewAllReviewsArrow: {
-//     position: 'absolute',
-//     right: -15, // Position outside the text
-//     top: '25%',
-//     width: 10,
-//     height: 10,
-//     resizeMode: 'contain',
-//     tintColor: '#ff6600',
-//   },
-//   reviewCard: {
-//     borderBottomWidth: 1,
-//     borderBottomColor: '#eee',
-//     paddingVertical: 15,
-//   },
-//   reviewHeader: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     marginBottom: 10,
-//   },
-//   reviewAvatar: {
-//     width: 40,
-//     height: 40,
-//     borderRadius: 20,
-//     marginRight: 10,
-//   },
-//   reviewInfo: {
-//     flex: 1,
-//   },
-//   reviewerName: {
-//     fontSize: 15,
-//     fontWeight: 'bold',
-//     color: '#333',
-//   },
-//   reviewDate: {
-//     fontSize: 12,
-//     color: '#777',
-//     marginTop: 2,
-//   },
-//   reviewRatingContainer: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     backgroundColor: '#fff0e6',
-//     borderRadius: 5,
-//     paddingHorizontal: 8,
-//     paddingVertical: 4,
-//   },
-//   reviewRating: {
-//     fontSize: 14,
-//     fontWeight: 'bold',
-//     color: '#ff6600',
-//     marginRight: 5,
-//   },
-//   reviewStarIcon: {
-//     width: 14,
-//     height: 14,
-//     resizeMode: 'contain',
-//     tintColor: '#ff6600',
-//   },
-//   reviewText: {
-//     fontSize: 14,
-//     color: '#555',
-//     lineHeight: 20,
-//   },
-//   similarProductsSection: {
-//     backgroundColor: '#fff',
-//     marginTop: 10,
-//     paddingTop: 15,
-//     paddingBottom: 20,
-//   },
-//   similarProductsTitle: {
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//     color: '#333',
-//     marginHorizontal: 15,
-//     marginBottom: 15,
-//   },
-//   similarProductsList: {
-//     paddingHorizontal: 15,
-//   },
-//   similarProductCard: {
-//     width: width * 0.4, // Adjust width for horizontal cards
-//     backgroundColor: '#fff',
-//     borderRadius: 10,
-//     padding: 10,
-//     marginRight: 15,
-//     shadowColor: '#000',
-//     shadowOffset: {width: 0, height: 1},
-//     shadowOpacity: 0.1,
-//     shadowRadius: 3,
-//     elevation: 2,
-//   },
-//   similarProductImage: {
-//     width: '100%',
-//     height: 120,
-//     resizeMode: 'contain',
-//     borderRadius: 8,
-//     marginBottom: 8,
-//   },
-//   similarProductTitle: {
-//     fontSize: 14,
-//     fontWeight: 'bold',
-//     color: '#333',
-//     marginBottom: 4,
-//   },
-//   similarProductDescription: {
-//     fontSize: 11,
-//     color: '#777',
-//     marginBottom: 8,
-//     minHeight: 25, // To keep card heights consistent
-//   },
-//   similarProductPriceContainer: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     marginBottom: 5,
-//   },
-//   similarProductPrice: {
-//     fontSize: 15,
-//     fontWeight: 'bold',
-//     color: '#ff6600',
-//     marginRight: 5,
-//   },
-//   similarProductOldPrice: {
-//     fontSize: 12,
-//     color: '#999',
-//     textDecorationLine: 'line-through',
-//   },
-//   similarProductRatingContainer: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//   },
-//   similarProductStarIcon: {
-//     width: 12,
-//     height: 12,
-//     resizeMode: 'contain',
-//     marginRight: 3,
-//   },
-//   similarProductRatingText: {
-//     fontSize: 12,
-//     color: '#777',
-//     marginRight: 5,
-//   },
-//   similarProductReviewCount: {
-//     fontSize: 11,
-//     color: '#999',
-//   },
-// });
-
-// export default ProductDetailsScreen;

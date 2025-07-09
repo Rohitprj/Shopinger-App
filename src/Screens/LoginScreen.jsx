@@ -1,20 +1,96 @@
-// import React, { useState } from 'react';
-// import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+// import React, {useState} from 'react';
+// import {
+//   View,
+//   Text,
+//   TextInput,
+//   TouchableOpacity,
+//   StyleSheet,
+//   Dimensions,
+//   ActivityIndicator, // Import ActivityIndicator for loading state
+//   Alert, // Import Alert for user feedback
+// } from 'react-native';
 // import Icon from 'react-native-vector-icons/Feather'; // For eye icon
 // import GoogleIcon from 'react-native-vector-icons/AntDesign'; // For Google icon
 // import AppleIcon from 'react-native-vector-icons/FontAwesome'; // For Apple icon
 // import FacebookIcon from 'react-native-vector-icons/FontAwesome'; // For Facebook icon
 
-// const { width } = Dimensions.get('window');
+// // Import the axiosInstance from your axiosConfig.js file
+// import axiosInstance from '../utils/AxiosInstance'; // Adjust the path as per your project structure
 
-// const LoginScreen = ({ navigation }) => {
+// const {width} = Dimensions.get('window');
+
+// const LoginScreen = ({navigation}) => {
 //   const [email, setEmail] = useState('');
 //   const [password, setPassword] = useState('');
 //   const [showPassword, setShowPassword] = useState(false);
+//   const [loading, setLoading] = useState(false); // New state for loading indicator
 
-//   const handleLogin = () => {
-//     console.log('Login attempt:', { email, password });
-//     // Implement your login logic here
+//   const handleLogin = async () => {
+//     // Basic validation
+//     if (!email || !password) {
+//       Alert.alert('Error', 'Please enter both username/email and password.');
+//       return;
+//     }
+
+//     setLoading(true); // Start loading
+
+//     try {
+//       const requestBody = new URLSearchParams();
+//       requestBody.append('email', email);
+//       requestBody.append('password', password);
+
+//       const response = await axiosInstance.post(
+//         '/public/user-login',
+//         requestBody.toString(),
+//         {
+//           headers: {
+//             'Content-Type': 'application/x-www-form-urlencoded',
+//           },
+//         },
+//       );
+
+//       console.log('Login successful:', response.data);
+
+//       if (response.data.success) {
+//         Alert.alert('Success', 'Login successful!');
+//         // Navigate to the next screen upon successful login
+//         // Make sure 'GetStarted' is a valid route in your navigation stack
+//         navigation.navigate('GetStarted');
+//       } else {
+//         // Handle API success: false, but still a 200 OK response
+//         Alert.alert(
+//           'Login Failed',
+//           response.data.message || 'Invalid credentials.',
+//         );
+//       }
+//     } catch (error) {
+//       console.error('Login error:', error);
+//       if (error.response) {
+//         // The request was made and the server responded with a status code
+//         // that falls out of the range of 2xx
+//         console.error('Error response data:', error.response.data);
+//         console.error('Error response status:', error.response.status);
+//         console.error('Error response headers:', error.response.headers);
+//         Alert.alert(
+//           'Login Failed',
+//           error.response.data.message ||
+//             'An error occurred during login. Please try again.',
+//         );
+//       } else if (error.request) {
+//         // The request was made but no response was received
+//         console.error('Error request:', error.request);
+//         Alert.alert(
+//           'Network Error',
+//           'No response from server. Please check your internet connection.',
+//         );
+//       } else {
+//         // Something happened in setting up the request that triggered an Error
+//         console.error('Error message:', error.message);
+//         Alert.alert('Error', error.message || 'An unexpected error occurred.');
+//       }
+//     } finally {
+//       setLoading(false); // End loading
+//     }
 //   };
 
 //   return (
@@ -31,6 +107,7 @@
 //           onChangeText={setEmail}
 //           keyboardType="email-address"
 //           autoCapitalize="none"
+//           editable={!loading} // Disable input when loading
 //         />
 //       </View>
 
@@ -43,18 +120,35 @@
 //           secureTextEntry={!showPassword}
 //           value={password}
 //           onChangeText={setPassword}
+//           editable={!loading} // Disable input when loading
 //         />
-//         <TouchableOpacity style={styles.eyeIcon} onPress={() => setShowPassword(!showPassword)}>
-//           <Icon name={showPassword ? 'eye' : 'eye-off'} size={20} color="#888" />
+//         <TouchableOpacity
+//           style={styles.eyeIcon}
+//           onPress={() => setShowPassword(!showPassword)}
+//           disabled={loading}>
+//           <Icon
+//             name={showPassword ? 'eye' : 'eye-off'}
+//             size={20}
+//             color="#888"
+//           />
 //         </TouchableOpacity>
 //       </View>
 
-//       <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')} style={styles.forgotPasswordButton}>
+//       <TouchableOpacity
+//         onPress={() => navigation.navigate('ForgotPassword')}
+//         style={styles.forgotPasswordButton}>
 //         <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
 //       </TouchableOpacity>
 
-//       <TouchableOpacity style={styles.loginButton} onPress={()=>navigation.navigate("GetStarted")}>
-//         <Text style={styles.loginButtonText}>Login</Text>
+//       <TouchableOpacity
+//         style={styles.loginButton}
+//         onPress={handleLogin}
+//         disabled={loading}>
+//         {loading ? (
+//           <ActivityIndicator color="#fff" />
+//         ) : (
+//           <Text style={styles.loginButtonText}>Login</Text>
+//         )}
 //       </TouchableOpacity>
 
 //       <Text style={styles.orContinueWith}>- OR Continue with -</Text>
@@ -73,7 +167,8 @@
 
 //       <View style={styles.createAccountContainer}>
 //         <Text style={styles.createAccountText}>Create An Account </Text>
-//         <TouchableOpacity onPress={() => navigation.navigate('CreateAccountScreen')}>
+//         <TouchableOpacity
+//           onPress={() => navigation.navigate('CreateAccountScreen')}>
 //           <Text style={styles.signUpText}>Sign Up</Text>
 //         </TouchableOpacity>
 //       </View>
@@ -177,8 +272,7 @@
 // });
 
 // export default LoginScreen;
-
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -187,7 +281,7 @@ import {
   StyleSheet,
   Dimensions,
   ActivityIndicator, // Import ActivityIndicator for loading state
-  Alert, // Import Alert for user feedback
+  // Removed Alert import as it's replaced by state-based messages
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather'; // For eye icon
 import GoogleIcon from 'react-native-vector-icons/AntDesign'; // For Google icon
@@ -196,47 +290,74 @@ import FacebookIcon from 'react-native-vector-icons/FontAwesome'; // For Faceboo
 
 // Import the axiosInstance from your axiosConfig.js file
 import axiosInstance from '../utils/AxiosInstance'; // Adjust the path as per your project structure
+// Import the storeUserData function from your new tokenStorage.js file
+import {storeUserData} from '../utils/tokenStorage';
 
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false); // New state for loading indicator
+  const [message, setMessage] = useState(null); // State for displaying messages to the user
 
   const handleLogin = async () => {
+    // Clear previous messages
+    setMessage(null);
+
     // Basic validation
     if (!email || !password) {
-      Alert.alert('Error', 'Please enter both username/email and password.');
+      setMessage({
+        type: 'error',
+        text: 'Please enter both email and password.',
+      });
       return;
     }
 
     setLoading(true); // Start loading
 
     try {
-      // Prepare data for x-www-form-urlencoded
-      // The API expects 'email' and 'password' in this format
       const requestBody = new URLSearchParams();
       requestBody.append('email', email);
       requestBody.append('password', password);
 
-      const response = await axiosInstance.post('/public/user-login', requestBody.toString(), {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+      const response = await axiosInstance.post(
+        '/public/user-login',
+        requestBody.toString(),
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
         },
-      });
+      );
 
       console.log('Login successful:', response.data);
 
       if (response.data.success) {
-        Alert.alert('Success', 'Login successful!');
+        setMessage({type: 'success', text: 'Login successful!'});
+
+        // Extract data from the response
+        const {token, user} = response.data;
+        const userEmail = user.email;
+        const userRole = user.role;
+
+        // Store the extracted data using the storeUserData function
+        await storeUserData({
+          email: userEmail,
+          token: token,
+          role: userRole,
+        });
+
         // Navigate to the next screen upon successful login
         // Make sure 'GetStarted' is a valid route in your navigation stack
         navigation.navigate('GetStarted');
       } else {
         // Handle API success: false, but still a 200 OK response
-        Alert.alert('Login Failed', response.data.message || 'Invalid credentials.');
+        setMessage({
+          type: 'error',
+          text: response.data.message || 'Invalid credentials.',
+        });
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -246,15 +367,26 @@ const LoginScreen = ({ navigation }) => {
         console.error('Error response data:', error.response.data);
         console.error('Error response status:', error.response.status);
         console.error('Error response headers:', error.response.headers);
-        Alert.alert('Login Failed', error.response.data.message || 'An error occurred during login. Please try again.');
+        setMessage({
+          type: 'error',
+          text:
+            error.response.data.message ||
+            'An error occurred during login. Please try again.',
+        });
       } else if (error.request) {
         // The request was made but no response was received
         console.error('Error request:', error.request);
-        Alert.alert('Network Error', 'No response from server. Please check your internet connection.');
+        setMessage({
+          type: 'error',
+          text: 'Network Error: No response from server. Please check your internet connection.',
+        });
       } else {
         // Something happened in setting up the request that triggered an Error
         console.error('Error message:', error.message);
-        Alert.alert('Error', error.message || 'An unexpected error occurred.');
+        setMessage({
+          type: 'error',
+          text: error.message || 'An unexpected error occurred.',
+        });
       }
     } finally {
       setLoading(false); // End loading
@@ -290,22 +422,54 @@ const LoginScreen = ({ navigation }) => {
           onChangeText={setPassword}
           editable={!loading} // Disable input when loading
         />
-        <TouchableOpacity style={styles.eyeIcon} onPress={() => setShowPassword(!showPassword)} disabled={loading}>
-          <Icon name={showPassword ? 'eye' : 'eye-off'} size={20} color="#888" />
+        <TouchableOpacity
+          style={styles.eyeIcon}
+          onPress={() => setShowPassword(!showPassword)}
+          disabled={loading}>
+          <Icon
+            name={showPassword ? 'eye' : 'eye-off'}
+            size={20}
+            color="#888"
+          />
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')} style={styles.forgotPasswordButton}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('ForgotPassword')}
+        style={styles.forgotPasswordButton}>
         <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin} disabled={loading}>
+      <TouchableOpacity
+        style={styles.loginButton}
+        onPress={handleLogin}
+        disabled={loading}>
         {loading ? (
           <ActivityIndicator color="#fff" />
         ) : (
           <Text style={styles.loginButtonText}>Login</Text>
         )}
       </TouchableOpacity>
+
+      {/* Message display for success/error */}
+      {message && (
+        <View
+          style={[
+            styles.messageContainer,
+            message.type === 'error'
+              ? styles.errorMessage
+              : styles.successMessage,
+          ]}>
+          <Text
+            style={
+              message.type === 'error'
+                ? styles.errorMessageText
+                : styles.successMessageText
+            }>
+            {message.text}
+          </Text>
+        </View>
+      )}
 
       <Text style={styles.orContinueWith}>- OR Continue with -</Text>
 
@@ -323,7 +487,8 @@ const LoginScreen = ({ navigation }) => {
 
       <View style={styles.createAccountContainer}>
         <Text style={styles.createAccountText}>Create An Account </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('CreateAccountScreen')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('CreateAccountScreen')}>
           <Text style={styles.signUpText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
@@ -423,6 +588,34 @@ const styles = StyleSheet.create({
     color: '#FF6F00',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  messageContainer: {
+    padding: 10,
+    borderRadius: 8,
+    marginTop: -20, // Adjust to fit above "OR Continue with"
+    marginBottom: 20,
+    width: '100%',
+    alignItems: 'center',
+  },
+  errorMessage: {
+    backgroundColor: '#ffe0e0',
+    borderColor: 'red',
+    borderWidth: 1,
+  },
+  errorMessageText: {
+    color: 'red',
+    fontSize: 14,
+    textAlign: 'center',
+  },
+  successMessage: {
+    backgroundColor: '#e0ffe0',
+    borderColor: 'green',
+    borderWidth: 1,
+  },
+  successMessageText: {
+    color: 'green',
+    fontSize: 14,
+    textAlign: 'center',
   },
 });
 

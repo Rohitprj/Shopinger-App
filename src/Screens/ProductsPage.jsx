@@ -19,10 +19,10 @@
 //   try {
 //     const response = await axiosInstance.get('/web/get-all-category');
 //     console.log('Categories data:', response.data);
-//     return response.data; 
+//     return response.data;
 //   } catch (error) {
 //     console.error('Error fetching categories:', error);
-//     throw error; 
+//     throw error;
 //   }
 // };
 // getAllCategories();
@@ -32,7 +32,7 @@
 //         {/* Header */}
 //         <View style={styles.header}>
 //           <Image
-//             source={require('../../assets/images/logo.png')} 
+//             source={require('../../assets/images/logo.png')}
 //             style={styles.logo}
 //           />
 //           <View style={styles.headerRight}>
@@ -274,7 +274,6 @@
 
 //         {/* Hot Summer Sale Banner */}
 //         <View style={{backgroundColor:"white",width:"90%",alignSelf:"center",borderRadius:10,}}>
-
 
 //         <Image
 //           source={require('../../assets/products/hotSummerSale.png')}  // Replace with your hot summer sale banner
@@ -816,7 +815,7 @@
 
 // export default App;
 
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -829,12 +828,13 @@ import {
   FlatList, // Import FlatList
   ActivityIndicator, // Import ActivityIndicator for loading state
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import axiosInstance from '../utils/AxiosInstance'; // Ensure this path is correct
+import {getUserData} from '../utils/tokenStorage';
 
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
-const App = ({ navigation }) => {
+const App = ({navigation}) => {
   const [categories, setCategories] = useState([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [errorCategories, setErrorCategories] = useState(null);
@@ -845,6 +845,8 @@ const App = ({ navigation }) => {
       setErrorCategories(null);
       const response = await axiosInstance.get('/web/get-all-category');
       console.log('Categories data:', response.data.categories);
+      const userData = await getUserData();
+      console.log(userData);
       setCategories(response.data.categories);
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -858,17 +860,30 @@ const App = ({ navigation }) => {
     fetchCategoriesData();
   }, []);
 
-  const renderCategoryItem = ({ item }) => (
-    <TouchableOpacity style={styles.categoryItem} onPress={() => navigation.navigate('ProductAllData')}>
+  const renderCategoryItem = ({item}) => (
+    <TouchableOpacity
+      style={styles.categoryItem}
+      onPress={() => navigation.navigate('ProductAllData')}>
       {/* <Image
         source={{ uri: item.imgUrl }}
         style={styles.categoryIcon}
         onError={(e) => console.log('Image loading error:', e.nativeEvent.error)}
       /> */}
       <Image
-        source={{ uri: item.imgUrl ? `https://shopinger.co.in${item.imgUrl}` : 'https://placehold.co/50x50/cccccc/000000?text=No+Image' }}
+        source={{
+          uri: item.imgUrl
+            ? `https://shopinger.co.in${item.imgUrl}`
+            : 'https://placehold.co/50x50/cccccc/000000?text=No+Image',
+        }}
         style={styles.categoryIcon}
-        onError={(e) => console.log('Image loading error for category:', e.nativeEvent.error, 'URL:', item.imgUrl ? `https://shopinger.co.in${item.imgUrl}` : 'N/A')}
+        onError={e =>
+          console.log(
+            'Image loading error for category:',
+            e.nativeEvent.error,
+            'URL:',
+            item.imgUrl ? `https://shopinger.co.in${item.imgUrl}` : 'N/A',
+          )
+        }
       />
       <Text style={styles.categoryText}>{item.name}</Text>
     </TouchableOpacity>
@@ -916,13 +931,21 @@ const App = ({ navigation }) => {
         {/* All Featured Categories */}
         <Text style={styles.sectionTitle}>All Featured</Text>
         {loadingCategories ? (
-          <ActivityIndicator size="large" color="#ff6600" style={{ marginTop: 20 }} />
+          <ActivityIndicator
+            size="large"
+            color="#ff6600"
+            style={{marginTop: 20}}
+          />
         ) : errorCategories ? (
-          <Text style={{ color: 'red', textAlign: 'center', marginTop: 20 }}>{errorCategories}</Text>
+          <Text style={{color: 'red', textAlign: 'center', marginTop: 20}}>
+            {errorCategories}
+          </Text>
         ) : (
           <FlatList
             data={categories}
-            keyExtractor={(item, index) => item.id ? item.id.toString() : index.toString()} // Use a unique ID from your API if available, otherwise index
+            keyExtractor={(item, index) =>
+              item.id ? item.id.toString() : index.toString()
+            } // Use a unique ID from your API if available, otherwise index
             renderItem={renderCategoryItem}
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -933,7 +956,7 @@ const App = ({ navigation }) => {
         {/* 50-40% Off Banner */}
         <Image
           source={require('../../assets/products/carousel.png')}
-          style={{ alignSelf: "center" }}
+          style={{alignSelf: 'center'}}
         />
 
         {/* Deal of the Day */}
@@ -946,7 +969,8 @@ const App = ({ navigation }) => {
             />
             <Text style={styles.dealTimerText}>19h: 23m: 54s Remaining</Text>
           </View>
-          <TouchableOpacity style={{ alignItems: 'flex-end', justifyContent: "center", flex: 1 }}>
+          <TouchableOpacity
+            style={{alignItems: 'flex-end', justifyContent: 'center', flex: 1}}>
             <Text style={styles.viewAllText}>View All</Text>
           </TouchableOpacity>
         </View>
@@ -1006,7 +1030,7 @@ const App = ({ navigation }) => {
           <View>
             <Text style={styles.specialOfferTitle}>Special Offers</Text>
             <Text style={styles.specialOfferText}>
-              We'll make sure you get the best offers{"\n"}you'll ever find.
+              We'll make sure you get the best offers{'\n'}you'll ever find.
             </Text>
           </View>
         </View>
@@ -1016,7 +1040,8 @@ const App = ({ navigation }) => {
           source={require('../../assets/products/heels.png')}
           style={styles.flatHeelsBannerImage}
         />
-        <View style={{ ...styles.dealOfTheDayContainer, backgroundColor: "pink" }}>
+        <View
+          style={{...styles.dealOfTheDayContainer, backgroundColor: 'pink'}}>
           <View style={styles.dealTimerContainer}>
             <Text style={styles.dealOfTheDayTitle}>Trending Products</Text>
             <Image
@@ -1025,18 +1050,24 @@ const App = ({ navigation }) => {
             />
             <Text style={styles.dealTimerText}>19h: 23m: 54s Remaining</Text>
           </View>
-          <TouchableOpacity style={{ alignItems: 'flex-end', justifyContent: "center", flex: 1 }}>
+          <TouchableOpacity
+            style={{alignItems: 'flex-end', justifyContent: 'center', flex: 1}}>
             <Text style={styles.viewAllText}>View All</Text>
           </TouchableOpacity>
         </View>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.trendingProductsContainer}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.trendingProductsContainer}>
           <View style={styles.trendingProductCard}>
             <Image
               source={require('../../assets/products/watch.png')} // Replace with your watch image
               style={styles.trendingProductImage}
             />
             <Text style={styles.trendingProductBrand}>RWC</Text>
-            <Text style={styles.trendingProductTitle}>Swiss Chronograph Watch (REF. 2017-45MM)...</Text>
+            <Text style={styles.trendingProductTitle}>
+              Swiss Chronograph Watch (REF. 2017-45MM)...
+            </Text>
             <View style={styles.trendingProductPriceRating}>
               <Text style={styles.trendingProductPrice}>$120.00</Text>
               <View style={styles.ratingContainer}>
@@ -1055,7 +1086,9 @@ const App = ({ navigation }) => {
               style={styles.trendingProductImage}
             />
             <Text style={styles.trendingProductBrand}>Lusion</Text>
-            <Text style={styles.trendingProductTitle}>White shoes for Man and female</Text>
+            <Text style={styles.trendingProductTitle}>
+              White shoes for Man and female
+            </Text>
             <View style={styles.trendingProductPriceRating}>
               <Text style={styles.trendingProductPrice}>$75.00</Text>
               <View style={styles.ratingContainer}>
@@ -1070,11 +1103,13 @@ const App = ({ navigation }) => {
 
           <View style={styles.trendingProductCard}>
             <Image
-              source={require('../../assets/products/watch.png')}// Replace with your jacket image
+              source={require('../../assets/products/watch.png')} // Replace with your jacket image
               style={styles.trendingProductImage}
             />
             <Text style={styles.trendingProductBrand}>Levi's</Text>
-            <Text style={styles.trendingProductTitle}>Denim Jacket for Men</Text>
+            <Text style={styles.trendingProductTitle}>
+              Denim Jacket for Men
+            </Text>
             <View style={styles.trendingProductPriceRating}>
               <Text style={styles.trendingProductPrice}>$99.00</Text>
               <View style={styles.ratingContainer}>
@@ -1089,11 +1124,15 @@ const App = ({ navigation }) => {
         </ScrollView>
 
         {/* Hot Summer Sale Banner */}
-        <View style={{ backgroundColor: "white", width: "90%", alignSelf: "center", borderRadius: 10, }}>
-
-
+        <View
+          style={{
+            backgroundColor: 'white',
+            width: '90%',
+            alignSelf: 'center',
+            borderRadius: 10,
+          }}>
           <Image
-            source={require('../../assets/products/hotSummerSale.png')}  // Replace with your hot summer sale banner
+            source={require('../../assets/products/hotSummerSale.png')} // Replace with your hot summer sale banner
             style={styles.hotSummerSaleBanner}
           />
 
@@ -1101,7 +1140,9 @@ const App = ({ navigation }) => {
           <View style={styles.newArrivalsContainer}>
             <View>
               <Text style={styles.sectionTitle}>New Arrivals</Text>
-              <Text style={styles.newArrivalsSubtitle}>Summer New Collections</Text>
+              <Text style={styles.newArrivalsSubtitle}>
+                Summer New Collections
+              </Text>
             </View>
             <TouchableOpacity style={styles.viewAllButtonOrange}>
               <Text style={styles.viewAllButtonOrangeText}>View All</Text>
@@ -1116,7 +1157,6 @@ const App = ({ navigation }) => {
         />
         <Text style={styles.sponsoredAdSubtitleText}>Up to 50% off</Text>
       </ScrollView>
-
     </SafeAreaView>
   );
 };
@@ -1251,7 +1291,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     overflow: 'hidden',
     position: 'relative',
-    backgroundColor: "pink"
+    backgroundColor: 'pink',
   },
   bannerImage: {
     width: '100%',
@@ -1290,7 +1330,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal: 15,
     marginTop: 20,
-    backgroundColor: "#4392F9",
+    backgroundColor: '#4392F9',
     borderRadius: 10,
     paddingHorizontal: 15,
   },
@@ -1340,7 +1380,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 15,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 2,
@@ -1463,7 +1503,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 15,
     marginTop: 20,
-    backgroundColor: "pink"
+    backgroundColor: 'pink',
   },
   viewAllButton: {
     flexDirection: 'row',
@@ -1492,7 +1532,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginRight: 15,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 2,

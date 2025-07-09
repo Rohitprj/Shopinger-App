@@ -1,994 +1,123 @@
 {
-  "success": true,
-  "message": "Categories fetched successfully",
-  "categories": [
-    {
-      "id": 23,
-      "name": "Fashion",
-      "slug": "fashion",
-      "description": "Leriya Fashion is the ultimate destination for occasionwear, offering hand-embellished designs and feminine details in luxurious fabrics. Introducing our elegant and versatile Rayon Solid Button Front Shirt Dress with Roll Tab Sleeve & Collared Neck Flared for Women. This dress combines classic style with modern comfort, making it a must-have addition to your wardrobe. Crafted from Best-quality rayon fabric, this dress offers a soft and lightweight feel, ensuring all-day comfort. The solid color adds a touch of sophistication and versatility, making it easy to dress up or down for various occasions. The button front design adds a polished look to the dress, while the collared neck enhances its chic appeal. The flared silhouette creates a flattering fit that accentuates your curves and allows for easy movement. One of the standout features of this dress is the roll tab sleeves, which offer flexibility in styling. You can effortlessly switch between long sleeves and three-quarter sleeves, adapting to changing weather or personal preference. This shirt dress is perfect for both casual and semi-formal occasions. Pair it with sandals or sneakers for a relaxed daytime look, or dress it up with heels and accessories for a more sophisticated ensemble. Whether you're heading to the office, on a brunch date, or at a social gathering, this dress is a versatile choice. Revamp your wardrobe with this stylish and comfortable shirt dress, and elevate your fashion game. Please refer to the size chart to find your perfect fit.",
-      "imgUrl": "/uploads/7ec2483ae2254eb1.jpg",
-      "createdAt": "2025-07-03T06:00:20.019Z",
-      "updatedAt": "2025-07-03T06:01:39.743Z",
-      "subCategories": [
-        {
-          "id": 19,
-          "mainCategoryId": 23,
-          "name": "Men's Clothing",
-          "slug": "mens-clothing",
-          "description": "Ace weekend dressing in this blue solid Polo Neck T-shirt from Allen Solly by Allen Solly.",
-          "imgUrl": "/uploads/dc9b556bba643efd.jpg",
-          "createdAt": "2025-07-03T06:01:27.607Z",
-          "updatedAt": "2025-07-03T06:02:08.185Z",
-          "subSubCategories": [
-            {
-              "id": 19,
-              "subCategoryId": 19,
-              "name": "T-Shirts",
-              "slug": "t-shirts-1",
-              "description": " The minimal detailing, flattering fit and fine cotton fabric ensure it will be a weekend favorite. ",
-              "imgUrl": "/uploads/ed36cdd6c64f7e8e.jpg",
-              "createdAt": "2025-07-03T06:03:41.034Z",
-              "updatedAt": "2025-07-03T06:03:41.034Z"
+    "success": true,
+    "data": {
+        "product": {
+            "id": 14,
+            "name": "LEOTUDE Men's Oversized Half Sleeve Round Neck T-Shirt (PO3_FS49_BSD_SUL_LSNLS_P_Beige, Maron_3XL) ",
+            "slug": "leotude-men's-oversized-half-sleeve-round-neck-t-shirt-(po3_fs49_bsd_sul_lsnls_p_beige-maron_3xl)",
+            "description": "\r\n    Pattern: Printed\r\n    Fabric: Cotton Blend\r\n    Color: Black-Maroon-Neon\r\n    Oversized T-shirt, loose fit, so very comfortable to wear, also looks very trendy & classy\r\n    Made of soft and breathable cotton blend fabric for comfort and durability\r\n",
+            "mainCategoryId": 23,
+            "subCategoryId": 19,
+            "subSubCategoryId": 19,
+            "vendorId": 3,
+            "createdAt": "2025-07-03T07:36:34.738Z",
+            "updatedAt": "2025-07-03T12:59:21.891Z",
+            "isTrending": false,
+            "isRecommended": false,
+            "isSale": false,
+            "isPopular": false,
+            "mainCategory": {
+                "id": 23,
+                "name": "Fashion",
+                "slug": "fashion",
+                "description": "Leriya Fashion is the ultimate destination for occasionwear, offering hand-embellished designs and feminine details in luxurious fabrics. Introducing our elegant and versatile Rayon Solid Button Front Shirt Dress with Roll Tab Sleeve & Collared Neck Flared for Women. This dress combines classic style with modern comfort, making it a must-have addition to your wardrobe. Crafted from Best-quality rayon fabric, this dress offers a soft and lightweight feel, ensuring all-day comfort. The solid color adds a touch of sophistication and versatility, making it easy to dress up or down for various occasions. The button front design adds a polished look to the dress, while the collared neck enhances its chic appeal. The flared silhouette creates a flattering fit that accentuates your curves and allows for easy movement. One of the standout features of this dress is the roll tab sleeves, which offer flexibility in styling. You can effortlessly switch between long sleeves and three-quarter sleeves, adapting to changing weather or personal preference. This shirt dress is perfect for both casual and semi-formal occasions. Pair it with sandals or sneakers for a relaxed daytime look, or dress it up with heels and accessories for a more sophisticated ensemble. Whether you're heading to the office, on a brunch date, or at a social gathering, this dress is a versatile choice. Revamp your wardrobe with this stylish and comfortable shirt dress, and elevate your fashion game. Please refer to the size chart to find your perfect fit.",
+                "imgUrl": "/uploads/7ec2483ae2254eb1.jpg",
+                "createdAt": "2025-07-03T06:00:20.019Z",
+                "updatedAt": "2025-07-03T06:01:39.743Z"
             },
-            {
-              "id": 27,
-              "subCategoryId": 19,
-              "name": "Shirts",
-              "slug": "shirts",
-              "description": " Shirt for Men|| Regular Fit Shirt for Men|| Men Stylish Shirt ",
-              "imgUrl": "/uploads/e1a3e358b77f3f56.jpg",
-              "createdAt": "2025-07-03T08:10:08.926Z",
-              "updatedAt": "2025-07-03T08:10:08.926Z"
+            "subCategory": {
+                "id": 19,
+                "mainCategoryId": 23,
+                "name": "Men's Clothing",
+                "slug": "mens-clothing",
+                "description": "Ace weekend dressing in this blue solid Polo Neck T-shirt from Allen Solly by Allen Solly.",
+                "imgUrl": "/uploads/dc9b556bba643efd.jpg",
+                "createdAt": "2025-07-03T06:01:27.607Z",
+                "updatedAt": "2025-07-03T06:02:08.185Z"
             },
+            "subSubCategory": {
+                "id": 19,
+                "subCategoryId": 19,
+                "name": "T-Shirts",
+                "slug": "t-shirts-1",
+                "description": " The minimal detailing, flattering fit and fine cotton fabric ensure it will be a weekend favorite. ",
+                "imgUrl": "/uploads/ed36cdd6c64f7e8e.jpg",
+                "createdAt": "2025-07-03T06:03:41.034Z",
+                "updatedAt": "2025-07-03T06:03:41.034Z"
+            },
+            "vendor": {
+                "name": "Nabin",
+                "id": 3
+            },
+            "variants": [
+                {
+                    "id": 54,
+                    "productId": 14,
+                    "sku": " Cotton Blend ",
+                    "price": "699",
+                    "sellingprice": "1599",
+                    "stock": 100,
+                    "images": [
+                        "/uploads/94667d987d3bdf19.jpg",
+                        "/uploads/1fc5a083f8b38c36.jpg",
+                        "/uploads/83cc09ae8b12c060.jpg"
+                    ],
+                    "height": null,
+                    "weight": null,
+                    "length": null,
+                    "breadth": null,
+                    "createdAt": "2025-07-03T12:59:21.910Z",
+                    "updatedAt": "2025-07-03T12:59:21.910Z",
+                    "attributes": [
+                        {
+                            "id": 14,
+                            "variantId": 54,
+                            "key": "color",
+                            "value": "Red"
+                        },
+                        {
+                            "id": 15,
+                            "variantId": 54,
+                            "key": "Size",
+                            "value": "M"
+                        }
+                    ]
+                },
+                {
+                    "id": 55,
+                    "productId": 14,
+                    "sku": "hello",
+                    "price": "5200",
+                    "sellingprice": "4499.98",
+                    "stock": 20,
+                    "images": [],
+                    "height": null,
+                    "weight": null,
+                    "length": null,
+                    "breadth": null,
+                    "createdAt": "2025-07-03T12:59:21.914Z",
+                    "updatedAt": "2025-07-03T12:59:21.914Z",
+                    "attributes": [
+                        {
+                            "id": 16,
+                            "variantId": 55,
+                            "key": "color",
+                            "value": "Black"
+                        }
+                    ]
+                }
+            ],
+            "ProductReview": []
+        },
+        "relatedProducts": [
             {
-              "id": 28,
-              "subCategoryId": 19,
-              "name": "Jeans",
-              "slug": "jeans",
-              "description": " Upgrade your casual wardrobe with these KOTTY men's jeans. Crafted from high-quality denim fabric, these jeans offer a comfortable fit with a classic design. Featuring a rugged, worn-in look, these jeans combine comfort and trendiness for a bold streetwear statement Perfect for everyday wear, these jeans pair well with t-shirts and shirts for a stylish look. ",
-              "imgUrl": "/uploads/b4d07b5dd0e4856f.jpg",
-              "createdAt": "2025-07-03T08:21:21.534Z",
-              "updatedAt": "2025-07-03T08:21:21.534Z"
+                "id": 18,
+                "name": "Xiaomi 138 cm (55 inch) FX Ultra HD 4K Smart LED Fire TV L55MB-FIN",
+                "image": "/uploads/0af15aa8e6616272.jpg",
+                "price": 4500,
+                "slug": "xiaomi-138-cm-(55-inch)-fx-ultra-hd-4k-smart-led-fire-tv-l55mb-fin-1"
             }
-          ]
-        },
-        {
-          "id": 23,
-          "mainCategoryId": 23,
-          "name": "Women's Clothing",
-          "slug": "womens-clothing",
-          "description": "Stay on trend with Myx Casual and Work Wear Kurtis, and discover a whole new personal style. Inspired by global and Indian crafts, these kurtis are designed in a variety of solids and prints- with a contemporary twist. Crafted with the utmost care to provide you the latest fashion with comfort, this kurti is made in natural, soft fabric that falls well and is comfortable to the skin. Style with slim pants or jeans and chunky earrings. Make a statement when you step in for work or for a casual day out with your friends.",
-          "imgUrl": "/uploads/312679db3d64c102.jpg",
-          "createdAt": "2025-07-03T08:05:59.406Z",
-          "updatedAt": "2025-07-03T08:05:59.406Z",
-          "subSubCategories": [
-            {
-              "id": 26,
-              "subCategoryId": 23,
-              "name": "Sarees",
-              "slug": "sarees",
-              "description": " Yashika Womens Printed Art Silk Printed Saree With Blouse Piece Saree Length- 5.20 Mtr Blouse Length-0.80 Mtr Available In Different Colors and Pattern ",
-              "imgUrl": "/uploads/114c61f45e5bfb1c.jpg",
-              "createdAt": "2025-07-03T08:07:40.288Z",
-              "updatedAt": "2025-07-03T08:07:40.288Z"
-            }
-          ]
-        },
-        {
-          "id": 42,
-          "mainCategoryId": 23,
-          "name": "Kids Fashion",
-          "slug": "kids-fashion",
-          "description": "Kids Fashion",
-          "imgUrl": "/uploads/c4149a114d4948f6.jpg",
-          "createdAt": "2025-07-03T12:36:33.150Z",
-          "updatedAt": "2025-07-03T12:36:33.150Z",
-          "subSubCategories": []
-        },
-        {
-          "id": 43,
-          "mainCategoryId": 23,
-          "name": "Footwear",
-          "slug": "footwear",
-          "description": "Footwear",
-          "imgUrl": "/uploads/04bb6e389cca10d0.jpg",
-          "createdAt": "2025-07-03T12:37:09.885Z",
-          "updatedAt": "2025-07-03T12:37:09.885Z",
-          "subSubCategories": []
-        },
-        {
-          "id": 44,
-          "mainCategoryId": 23,
-          "name": "Bags, Backpacks, Wallets, Belts, Caps, Accessories",
-          "slug": "bags-backpacks-wallets-belts-caps-accessories",
-          "description": "Bags, Backpacks, Wallets, Belts, Caps, Accessories",
-          "imgUrl": "/uploads/a9db53b2a7a9dcf8.jpg",
-          "createdAt": "2025-07-03T12:37:47.116Z",
-          "updatedAt": "2025-07-03T12:37:47.116Z",
-          "subSubCategories": []
-        },
-        {
-          "id": 45,
-          "mainCategoryId": 23,
-          "name": "Watches & Fashion Jewellery",
-          "slug": "watches-and-fashion-jewellery",
-          "description": "Watches & Fashion Jewellery",
-          "imgUrl": "/uploads/0171b72c1fc6b41a.jpg",
-          "createdAt": "2025-07-03T12:38:19.327Z",
-          "updatedAt": "2025-07-03T12:38:19.327Z",
-          "subSubCategories": []
-        }
-      ]
-    },
-    {
-      "id": 22,
-      "name": "Beauty & Health",
-      "slug": "beauty-and-health",
-      "description": "Episkey Dry Skin Body Brush Improves Skin's Health and Beauty With Natural Bristle | Remove Dead Skin and Toxins, Cellulite Treatment, Exfoliates",
-      "imgUrl": "/uploads/b351679db262fd13.jpg",
-      "createdAt": "2025-07-03T05:58:13.783Z",
-      "updatedAt": "2025-07-03T05:58:13.783Z",
-      "subCategories": [
-        {
-          "id": 20,
-          "mainCategoryId": 22,
-          "name": "Skincare",
-          "slug": "skincare",
-          "description": "The Beauty of Joseon Relief Sun: Rice + Probiotics SPF50+ PA++++ is a chemical sunscreen that applies gently on the skin. It is formulated with calming and brightening ingredients. The formula has a powerful UV Block with its SPF50+ PA++++ broad spectrum. This moist daily sunscreen is formulated with EWG green level certified ingredients with skin calming and nourishing ingredients, it is suitable for sensitive skin. The lightweight moisturizing cream adheres lightly to the skin and absorbs quickly without leaving a white cast.",
-          "imgUrl": "/uploads/b23625dfabb577c9.jpg",
-          "createdAt": "2025-07-03T06:06:15.852Z",
-          "updatedAt": "2025-07-03T06:06:15.852Z",
-          "subSubCategories": [
-            {
-              "id": 20,
-              "subCategoryId": 20,
-              "name": "Facewash",
-              "slug": "facewash",
-              "description": " Cetaphil gentle skin cleanser is Specially formulated and clinically proven for everyday cleansing of even the most sensitive skin. This unique, soap-free and mild lathering formula rinses easily leaving skin soft and smooth. Ingredients: Aqua, Cetyl Alcohol, Propylene Glycol, Sodium Lauryl Sulphate, Stearyl Alcohol, Polysorbate 20, Methyl Paraben, Propyl Paraben, Butyl Paraben ",
-              "imgUrl": "/uploads/5a70e19fbffab13d.jpg",
-              "createdAt": "2025-07-03T06:07:22.962Z",
-              "updatedAt": "2025-07-03T06:07:22.962Z"
-            }
-          ]
-        },
-        {
-          "id": 38,
-          "mainCategoryId": 22,
-          "name": "Haircare",
-          "slug": "haircare",
-          "description": "Haircare",
-          "imgUrl": "/uploads/81fafabb25ddc7db.jpg",
-          "createdAt": "2025-07-03T12:32:55.254Z",
-          "updatedAt": "2025-07-03T12:32:55.254Z",
-          "subSubCategories": []
-        },
-        {
-          "id": 39,
-          "mainCategoryId": 22,
-          "name": "Makeup",
-          "slug": "makeup",
-          "description": "Makeup",
-          "imgUrl": "/uploads/30d87cc21652f684.jpg",
-          "createdAt": "2025-07-03T12:33:36.001Z",
-          "updatedAt": "2025-07-03T12:33:36.001Z",
-          "subSubCategories": []
-        },
-        {
-          "id": 40,
-          "mainCategoryId": 22,
-          "name": "Wellness",
-          "slug": "wellness",
-          "description": "Wellness",
-          "imgUrl": "/uploads/6b1597c37c9610e8.jpg",
-          "createdAt": "2025-07-03T12:34:18.794Z",
-          "updatedAt": "2025-07-03T12:34:18.794Z",
-          "subSubCategories": []
-        },
-        {
-          "id": 41,
-          "mainCategoryId": 22,
-          "name": "Ayurvedic & Herbal Products",
-          "slug": "ayurvedic-and-herbal-products",
-          "description": "Ayurvedic & Herbal Products",
-          "imgUrl": "/uploads/79accbcc63f36d8b.jpg",
-          "createdAt": "2025-07-03T12:35:13.404Z",
-          "updatedAt": "2025-07-03T12:35:13.404Z",
-          "subSubCategories": []
-        }
-      ]
-    },
-    {
-      "id": 21,
-      "name": "Home & Kitchen",
-      "slug": "home-and-kitchen",
-      "description": "Quick water absorption & Drying:High-absorbent nanoparticles are used to make the microfibre dish drying Rack for dinnerware. Because of its softness and absorbency, the drying Rack dries fast and effectively conceals stains. Furthermore, the thickness of the dish Rack effectively shields surfaces, cutlery, and glasses from deterioration and contamination.     Easy to Manage and Clean: It is possible to keep the kitchen drying Rack in the drawer without taking up additional space by rolling it up. Simply give the kitchen counter Rack a thorough underwater rinsing if necessary. Once cleaned, it can be dried by natural air circulation by being put on the countertop or hung.     Anti-slip and Durable: The dish drying rack Rack's rubber backing on the bottom provides good anti-skid properties. heat-resistant, waterproof, and non-slip. Place everyday objects on the drying Rack, and they will stay put because the non-slip bottom will absorb into the table. Additionally, the rubber's bottom helps shield the table from spill damage. Dish drying pads for kitchen tableware are long-lasting, wear- and tear-resistant, and both.     Kitchens, bars, bathrooms, etc. can be used in situations where you need to keep dry, and can be cut into coffee Racks, pet food Rack, placeRacks, etc. according to your needs to meet your different needs.     Select number of Racks as per your requirement: You can choose more number of Racks instead of buying big Rack for easy usage and storage",
-      "imgUrl": "/uploads/0c226de4dff05dda.jpg",
-      "createdAt": "2025-07-03T05:35:54.893Z",
-      "updatedAt": "2025-07-03T05:35:54.893Z",
-      "subCategories": [
-        {
-          "id": 18,
-          "mainCategoryId": 21,
-          "name": "Home Décor",
-          "slug": "home-decor",
-          "description": "Perfect decoration: Different kinds of artificial plants indoors, using a unique design. Place it anywhere, it blends into the scene and brings comfort, making you prefer to stay there.     Safe material: the fake plant is made of Quality plastic, realistic looking, straight and lush, the pot is covered with a layer of green grass, full of the feeling of nature.     No sunlight or water needed, artificial indoor plants do not wilt, change color and keep a fresh look in all seasons. It is the best choice for decoration for people who are busy and go out frequently.     Wide applications: the set of 8 small flower pots can be used for indoor and outdoor decoration, office, window sill, bathroom, kitchen, dressing table, bookshelf, etc. Create a simple bright and clean style.     Note: Fake plants have a little odor, just leave them in a ventilated environment for a period of time. Due to the packaging, the sheets will be squeezed, please comb the sheets to make them look more fluffy.",
-          "imgUrl": "/uploads/e528025da3969c9c.jpg",
-          "createdAt": "2025-07-03T05:45:34.387Z",
-          "updatedAt": "2025-07-03T05:45:34.387Z",
-          "subSubCategories": [
-            {
-              "id": 18,
-              "subCategoryId": 18,
-              "name": "Wall Art",
-              "slug": "wall-art",
-              "description": "     QUALITY :- The artwork is printed on 310 GSM thick paper with high quality printer and vibrant colors, to give it rich look.     USE WHEREVER YOU WANT - The stylish picture frames are multi-use home and office decoration item that can also be used in hostels & study room, classrooms & corridors as well as shops & cafes. In short, if you can find a wall to nail, these framed posters will stay & convey.     GREAT FOR GIFTING - These framed postersencourage everyone to live a positive life and achieve more. Its longevity and great use would give them something to remember you forever. It’s a great Motivational Gift for Girl, Men, Boy, Student, Brother & Friends.It serves as a perfect gift for your loved ones, colleagues and friends.     Art print can be hung on wall. Best for Painting wall's.Can be Used as a Gift for Your Friends, Sweetheart, Business Partner or Family Members.     We Hope You Can Find Something That Will Make You Relaxed, Make You Think, Inspire You…Or Will Just Make Your Room Look So Much Cooler",
-              "imgUrl": "/uploads/fe51ca51f3af5d8c.jpg",
-              "createdAt": "2025-07-03T05:46:51.277Z",
-              "updatedAt": "2025-07-03T05:46:51.277Z"
-            }
-          ]
-        },
-        {
-          "id": 34,
-          "mainCategoryId": 21,
-          "name": "Kitchen Tools",
-          "slug": "kitchen-tools",
-          "description": "Kitchen Tools",
-          "imgUrl": "/uploads/b3102889223a76eb.jpg",
-          "createdAt": "2025-07-03T12:29:17.207Z",
-          "updatedAt": "2025-07-03T12:29:17.207Z",
-          "subSubCategories": []
-        },
-        {
-          "id": 35,
-          "mainCategoryId": 21,
-          "name": "Small Appliances",
-          "slug": "small-appliances",
-          "description": "Small Appliances",
-          "imgUrl": "/uploads/4590065645ba4162.jpg",
-          "createdAt": "2025-07-03T12:30:01.695Z",
-          "updatedAt": "2025-07-03T12:30:01.695Z",
-          "subSubCategories": []
-        },
-        {
-          "id": 36,
-          "mainCategoryId": 21,
-          "name": "Bed & Bath",
-          "slug": "bed-and-bath",
-          "description": "Bed & Bath",
-          "imgUrl": "/uploads/c70d9c9162568db5.jpg",
-          "createdAt": "2025-07-03T12:30:45.324Z",
-          "updatedAt": "2025-07-03T12:30:45.324Z",
-          "subSubCategories": []
-        },
-        {
-          "id": 37,
-          "mainCategoryId": 21,
-          "name": "Furniture",
-          "slug": "furniture",
-          "description": "Furniture",
-          "imgUrl": "/uploads/a8d6e0e448b0d004.jpg",
-          "createdAt": "2025-07-03T12:31:32.971Z",
-          "updatedAt": "2025-07-03T12:31:32.971Z",
-          "subSubCategories": []
-        }
-      ]
-    },
-    {
-      "id": 20,
-      "name": "Electronics & Gadgets",
-      "slug": "electronics-and-gadgets",
-      "description": "100% SAFE FOR KIDS AND PETS, PROTECT YOUR FAMILY IN A HEALTHY AND PEAFUL WAY - SROKER pest repellents is 100% safer than traditional mosquito repellents. Many people are naturally worried about the safety of their pets when using an insect repellents device. Studies found that cats and dogs, although they can hear the waves, ultrasonic sound is inaudible to humans and household pets. No poison, smell and chemicals, significantly safe and harmless for kids, pregnant women and pets.     NO RISK PURCHASE - The typical results can take 1-2 weeks depending on the severity of the pest infestation. Mostly can see the electronic pest repeller results within 3-4 weeks! Then we can say goodbye to pests and mice! If you have any problems, please feel free to contact us. We hope you sleep comfortably and have a pest-free environment.     BEST ULTRASONIC PEST REPELLERS, DRIVE THE PEST AWAY QUIET AND EFFECTIVE - If you're considering a non-chemical approach to pest control, we recommend the Ultrasonic Pest Repellers are devices that emit a consistent noise at a frequency that is too high for humans to hear. These sound waves are designed to distract, annoy, and deter common household pests such as roach, spiders, mosquitoes, ants and rodents. Intelligent multi-frequency ultrasonic conversion systems make pests nowhere to hide.     HOW TO USE AN ULTRASONIC REPELLER IN YOUR HOME - Pest repellents are simple to use. All you do is plug pest repellent ultrasonic in an electrical outlet and it will start to repel the pests when the blue night light is on. The repeller should be placed in a location where its noise will not be affected by walls and furniture. It is recommended to install this pest repeller at between 30-50 inches away from the floor for flying pests and 10-30 inches from the ground for crawling pests.     360°PROECT YOUR HOME WITH NO DEAD ZONE - The effective coverage of each pest control is up to 800 square feet. Since ultrasonic sound can’t penetrate walls and solid objects, ONE ROOM ONE UNIT IS RECOMMENDED. 360 degrees protect your home with no dead zone. It's widely used in homes, warehouses, offices, restaurants, supermarkets, hospitals, granary, etc.",
-      "imgUrl": "/uploads/f099e499920c7806.jpg",
-      "createdAt": "2025-07-03T05:33:00.726Z",
-      "updatedAt": "2025-07-03T05:34:18.466Z",
-      "subCategories": [
-        {
-          "id": 17,
-          "mainCategoryId": 20,
-          "name": "Mobiles & Smartphones",
-          "slug": "mobiles-and-smartphones",
-          "description": "Captivating viewing experience on bigger 6.7\" Display with HD+ resolution (720*1600 Pixels) | 20:9 Aspect Ratio     50 MP High-resolution Dual Camera (f/1.8) for sharp and detailed pictures| 8 MP Front camera (f/2.0) for stunning selfie | FHD (1920*1080) Video resolution     Get a massive 5000mAh with C-Type 25 W Fast Charging     Latest Android 14 Operating System having One UI Core 6.0 platform | 2GHz, 1.8GHz Clock Speed with Octa-Core Processor | 8 GB RAM with RAM Plus | Expandable Memory upto 1 TB     Get upto 2 Generations of AndroidOS Upgrades & 4 Years of Security Updates with Samsung Galaxy M05.",
-          "imgUrl": "/uploads/b0a4a2b62bd98ae9.jpg",
-          "createdAt": "2025-07-03T05:42:36.084Z",
-          "updatedAt": "2025-07-03T12:13:50.062Z",
-          "subSubCategories": [
-            {
-              "id": 43,
-              "subCategoryId": 17,
-              "name": "Iphone",
-              "slug": "iphone",
-              "description": "Iphone",
-              "imgUrl": "/uploads/65af9a5b1e792faa.jpg",
-              "createdAt": "2025-07-03T12:10:15.976Z",
-              "updatedAt": "2025-07-03T12:10:15.976Z"
-            },
-            {
-              "id": 44,
-              "subCategoryId": 17,
-              "name": "Samsung",
-              "slug": "samsung",
-              "description": "Samsung",
-              "imgUrl": "/uploads/8fa5bc144e1adf55.jpg",
-              "createdAt": "2025-07-03T12:10:57.760Z",
-              "updatedAt": "2025-07-03T12:10:57.760Z"
-            },
-            {
-              "id": 45,
-              "subCategoryId": 17,
-              "name": "Redmi",
-              "slug": "redmi",
-              "description": "Redmi",
-              "imgUrl": "/uploads/c74e67ee4084b850.jpg",
-              "createdAt": "2025-07-03T12:11:41.998Z",
-              "updatedAt": "2025-07-03T12:11:41.998Z"
-            },
-            {
-              "id": 46,
-              "subCategoryId": 17,
-              "name": "Vivo",
-              "slug": "vivo",
-              "description": "Vivo",
-              "imgUrl": "/uploads/9fe66bd14775a85d.jpg",
-              "createdAt": "2025-07-03T12:12:25.750Z",
-              "updatedAt": "2025-07-03T12:12:25.750Z"
-            },
-            {
-              "id": 47,
-              "subCategoryId": 17,
-              "name": "Realme",
-              "slug": "realme",
-              "description": "Realme",
-              "imgUrl": "/uploads/64ba78755e318575.jpg",
-              "createdAt": "2025-07-03T12:13:00.549Z",
-              "updatedAt": "2025-07-03T12:13:00.549Z"
-            }
-          ]
-        },
-        {
-          "id": 28,
-          "mainCategoryId": 20,
-          "name": "Mobile Accessories",
-          "slug": "mobile-accessories",
-          "description": "Mobile Accessories",
-          "imgUrl": "/uploads/b5aaa1097e23f4b4.jpg",
-          "createdAt": "2025-07-03T12:02:28.841Z",
-          "updatedAt": "2025-07-03T12:02:28.841Z",
-          "subSubCategories": [
-            {
-              "id": 38,
-              "subCategoryId": 28,
-              "name": "Chargers",
-              "slug": "chargers",
-              "description": "Chargers",
-              "imgUrl": "/uploads/b90048f24c23d7bc.jpg",
-              "createdAt": "2025-07-03T12:04:31.039Z",
-              "updatedAt": "2025-07-03T12:04:31.039Z"
-            },
-            {
-              "id": 39,
-              "subCategoryId": 28,
-              "name": "Covers",
-              "slug": "covers",
-              "description": "Covers",
-              "imgUrl": "/uploads/9f9cc9fab23c8cb9.jpg",
-              "createdAt": "2025-07-03T12:06:12.855Z",
-              "updatedAt": "2025-07-03T12:06:12.855Z"
-            },
-            {
-              "id": 40,
-              "subCategoryId": 28,
-              "name": "Screen Guards",
-              "slug": "screen-guards",
-              "description": "Screen Guards",
-              "imgUrl": "/uploads/746c03720c90232b.jpg",
-              "createdAt": "2025-07-03T12:07:20.729Z",
-              "updatedAt": "2025-07-03T12:07:20.729Z"
-            },
-            {
-              "id": 41,
-              "subCategoryId": 28,
-              "name": "Memory Cards",
-              "slug": "memory-cards",
-              "description": "Memory Cards)",
-              "imgUrl": "/uploads/a64b36b9de7c65fa.jpg",
-              "createdAt": "2025-07-03T12:08:37.858Z",
-              "updatedAt": "2025-07-03T12:08:37.858Z"
-            },
-            {
-              "id": 42,
-              "subCategoryId": 28,
-              "name": "Cables",
-              "slug": "cables",
-              "description": "Cables",
-              "imgUrl": "/uploads/2beb07f8a2de0ab5.jpg",
-              "createdAt": "2025-07-03T12:09:10.821Z",
-              "updatedAt": "2025-07-03T12:09:10.821Z"
-            }
-          ]
-        },
-        {
-          "id": 29,
-          "mainCategoryId": 20,
-          "name": "Smart Gadgets",
-          "slug": "smart-gadgets",
-          "description": "Smart Gadgets",
-          "imgUrl": "/uploads/0255ca8fb643cad6.jpg",
-          "createdAt": "2025-07-03T12:15:34.056Z",
-          "updatedAt": "2025-07-03T12:15:34.056Z",
-          "subSubCategories": [
-            {
-              "id": 48,
-              "subCategoryId": 29,
-              "name": "Smartwatches",
-              "slug": "smartwatches",
-              "description": "Smartwatches",
-              "imgUrl": "/uploads/377e598361836a3d.jpg",
-              "createdAt": "2025-07-03T12:21:28.957Z",
-              "updatedAt": "2025-07-03T12:21:28.957Z"
-            },
-            {
-              "id": 49,
-              "subCategoryId": 29,
-              "name": "Fitness Bands",
-              "slug": "fitness-bands",
-              "description": "Fitness Bands",
-              "imgUrl": "/uploads/03174b7272c43be5.jpg",
-              "createdAt": "2025-07-03T12:22:46.946Z",
-              "updatedAt": "2025-07-03T12:22:46.946Z"
-            },
-            {
-              "id": 50,
-              "subCategoryId": 29,
-              "name": "Home Automation",
-              "slug": "home-automation",
-              "description": "Home Automation",
-              "imgUrl": "/uploads/eddc77e7d9d8a552.jpg",
-              "createdAt": "2025-07-03T12:23:41.653Z",
-              "updatedAt": "2025-07-03T12:23:41.653Z"
-            },
-            {
-              "id": 51,
-              "subCategoryId": 29,
-              "name": "Smart Plugs",
-              "slug": "smart-plugs",
-              "description": "Smart Plugs",
-              "imgUrl": "/uploads/c7ffec62a9844faa.jpg",
-              "createdAt": "2025-07-03T12:24:28.424Z",
-              "updatedAt": "2025-07-03T12:24:28.424Z"
-            }
-          ]
-        },
-        {
-          "id": 30,
-          "mainCategoryId": 20,
-          "name": "Audio",
-          "slug": "audio",
-          "description": "Audio",
-          "imgUrl": "/uploads/3d84e2a708197e3a.jpg",
-          "createdAt": "2025-07-03T12:16:27.839Z",
-          "updatedAt": "2025-07-03T12:16:27.839Z",
-          "subSubCategories": [
-            {
-              "id": 52,
-              "subCategoryId": 30,
-              "name": "Headphones",
-              "slug": "headphones",
-              "description": "Headphones",
-              "imgUrl": "/uploads/ab9e2d6bf24322fe.jpg",
-              "createdAt": "2025-07-03T12:25:36.218Z",
-              "updatedAt": "2025-07-03T12:25:36.218Z"
-            },
-            {
-              "id": 53,
-              "subCategoryId": 30,
-              "name": "Earbuds",
-              "slug": "earbuds",
-              "description": "Earbuds",
-              "imgUrl": "/uploads/9326f23d6d0ba380.jpg",
-              "createdAt": "2025-07-03T12:26:15.412Z",
-              "updatedAt": "2025-07-03T12:26:15.412Z"
-            },
-            {
-              "id": 54,
-              "subCategoryId": 30,
-              "name": "Bluetooth Speakers",
-              "slug": "bluetooth-speakers",
-              "description": "Bluetooth Speakers",
-              "imgUrl": "/uploads/96e898997a806033.jpg",
-              "createdAt": "2025-07-03T12:27:23.328Z",
-              "updatedAt": "2025-07-03T12:27:23.328Z"
-            },
-            {
-              "id": 55,
-              "subCategoryId": 30,
-              "name": "Soundbars",
-              "slug": "soundbars",
-              "description": "Soundbars",
-              "imgUrl": "/uploads/ba7e01ba24682344.jpg",
-              "createdAt": "2025-07-03T12:27:36.848Z",
-              "updatedAt": "2025-07-03T12:27:36.848Z"
-            }
-          ]
-        },
-        {
-          "id": 31,
-          "mainCategoryId": 20,
-          "name": "Power Banks & Charging Solutions",
-          "slug": "power-banks-and-charging-solutions",
-          "description": "Power Banks & Charging Solutions",
-          "imgUrl": "/uploads/b61c20779044c085.jpg",
-          "createdAt": "2025-07-03T12:17:10.041Z",
-          "updatedAt": "2025-07-03T12:17:10.041Z",
-          "subSubCategories": []
-        },
-        {
-          "id": 32,
-          "mainCategoryId": 20,
-          "name": "Tablets & Accessories",
-          "slug": "tablets-and-accessories",
-          "description": "Tablets & Accessories",
-          "imgUrl": "/uploads/0e191f58b70ab935.jpg",
-          "createdAt": "2025-07-03T12:18:01.913Z",
-          "updatedAt": "2025-07-03T12:18:01.913Z",
-          "subSubCategories": []
-        },
-        {
-          "id": 33,
-          "mainCategoryId": 20,
-          "name": "Smart TVs, Streaming Devices, Set-top Boxes",
-          "slug": "smart-tvs-streaming-devices-set-top-boxes",
-          "description": "Smart TVs, Streaming Devices, Set-top Boxes",
-          "imgUrl": "/uploads/62bb5d14c0febe5e.jpg",
-          "createdAt": "2025-07-03T12:19:50.468Z",
-          "updatedAt": "2025-07-03T12:19:50.468Z",
-          "subSubCategories": []
-        }
-      ]
-    },
-    {
-      "id": 19,
-      "name": "Pharmacy",
-      "slug": "pharmacy",
-      "description": "Experience the ultimate hydration with Emolene Moisturizer, specially formulated to Hydronourish dry skin and restore moisture balance. This non-greasy formulation ensures your skin feels smooth and refreshed without any oily residue. Perfect for all skin types, this moisturizer is non-comedogenic and hypoallergenic, making it safe for even the most sensitive skin     Our fast-absorbing formula delivers deep hydration and helps to smoothen skin, leaving it soft and supple. Emolene Moisturizer is designed for both men and women, providing a lightweight, anti-aging solution that fits seamlessly into your daily skincare routine     Ingredients: PROPYLENE GLYCOL -Restores stratum corneum water content and barrier function, LECITHIN - Lecithin provides depleted phospholipid which act as water binding agent, SQUALENE - Is quickly and efficiently absorbed deep into the skin restoring suppleness and flexibility, DIMETHICONE - Forms layers on the skin that retains everything & anything beneath the skin, GLYCERINE -Act as a humectant and smoothens the skin.     Key benefits – non-greasy formulation, Quick Absorption, Hypoallergic, Does not block pores",
-      "imgUrl": "/uploads/00c9df36238e313c.jpg",
-      "createdAt": "2025-07-03T05:30:46.427Z",
-      "updatedAt": "2025-07-03T05:30:46.427Z",
-      "subCategories": [
-        {
-          "id": 16,
-          "mainCategoryId": 19,
-          "name": "Immunity Boosters",
-          "slug": "immunity-boosters",
-          "description": "Tulsi contains a lot of antioxidants and micronutrients, which helps your immune system . It acts as Ayurvedic Immune Booster, Immunity Boosters for Adults, Excellent Immunity Booster for Kids and a Herbal Booster.     Giloy is a universal herb that helps boost immunity. It is a powerhouse of antioxidants     Each Bottle contains 60 Capsules",
-          "imgUrl": "/uploads/f32556839c98b3b5.jpg",
-          "createdAt": "2025-07-03T05:38:22.940Z",
-          "updatedAt": "2025-07-03T06:15:11.724Z",
-          "subSubCategories": [
-            {
-              "id": 16,
-              "subCategoryId": 16,
-              "name": "Vitamins",
-              "slug": "vitamins",
-              "description": "     STRENGTHENS IMMUNE RESPONSE - Organic India Immunity Capsules are designed to enhance the immune system by supporting the body's natural defense mechanisms. Each capsule is made with carefully selected organic herbs that work synergistically to promote resilience against everyday challenges. Organic India Immunity Capsules are ideal for daily use to maintain overall health and vitality.     EASES COLD AND COUGH SYMPTOMS - Organic India Immunity Capsules offer effective relief from common cold and cough symptoms by supporting respiratory health and strengthening the immune system. Formulated with organic herbs known for their soothing properties, Organic India Immunity Capsules help improve overall comfort and wellness, promoting faster recovery from occasional respiratory discomfort.     HELPS PROTECT AGAINST INFECTIONS - Organic India Immunity Capsules protect the body from everyday infections by enhancing the body's natural immunity. Organic India Immunity Capsules combine ancient herbal wisdom with modern practices to deliver a reliable solution for staying healthy in various conditions, making them an essential part of your daily wellness routine.     CERTIFIED ORGANIC AND CHEMICAL-FREE - Organic India Immunity Capsules are made using certified organic ingredients, free from any artificial fillers, chemicals, or preservatives. Manufactured with precision and care, Organic India Immunity Capsules ensure purity and efficacy, providing a safe and natural way to support immunity and overall well-being for the entire family.     COMMITTED TO SUSTAINABILITY - Organic India Immunity Capsules are crafted in a LEED Platinum Certified facility, showcasing a strong commitment to environmental sustainability. Organic India Immunity Capsules reflect the brand's dedication to protecting the planet while delivering high-quality, effective products that promote health, well-being, and a more sustainable future.",
-              "imgUrl": "/uploads/a86c82816e27151d.jpg",
-              "createdAt": "2025-07-03T05:41:11.460Z",
-              "updatedAt": "2025-07-03T06:17:12.405Z"
-            },
-            {
-              "id": 21,
-              "subCategoryId": 16,
-              "name": "Herbal Supplements",
-              "slug": "herbal-supplements",
-              "description": "     SCIENCE-BACKED 11 POTENT AYURVEDIC HERBS: Kapiva Dia Free Juice is a blend of 11 Ayurvedic herbs that help in managing uncontrolled spikes in Blood sugar levels and eases out the complications of Blood Sugar such as improper digestion, low energy, and weak immunity.     CONTROL BLOOD SUGAR LEVELS: Herbs such as Karela, Amla, Jamun, Tulsi, Guduchi, Methi and Belpatra, optimize the production of hormones by breaking down glucose from foods. Regular consumption of this juice can help in maintaining optimal sugar levels within 3 months of consumption.     100% AYURVEDIC: This juice does not contain any added sugar or artificial taste-enhancers. It is 100% Ayurvedic and safe to be consumed along with your regular allopathic medications.     NATURALLY SOURCED INGREDIENTS: All ingredients are sourced from the choicest locations and mixed in the right proportions for maximum nutrition - Amla from Pratapgarh, Neem from Rajasthan, and so on. Each bottle of Dia Free Juice contains 45 Amlas, 24 Jamun Seeds, 1 Whole Karela and more - the best of herbs recommended in traditional texts to treat madhumeh.     HOW TO CONSUME: Mix 30ml Dia Free Juice with 30ml of water and consume it twice a day for long-term health benefits. If taken in the morning, should be taken on an empty stomach. Consume regularly for 3 Months for best results.",
-              "imgUrl": "/uploads/a85a89f90a93a48b.jpg",
-              "createdAt": "2025-07-03T06:50:03.392Z",
-              "updatedAt": "2025-07-03T06:50:03.392Z"
-            }
-          ]
-        },
-        {
-          "id": 21,
-          "mainCategoryId": 19,
-          "name": "Medicines",
-          "slug": "medicines",
-          "description": "SCIENCE-BACKED 11 POTENT AYURVEDIC HERBS: Kapiva Dia Free Juice is a blend of 11 Ayurvedic herbs that help in managing uncontrolled spikes in Blood sugar levels and eases out the complications of Blood Sugar such as improper digestion, low energy, and weak immunity.     CONTROL BLOOD SUGAR LEVELS: Herbs such as Karela, Amla, Jamun, Tulsi, Guduchi, Methi and Belpatra, optimize the production of hormones by breaking down glucose from foods. Regular consumption of this juice can help in maintaining optimal sugar levels within 3 months of consumption.     100% AYURVEDIC: This juice does not contain any added sugar or artificial taste-enhancers. It is 100% Ayurvedic and safe to be consumed along with your regular allopathic medications.     NATURALLY SOURCED INGREDIENTS: All ingredients are sourced from the choicest locations and mixed in the right proportions for maximum nutrition - Amla from Pratapgarh, Neem from Rajasthan, and so on. Each bottle of Dia Free Juice contains 45 Amlas, 24 Jamun Seeds, 1 Whole Karela and more - the best of herbs recommended in traditional texts to treat madhumeh.     HOW TO CONSUME: Mix 30ml Dia Free Juice with 30ml of water and consume it twice a day for long-term health benefits. If taken in the morning, should be taken on an empty stomach. Consume regularly for 3 Months for best results.",
-          "imgUrl": "/uploads/8091e270679ccd0c.jpg",
-          "createdAt": "2025-07-03T06:51:24.360Z",
-          "updatedAt": "2025-07-03T06:51:24.360Z",
-          "subSubCategories": [
-            {
-              "id": 22,
-              "subCategoryId": 21,
-              "name": "General",
-              "slug": "general",
-              "description": "     SCIENCE-BACKED 11 POTENT AYURVEDIC HERBS: Kapiva Dia Free Juice is a blend of 11 Ayurvedic herbs that help in managing uncontrolled spikes in Blood sugar levels and eases out the complications of Blood Sugar such as improper digestion, low energy, and weak immunity.     CONTROL BLOOD SUGAR LEVELS: Herbs such as Karela, Amla, Jamun, Tulsi, Guduchi, Methi and Belpatra, optimize the production of hormones by breaking down glucose from foods. Regular consumption of this juice can help in maintaining optimal sugar levels within 3 months of consumption.     100% AYURVEDIC: This juice does not contain any added sugar or artificial taste-enhancers. It is 100% Ayurvedic and safe to be consumed along with your regular allopathic medications.     NATURALLY SOURCED INGREDIENTS: All ingredients are sourced from the choicest locations and mixed in the right proportions for maximum nutrition - Amla from Pratapgarh, Neem from Rajasthan, and so on. Each bottle of Dia Free Juice contains 45 Amlas, 24 Jamun Seeds, 1 Whole Karela and more - the best of herbs recommended in traditional texts to treat madhumeh.     HOW TO CONSUME: Mix 30ml Dia Free Juice with 30ml of water and consume it twice a day for long-term health benefits. If taken in the morning, should be taken on an empty stomach. Consume regularly for 3 Months for best results.",
-              "imgUrl": "/uploads/2304ad1a92cee900.jpg",
-              "createdAt": "2025-07-03T06:52:08.546Z",
-              "updatedAt": "2025-07-03T06:52:08.546Z"
-            },
-            {
-              "id": 23,
-              "subCategoryId": 21,
-              "name": "Prescription",
-              "slug": "prescription",
-              "description": "     SCIENCE-BACKED 11 POTENT AYURVEDIC HERBS: Kapiva Dia Free Juice is a blend of 11 Ayurvedic herbs that help in managing uncontrolled spikes in Blood sugar levels and eases out the complications of Blood Sugar such as improper digestion, low energy, and weak immunity.     CONTROL BLOOD SUGAR LEVELS: Herbs such as Karela, Amla, Jamun, Tulsi, Guduchi, Methi and Belpatra, optimize the production of hormones by breaking down glucose from foods. Regular consumption of this juice can help in maintaining optimal sugar levels within 3 months of consumption.     100% AYURVEDIC: This juice does not contain any added sugar or artificial taste-enhancers. It is 100% Ayurvedic and safe to be consumed along with your regular allopathic medications.     NATURALLY SOURCED INGREDIENTS: All ingredients are sourced from the choicest locations and mixed in the right proportions for maximum nutrition - Amla from Pratapgarh, Neem from Rajasthan, and so on. Each bottle of Dia Free Juice contains 45 Amlas, 24 Jamun Seeds, 1 Whole Karela and more - the best of herbs recommended in traditional texts to treat madhumeh.     HOW TO CONSUME: Mix 30ml Dia Free Juice with 30ml of water and consume it twice a day for long-term health benefits. If taken in the morning, should be taken on an empty stomach. Consume regularly for 3 Months for best results.",
-              "imgUrl": "/uploads/a1f8e8fc588ec20e.jpg",
-              "createdAt": "2025-07-03T06:52:59.615Z",
-              "updatedAt": "2025-07-03T06:52:59.615Z"
-            },
-            {
-              "id": 24,
-              "subCategoryId": 21,
-              "name": "OTC Products",
-              "slug": "otc-products",
-              "description": "     SCIENCE-BACKED 11 POTENT AYURVEDIC HERBS: Kapiva Dia Free Juice is a blend of 11 Ayurvedic herbs that help in managing uncontrolled spikes in Blood sugar levels and eases out the complications of Blood Sugar such as improper digestion, low energy, and weak immunity.     CONTROL BLOOD SUGAR LEVELS: Herbs such as Karela, Amla, Jamun, Tulsi, Guduchi, Methi and Belpatra, optimize the production of hormones by breaking down glucose from foods. Regular consumption of this juice can help in maintaining optimal sugar levels within 3 months of consumption.     100% AYURVEDIC: This juice does not contain any added sugar or artificial taste-enhancers. It is 100% Ayurvedic and safe to be consumed along with your regular allopathic medications.     NATURALLY SOURCED INGREDIENTS: All ingredients are sourced from the choicest locations and mixed in the right proportions for maximum nutrition - Amla from Pratapgarh, Neem from Rajasthan, and so on. Each bottle of Dia Free Juice contains 45 Amlas, 24 Jamun Seeds, 1 Whole Karela and more - the best of herbs recommended in traditional texts to treat madhumeh.     HOW TO CONSUME: Mix 30ml Dia Free Juice with 30ml of water and consume it twice a day for long-term health benefits. If taken in the morning, should be taken on an empty stomach. Consume regularly for 3 Months for best results.",
-              "imgUrl": "/uploads/48d4a77d64d86340.jpg",
-              "createdAt": "2025-07-03T06:54:13.694Z",
-              "updatedAt": "2025-07-03T06:54:13.694Z"
-            }
-          ]
-        },
-        {
-          "id": 22,
-          "mainCategoryId": 19,
-          "name": "Health Devices",
-          "slug": "health-devices",
-          "description": "Dr. Morepen glucose blood glucose monitor model bg 03 is a smart glucose monitor that helps you measure blood glucose levels, quickly, accurately and comfortably. The readings from the glucose meter are only to be used for general information purposes - they are not a substitute for a medical examination from a registered medical practitioner discuss your results with a registered medical practitioner. Never use the results to make medical decisions independently. Seek prompt medical attention for health care questions you have. Consult your physician before making changes to your medication, diet, fitness program, or blood glucose testing schedules.",
-          "imgUrl": "/uploads/b9f617d957ed1c31.jpg",
-          "createdAt": "2025-07-03T07:38:25.903Z",
-          "updatedAt": "2025-07-03T07:38:25.903Z",
-          "subSubCategories": [
-            {
-              "id": 25,
-              "subCategoryId": 22,
-              "name": "Oximeters",
-              "slug": "oximeters",
-              "description": " Dr. Morepen glucose blood glucose monitor model bg 03 is a smart glucose monitor that helps you measure blood glucose levels, quickly, accurately and comfortably. The readings from the glucose meter are only to be used for general information purposes - they are not a substitute for a medical examination from a registered medical practitioner discuss your results with a registered medical practitioner. Never use the results to make medical decisions independently. Seek prompt medical attention for health care questions you have. Consult your physician before making changes to your medication, diet, fitness program, or blood glucose testing schedules. ",
-              "imgUrl": "/uploads/a24783a802b785e9.jpg",
-              "createdAt": "2025-07-03T07:39:31.638Z",
-              "updatedAt": "2025-07-03T07:39:31.638Z"
-            },
-            {
-              "id": 29,
-              "subCategoryId": 22,
-              "name": "BP Monitors",
-              "slug": "bp-monitors",
-              "description": " Dr. Morepen bp 02 is a fully automatic, digital blood pressure measuring device for use on the arm, which enables very fast and reliable measurement of the systolic and diastolic blood pressure as well as the pulse frequency by way of the oscilometric method of measuring. The device offers a very and clinical tested measurement accuracy and has been designed to provide a maximum of user friendliness. ",
-              "imgUrl": "/uploads/4406b08601b48782.jpg",
-              "createdAt": "2025-07-03T09:45:52.770Z",
-              "updatedAt": "2025-07-03T09:45:52.770Z"
-            },
-            {
-              "id": 30,
-              "subCategoryId": 22,
-              "name": " Thermometers",
-              "slug": "thermometers",
-              "description": "     Water proof     Flexible Tip Digital Thermometer     Colour: White",
-              "imgUrl": "/uploads/0a4ac30790345435.jpg",
-              "createdAt": "2025-07-03T09:47:20.350Z",
-              "updatedAt": "2025-07-03T09:47:20.350Z"
-            }
-          ]
-        },
-        {
-          "id": 24,
-          "mainCategoryId": 19,
-          "name": "Baby Care",
-          "slug": "baby-care",
-          "description": "Gift Pack Contents: baby massage oil (100 ml) baby Wash (200 ml) baby powder (200 g) gentle baby shampoo (100 ml) baby lotion (100 ml) baby cream (100 ml) gentle baby soap (125 g) 2 units gentle baby wipes (72s) diaper rash cream (20 g)",
-          "imgUrl": "/uploads/f2a9d48529c15e8d.jpg",
-          "createdAt": "2025-07-03T09:48:41.707Z",
-          "updatedAt": "2025-07-03T09:48:41.707Z",
-          "subSubCategories": [
-            {
-              "id": 31,
-              "subCategoryId": 24,
-              "name": "Diapers",
-              "slug": "diapers",
-              "description": " Gift Pack Contents: baby massage oil (100 ml) baby Wash (200 ml) baby powder (200 g) gentle baby shampoo (100 ml) baby lotion (100 ml) baby cream (100 ml) gentle baby soap (125 g) 2 units gentle baby wipes (72s) diaper rash cream (20 g) ",
-              "imgUrl": "/uploads/4d57d78108cf534e.jpg",
-              "createdAt": "2025-07-03T09:50:23.552Z",
-              "updatedAt": "2025-07-03T09:50:23.552Z"
-            },
-            {
-              "id": 32,
-              "subCategoryId": 24,
-              "name": "Baby Health",
-              "slug": "baby-health",
-              "description": " Mamaearth's 100 percent natural mosquito repellent patch for babies. I am deet free with no harmful chemicals, insecticides or pesticides. I do not cause any side effects like eye irritation or skin damage as i am a 100 percent natural blend of citronella, eucalyptus, peppermint oil and lemon extract. My powerful mosquito repellent blend protects your loved ones from dengue, malaria and chikungunya. I can be pasted on your child's clothes, cot, pram and schoolbag. I offer up to 12 hours of protection from mosquito bites. I am waterproof and can be used for both indoor and outdoor activities. I do not leave any residue on clothes after removal. ",
-              "imgUrl": "/uploads/53e0bc5e1cae5ded.jpg",
-              "createdAt": "2025-07-03T09:51:36.602Z",
-              "updatedAt": "2025-07-03T09:51:36.602Z"
-            },
-            {
-              "id": 33,
-              "subCategoryId": 24,
-              "name": "Baby Hygiene Products",
-              "slug": "baby-hygiene-products",
-              "description": "     Made of spunlace and non-woven fabric for quick and convenient cleaning     Infused with Aloe Vera for a natural, soothing scent     Keeps your baby moisturised and fresh     Hypoallergenic and alcohol-free which is gentle on your baby's skin",
-              "imgUrl": "/uploads/a2d61d39fb01a514.jpg",
-              "createdAt": "2025-07-03T09:54:43.454Z",
-              "updatedAt": "2025-07-03T09:54:43.454Z"
-            }
-          ]
-        },
-        {
-          "id": 25,
-          "mainCategoryId": 19,
-          "name": "Women's Health",
-          "slug": "womens-health",
-          "description": "Women's Health",
-          "imgUrl": "/uploads/9fc890d82d66ed0a.jpg",
-          "createdAt": "2025-07-03T11:54:28.710Z",
-          "updatedAt": "2025-07-03T11:54:28.710Z",
-          "subSubCategories": [
-            {
-              "id": 35,
-              "subCategoryId": 25,
-              "name": "Menstrual Care",
-              "slug": "menstrual-care",
-              "description": "Menstrual Care",
-              "imgUrl": "/uploads/8c824678d96b4671.jpg",
-              "createdAt": "2025-07-03T11:55:35.697Z",
-              "updatedAt": "2025-07-03T11:55:35.697Z"
-            },
-            {
-              "id": 36,
-              "subCategoryId": 25,
-              "name": " Supplements",
-              "slug": "supplements",
-              "description": " Supplements",
-              "imgUrl": "/uploads/12f2cdaeeda0ded2.jpg",
-              "createdAt": "2025-07-03T11:56:28.204Z",
-              "updatedAt": "2025-07-03T11:56:28.204Z"
-            }
-          ]
-        },
-        {
-          "id": 26,
-          "mainCategoryId": 19,
-          "name": "Ayurvedic & Herbal Health Products",
-          "slug": "ayurvedic-and-herbal-health-products",
-          "description": "Ayurvedic & Herbal Health Products",
-          "imgUrl": "/uploads/484aae3086c08183.jpg",
-          "createdAt": "2025-07-03T11:58:00.014Z",
-          "updatedAt": "2025-07-03T11:58:00.014Z",
-          "subSubCategories": []
-        },
-        {
-          "id": 27,
-          "mainCategoryId": 19,
-          "name": "Diabetic Care Essentials",
-          "slug": "diabetic-care-essentials",
-          "description": "Diabetic Care Essentials",
-          "imgUrl": "/uploads/c0bfcbb735f9c3ae.jpg",
-          "createdAt": "2025-07-03T12:01:12.422Z",
-          "updatedAt": "2025-07-03T12:01:12.422Z",
-          "subSubCategories": []
-        }
-      ]
-    },
-    {
-      "id": 18,
-      "name": "Arrivals",
-      "slug": "arrivals",
-      "description": "Saree Work:Leaf Print | Border: || Blouse Work: Plain     Fabric :: Saree - Chiffon | Blouse - Chiffon     Color :: Saree - Turquoise , Orange | Blouse - Turquoise     Saree - 5.5Mtr,Blouse - 0.8Mtr (Need To Be Stitched As Per Size And Fit)     This saree is suitable for get stylish contemporary look in functions,parties,reception,festive occasions,marriage ceremony,get together,evening wear & gifting to loved ones",
-      "imgUrl": "/uploads/af5733888fccdda8.jpg",
-      "createdAt": "2025-07-03T05:22:27.129Z",
-      "updatedAt": "2025-07-03T05:22:27.129Z",
-      "subCategories": [
-        {
-          "id": 15,
-          "mainCategoryId": 18,
-          "name": "Latest Fashion Arrivals",
-          "slug": "latest-fashion-arrivals",
-          "description": "Saree Work:Leaf Print | Border: || Blouse Work: Plain     Fabric :: Saree - Chiffon | Blouse - Chiffon     Color :: Saree - Turquoise , Orange | Blouse - Turquoise     Saree - 5.5Mtr,Blouse - 0.8Mtr (Need To Be Stitched As Per Size And Fit)     This saree is suitable for get stylish contemporary look in functions,parties,reception,festive occasions,marriage ceremony,get together,evening wear & gifting to loved ones",
-          "imgUrl": "/uploads/d63c786168707979.jpg",
-          "createdAt": "2025-07-03T05:23:21.499Z",
-          "updatedAt": "2025-07-03T05:23:21.499Z",
-          "subSubCategories": [
-            {
-              "id": 15,
-              "subCategoryId": 15,
-              "name": "MIRCHI FASHION",
-              "slug": "mirchi-fashion",
-              "description": "Beautifully designed Indian Traditional ethnic regular wear sarees made of high-quality fabric Chiffon having elegant batik printed design. Mirchi Fashion brings you a nice addition to the wardrobe of every fashionable female, who wants to look glamorous and distinct. This sari comes with matching Chiffon printed blouse fabric, which can be stitched according to your comfort Up to 32 to 42 Inches. This saree is ideal for festivals, occasional, farewell parties and social/friends/family get-together, ceremonies or rituals, business functions wherever you want to flaunt your style. Also, the saree design and color combination are suitable for girls or women of all ages or regions. Wear it with matching accessories to get complimented on your next ethnic wear look. Mirchi Fashion Sarees brings together ethnic Fashion from the Indian subcontinent to Indian wear lovers across the world, with a variety of trendy ethnic products for various occasions - festive wear, parties wear, farewell, regular ethnic wear to contemporary Indian suits-salwar kameez and beachwear.",
-              "imgUrl": "/uploads/9d73c564888c174a.jpg",
-              "createdAt": "2025-07-03T05:24:41.345Z",
-              "updatedAt": "2025-07-03T05:24:41.345Z"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": 16,
-      "name": "Sports & Fitness",
-      "slug": "sports-and-fitness",
-      "description": "COMPREHENSIVE CORE STRENGTHENING: Elevate your core workout routine with our Abroller, a fitness essential designed for comprehensive core strengthening. This ab wheel roller for men ergonomic design ensures proper form and targets key muscle groups, offering an effective and focused workout for your abdominal region. As an added feature, this ab roller wheel includes a knee mat for comfortable knee placement during exercises, ensuring a holistic approach to your fitness journey.     COMPACT AND PORTABLE FITNESS COMPANION: Experience the flexibility of our Ab exercise roller, a compact and portable fitness companion that allows you to engage in effective ab workouts anytime, anywhere. Its portable design ensures that you can maintain your fitness routine whether you're at home, in the gym, or on the go. The included knee mat enhances your workout experience by providing a cushioned surface for your knees, ensuring comfort during exercises.     COMFORTABLE AND DURABLE CONSTRUCTION: Prioritize comfort and durability with our stomach exercise equipment , crafted with high-quality materials to withstand rigorous workouts. The comfortable padding supports your back, and the sturdy construction ensures longevity, providing a reliable and comfortable fitness tool for your core exercises. The accompanying knee mat adds an extra layer of comfort, making your workout sessions more enjoyable and sustainable.     VERSATILE AB WORKOUT OPTIONS: Unleash the full potential of your ab workouts with the versatility of our abs machine. Whether you're a beginner or an experienced fitness enthusiast, this tool offers various exercise options to target different areas of your core. From rollouts to planks, experience a comprehensive ab workout with one versatile piece of equipment. The knee mat enhances your workout flexibility, allowing you to focus on perfecting your form without discomfort.     EFFICIENT AND RESULTS-DRIVEN FITNESS: Elevate your fitness journey with our gym roller, an efficient and results-driven tool that maximizes the impact of your core workouts. Engage in exercises that not only challenge your abdominal muscles but also contribute to overall body strength and stability. This abs roller for women includes knee mat ensures that your workout is not only effective but also comfortable, promoting consistency and long-term fitness success.",
-      "imgUrl": "/uploads/31ed35d284b1ee61.JPG",
-      "createdAt": "2025-07-02T12:28:58.229Z",
-      "updatedAt": "2025-07-02T12:28:58.229Z",
-      "subCategories": [
-        {
-          "id": 13,
-          "mainCategoryId": 16,
-          "name": "Sportswear",
-          "slug": "sportswear",
-          "description": "Fabric : 100% Polyester     Moisture Management for better breathability, anti-pilling, anti-static properties     Pattern - ColorBlocked     Neck Style : Zipper     Sleeve : Full Sleeve",
-          "imgUrl": "/uploads/fbe083e0f32c0da3.jpg",
-          "createdAt": "2025-07-03T04:48:44.982Z",
-          "updatedAt": "2025-07-03T04:48:44.982Z",
-          "subSubCategories": [
-            {
-              "id": 13,
-              "subCategoryId": 13,
-              "name": "T-Shirts",
-              "slug": "t-shirts",
-              "description": "     Fabric : 100% Polyester     Moisture Management for better breathability, anti-pilling, anti-static properties     Pattern - ColorBlocked     Neck Style : Round Neck     Sleeve : Full Sleeve",
-              "imgUrl": "/uploads/b1644063445a29b3.jpg",
-              "createdAt": "2025-07-03T04:50:52.821Z",
-              "updatedAt": "2025-07-03T04:50:52.821Z"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": 15,
-      "name": "Stationery",
-      "slug": "stationery",
-      "description": "Discover Premium Stationery Accessories for Home, School & Office Stay organized, creative, and productive with our wide range of high-quality stationery accessories. Whether you're a student, a working professional, an artist, or a planner lover — we have everything you need to bring your ideas to life.  📝 Essentials for Everyday Use Notebooks & Journals – From classic ruled notebooks to creative bullet journals, perfect for writing, doodling, and planning.  Pens & Pencils – Smooth, reliable, and stylish writing tools, including gel pens, fountain pens, mechanical pencils, and more.  Markers & Highlighters – Brighten up your notes, make key points stand out, and color-code with ease.  Sticky Notes & Index Tabs – Perfect for quick reminders, bookmarks, and study notes.  🎨 Creative & Art Supplies Sketchbooks & Drawing Pads – Ideal for artists, architects, and designers.  Color Pencils, Crayons & Watercolors – Bring your imagination to life with vivid, high-quality colors.  Brush Pens & Calligraphy Kits – For handwriting enthusiasts and aspiring calligraphers.  🗂️ Organizational Tools Folders & Files – Keep documents neat and accessible with stylish file organizers.  Desk Organizers – Tidy up your workspace with multi-compartment holders for pens, clips, and papers.  Whiteboards & Planners – Plan your week or month with dry-erase boards, calendars, and to-do lists.  ✂️ Office & School Accessories Scissors, Staplers & Punches – Essential tools for school bags and office desks.  Tape Dispensers & Glue Sticks – Durable and easy-to-use for everyday crafting or packaging.  Erasers & Sharpeners – Compact and functional accessories that complete your pencil case.",
-      "imgUrl": "/uploads/83e61a8d2b49ac9a.jpg",
-      "createdAt": "2025-07-02T11:09:51.340Z",
-      "updatedAt": "2025-07-02T11:09:51.340Z",
-      "subCategories": [
-        {
-          "id": 12,
-          "mainCategoryId": 15,
-          "name": "Office Stationery",
-          "slug": "office-stationery",
-          "description": "Office Stationery",
-          "imgUrl": "/uploads/208c3254bb81b881.jpg",
-          "createdAt": "2025-07-02T11:11:23.065Z",
-          "updatedAt": "2025-07-02T11:16:00.434Z",
-          "subSubCategories": [
-            {
-              "id": 12,
-              "subCategoryId": 12,
-              "name": "Pen",
-              "slug": "pen",
-              "description": "Pen",
-              "imgUrl": "/uploads/e2aa82021d309f72.jpg",
-              "createdAt": "2025-07-02T11:16:51.602Z",
-              "updatedAt": "2025-07-02T11:16:51.602Z"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": 14,
-      "name": "Automotive",
-      "slug": "automotive",
-      "description": "Explore Premium Bike Accessories for Every Ride Upgrade your biking experience with top-quality bike accessories designed for safety, style, and performance. Whether you're a daily commuter, a weekend rider, or a long-distance adventurer, the right gear can transform your journey.  🚨 Essential Accessories Helmet – Stay protected with DOT/ECE certified helmets. Stylish, aerodynamic, and built for comfort.  Riding Gloves – Grip better, ride longer. Protect your hands from friction, weather, and impact.  Knee & Elbow Guards – Crucial protection for off-road and city rides.  Bike Covers – All-weather protection to keep your motorcycle safe from dust, rain, and sun.  🌟 Performance & Utility Mobile Holders – Secure mounts for navigation on the go.  Luggage Carriers & Saddlebags – More space for travel essentials, without compromising stability.  Phone Chargers & USB Ports – Stay connected even on long road trips.  Crash Guards & Sliders – Heavy-duty frame protection during unexpected falls.  🔧 Customization & Styling LED Headlights & Indicators – Enhance visibility with modern lighting.  Exhaust Systems – Performance mufflers to boost power and sound.  Tank Pads & Stickers – Add a personal touch and protect your fuel tank from scratches.  Handle Grips & Bar Ends – Vibration dampening and visual appeal in one.  💧 Maintenance Must-Haves Cleaning Kits – Keep your bike shining like new.  Chain Lubes & Oils – Extend life and improve smoothness.  Tool Kits – Be road-ready for any minor repairs.  🛒 Why Shop With Us? ✅ Top Brands – Explore trusted names like Royal Enfield, Rynox, Axor, and more.  🚚 Fast Delivery – Pan-India shipping within 3-5 days.  💳 Secure Payments – Multiple payment options with full buyer protection.  💬 Expert Support – Need help choosing accessories? Our experts are just a click away!",
-      "imgUrl": "/uploads/f4a97088cec33af3.jpg",
-      "createdAt": "2025-07-02T10:15:44.776Z",
-      "updatedAt": "2025-07-02T10:15:44.776Z",
-      "subCategories": [
-        {
-          "id": 7,
-          "mainCategoryId": 14,
-          "name": "Helmets",
-          "slug": "helmets",
-          "description": "Full Face, Half Face, Designer Helmets",
-          "imgUrl": "/uploads/ab0638e38388e681.jpg",
-          "createdAt": "2025-07-02T10:24:46.234Z",
-          "updatedAt": "2025-07-02T10:24:46.234Z",
-          "subSubCategories": [
-            {
-              "id": 7,
-              "subCategoryId": 7,
-              "name": "Half Face",
-              "slug": "half-face",
-              "description": "Half Face",
-              "imgUrl": "/uploads/b0a88dfa418a4a49.jpg",
-              "createdAt": "2025-07-02T10:27:10.675Z",
-              "updatedAt": "2025-07-02T10:27:10.675Z"
-            }
-          ]
-        },
-        {
-          "id": 8,
-          "mainCategoryId": 14,
-          "name": "Bike Covers",
-          "slug": "bike-covers",
-          "description": "Bike Covers",
-          "imgUrl": "/uploads/c2decd6c13c60fad.jpg",
-          "createdAt": "2025-07-02T10:46:00.031Z",
-          "updatedAt": "2025-07-02T10:46:00.031Z",
-          "subSubCategories": [
-            {
-              "id": 8,
-              "subCategoryId": 8,
-              "name": "Waterproof",
-              "slug": "waterproof",
-              "description": "Waterproof",
-              "imgUrl": "/uploads/321a7231911ef515.jpg",
-              "createdAt": "2025-07-02T10:47:53.922Z",
-              "updatedAt": "2025-07-02T10:47:53.922Z"
-            }
-          ]
-        },
-        {
-          "id": 9,
-          "mainCategoryId": 14,
-          "name": "Bike Cleaning Tools",
-          "slug": "bike-cleaning-tools",
-          "description": "Bike Cleaning Tools",
-          "imgUrl": "/uploads/de74be5de08c8a2e.jpg",
-          "createdAt": "2025-07-02T10:50:51.655Z",
-          "updatedAt": "2025-07-02T10:50:51.655Z",
-          "subSubCategories": [
-            {
-              "id": 9,
-              "subCategoryId": 9,
-              "name": "Brushes",
-              "slug": "brushes",
-              "description": "Brushes",
-              "imgUrl": "/uploads/32cc173bb86cee79.jpg",
-              "createdAt": "2025-07-02T10:51:46.946Z",
-              "updatedAt": "2025-07-02T10:51:46.946Z"
-            }
-          ]
-        },
-        {
-          "id": 10,
-          "mainCategoryId": 14,
-          "name": "Bike Body Accessories",
-          "slug": "bike-body-accessories",
-          "description": "Bike Body Accessories",
-          "imgUrl": "/uploads/f1608f21f2c8e7e5.jpg",
-          "createdAt": "2025-07-02T10:57:01.843Z",
-          "updatedAt": "2025-07-02T10:57:01.843Z",
-          "subSubCategories": [
-            {
-              "id": 10,
-              "subCategoryId": 10,
-              "name": "Bike Mount Holder",
-              "slug": "bike-mount-holder",
-              "description": "Bike Mount Holder",
-              "imgUrl": "/uploads/54b9a5e2e6180890.jpg",
-              "createdAt": "2025-07-02T10:59:40.360Z",
-              "updatedAt": "2025-07-02T10:59:40.360Z"
-            }
-          ]
-        },
-        {
-          "id": 11,
-          "mainCategoryId": 14,
-          "name": "Biking Safety Gear",
-          "slug": "biking-safety-gear",
-          "description": "Biking Safety Gear",
-          "imgUrl": "/uploads/c4818954dede38df.jpg",
-          "createdAt": "2025-07-02T11:02:03.484Z",
-          "updatedAt": "2025-07-02T11:02:03.484Z",
-          "subSubCategories": [
-            {
-              "id": 11,
-              "subCategoryId": 11,
-              "name": "Knee Pads",
-              "slug": "knee-pads",
-              "description": "Knee Pads",
-              "imgUrl": "/uploads/34e868ce1e7af0da.jpg",
-              "createdAt": "2025-07-02T11:05:04.754Z",
-              "updatedAt": "2025-07-02T11:05:04.754Z"
-            }
-          ]
-        }
-      ]
+        ],
+        "reviews": []
     }
-  ]
 }

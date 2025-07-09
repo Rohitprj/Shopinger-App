@@ -11,7 +11,7 @@ const axiosInstance = axios.create({
   timeout: 10000, // 10 seconds
   headers: {
     'Content-Type': 'application/json',
-    'Accept': 'application/json',
+    Accept: 'application/json',
     // You can add other default headers here, e.g., Authorization tokens if they are static
   },
 });
@@ -20,7 +20,7 @@ const axiosInstance = axios.create({
 //    - This interceptor will be executed before every request is sent.
 //    - It's commonly used to add authentication tokens (e.g., JWT) to the headers.
 axiosInstance.interceptors.request.use(
-  async (config) => {
+  async config => {
     // Example: Get a token from AsyncStorage (or any other secure storage)
     // import AsyncStorage from '@react-native-async-storage/async-storage';
     // const token = await AsyncStorage.getItem('userToken');
@@ -32,11 +32,11 @@ axiosInstance.interceptors.request.use(
     console.log('Request Interceptor:', config);
     return config;
   },
-  (error) => {
+  error => {
     // Do something with request error
     console.error('Request Error:', error);
     return Promise.reject(error);
-  }
+  },
 );
 
 // 3. Add a response interceptor
@@ -44,17 +44,20 @@ axiosInstance.interceptors.request.use(
 //    - It's commonly used to handle global errors (e.g., 401 Unauthorized),
 //      refresh tokens, or transform response data.
 axiosInstance.interceptors.response.use(
-  (response) => {
+  response => {
     // Any status code that lies in the range of 2xx cause this function to trigger.
     // Do something with response data
     console.log('Response Interceptor (Success):', response);
     return response;
   },
-  async (error) => {
+  async error => {
     // Any status codes that falls outside the range of 2xx cause this function to trigger.
     // Do something with response error
 
-    console.error('Response Interceptor (Error):', error.response || error.message);
+    console.error(
+      'Response Interceptor (Error):',
+      error.response || error.message,
+    );
 
     // Example: Handle 401 Unauthorized errors
     // if (error.response && error.response.status === 401) {
@@ -64,7 +67,7 @@ axiosInstance.interceptors.response.use(
     // }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default axiosInstance;

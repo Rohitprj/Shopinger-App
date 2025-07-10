@@ -1163,6 +1163,690 @@
 
 // export default CheckoutPage;
 
+// import React, {useState, useEffect} from 'react';
+// import {
+//   View,
+//   Text,
+//   StyleSheet,
+//   Image,
+//   ScrollView,
+//   Dimensions,
+//   TouchableOpacity,
+//   ActivityIndicator, // For loading state
+//   Alert, // For error messages
+// } from 'react-native';
+// import {SafeAreaView} from 'react-native-safe-area-context';
+// import RazorpayCheckout from 'react-native-razorpay'; // Import Razorpay SDK
+
+// import axiosInstance from '../utils/AxiosInstance'; // Your configured axios instance
+// // Import the mock API functions
+// import {
+//   createMockRazorpayOrder,
+//   verifyMockRazorpayPayment,
+// } from '../utils/mock';
+
+// const {width} = Dimensions.get('window');
+
+// // --- IMPORTANT: Define your image base URL here directly ---
+// const IMAGE_BASE_URL = 'https://shopinger.co.in';
+
+// // Static Data for cart items (used as fallback if API returns no items or fails)
+// const STATIC_CART_ITEMS_DATA = [
+//   {
+//     id: '1',
+//     image: require('../../assets/wishlist/shirt.png'), // Local image asset
+//     name: "Men's Tie-Dye T-Shirt",
+//     brand: 'Nike Sportswear',
+//     price: '1599', // Example price as string
+//     quantity: 1,
+//   },
+//   {
+//     id: '2',
+//     image: require('../../assets/wishlist/jacket.png'), // Local image asset
+//     name: "Men's Tie-Dye T-Shirt",
+//     brand: 'Nike Sportswear',
+//     price: '1499', // Example price as string
+//     quantity: 1,
+//   },
+// ];
+
+// // --- CONFIGURATION FOR MOCK/REAL BACKEND ---
+// // Set this to true to use the mock backend for Razorpay order creation/verification.
+// // Set to false when you have a real backend running and configured in axiosInstance.
+// const IS_MOCK_BACKEND_ENABLED = true; // <--- TOGGLE THIS!
+
+// const CheckoutCartItem = ({item}) => {
+//   const imageSource =
+//     typeof item.image === 'number'
+//       ? item.image
+//       : {
+//           uri: item.image
+//             ? `${IMAGE_BASE_URL}${item.image}`
+//             : 'https://placehold.co/80x80/E0E0E0/555555?text=No+Image',
+//         };
+
+//   const productName = item.name || 'Unknown Product';
+//   const brandName = item.brand || 'Unknown Brand';
+//   const price = item.price ? parseFloat(item.price).toFixed(2) : '0.00';
+//   const quantity = item.quantity || 1;
+
+//   return (
+//     <View style={styles.cartItemCard}>
+//       <Image source={imageSource} style={styles.cartItemImage} />
+//       <View style={styles.cartItemDetails}>
+//         <Text style={styles.cartItemName}>{productName}</Text>
+//         <Text style={styles.cartItemBrand}>{brandName}</Text>
+//         <Text style={styles.cartItemPrice}>₹{price}</Text>
+//         <View style={styles.quantityControls}>
+//           <View style={styles.quantityButton}>
+//             <Text style={styles.quantityButtonText}>-</Text>
+//           </View>
+//           <Text style={styles.quantityText}>{quantity}</Text>
+//           <View style={styles.quantityButton}>
+//             <Text style={styles.quantityButtonText}>+</Text>
+//           </View>
+//         </View>
+//       </View>
+//       <Image
+//         source={{
+//           uri: 'https://placehold.co/24x24/999999/FFFFFF?text=X',
+//         }}
+//         style={styles.deleteIcon}
+//       />
+//     </View>
+//   );
+// };
+
+// const CheckoutPage = ({navigation}) => {
+//   const [cartItemsToDisplay, setCartItemsToDisplay] = useState(
+//     STATIC_CART_ITEMS_DATA,
+//   );
+//   const [cartSummary, setCartSummary] = useState({
+//     subtotal: 0,
+//     platformFee: 0,
+//     gst: 0,
+//     deliveryFee: 0,
+//     totalAmount: 0,
+//   });
+//   const [loadingCart, setLoadingCart] = useState(true);
+//   const [isPaying, setIsPaying] = useState(false);
+//   const [error, setError] = useState(null);
+
+//   // Set your LIVE Razorpay Key ID here once you have it.
+//   // For initial testing, you can use a test key (rzp_test_...)
+//   const [currencyConfig, setCurrencyConfig] = useState({
+//     applicationData: {
+//       currency: 'INR',
+//       razorpayKeyId: 'rzp_live_ykAW0WN2mvhAjJ', // YOUR ACTUAL LIVE KEY ID
+//     },
+//   });
+
+//   const fetchCartData = async () => {
+//     setLoadingCart(true);
+//     setError(null);
+//     try {
+//       const response = await axiosInstance.get('/web/get-cart');
+
+//       if (response.data) {
+//         const apiCartData = response.data;
+
+//         setCartSummary({
+//           subtotal: apiCartData.summary?.subtotal || 0,
+//           platformFee: apiCartData.otherCharges?.plateformfee || 0,
+//           gst: apiCartData.otherCharges?.gst || 0,
+//           deliveryFee: apiCartData.otherCharges?.deliveryFee || 0,
+//           totalAmount: apiCartData.totalAmountafterCharges || 0,
+//         });
+
+//         if (apiCartData.items && apiCartData.items.length > 0) {
+//           setCartItemsToDisplay(
+//             apiCartData.items.map(item => ({
+//               id: item._id,
+//               image: item.product?.productImage[0]?.filePath,
+//               name: item.product?.productName,
+//               brand: item.product?.brand?.name || 'Generic',
+//               price: item.product?.price,
+//               quantity: item.quantity,
+//             })),
+//           );
+//         } else {
+//           setCartItemsToDisplay(STATIC_CART_ITEMS_DATA);
+//         }
+//       } else {
+//         setError('Failed to fetch cart data: No data in response.');
+//         setCartItemsToDisplay(STATIC_CART_ITEMS_DATA);
+//       }
+//     } catch (e) {
+//       console.error('Error fetching cart data:', e);
+//       let errorMessage = 'Could not load cart. Displaying static data.';
+//       if (e.response) {
+//         errorMessage =
+//           e.response.data?.message || `Server Error: ${e.response.status}`;
+//       } else if (e.request) {
+//         errorMessage = 'Network Error: No response from server.';
+//       } else {
+//         errorMessage = `Error: ${e.message}`;
+//       }
+//       setError(errorMessage);
+//       setCartItemsToDisplay(STATIC_CART_ITEMS_DATA);
+//     } finally {
+//       setLoadingCart(false);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchCartData();
+//   }, []);
+
+//   const handleBuyPress = async amount => {
+//     if (
+//       !currencyConfig.applicationData.razorpayKeyId ||
+//       currencyConfig.applicationData.razorpayKeyId.includes(
+//         'YOUR_RAZORPAY_KEY_ID',
+//       ) // Check for placeholder
+//     ) {
+//       Alert.alert(
+//         'Configuration Error',
+//         'Please set your actual Razorpay Key ID. For testing, use a test key (rzp_test_...).',
+//       );
+//       return;
+//     }
+
+//     setIsPaying(true);
+//     try {
+//       let res;
+//       // Conditionally call mock or real backend based on the flag
+//       if (IS_MOCK_BACKEND_ENABLED) {
+//         res = await createMockRazorpayOrder(
+//           Number(amount * 100), // Razorpay expects amount in paise
+//           currencyConfig.applicationData.currency,
+//         );
+//       } else {
+//         // This is where your real backend API call would go
+//         res = await axiosInstance.post('/api/create-razorpay-order', {
+//           amount: Number(amount), // Send raw amount, backend converts to paise
+//           currency: currencyConfig.applicationData.currency || 'INR',
+//         });
+//       }
+
+//       const orderId = res?.razorpayOrder?.id;
+//       const pricex = Number(amount * 100);
+
+//       if (!orderId) {
+//         Alert.alert(
+//           'Payment Error',
+//           'Failed to obtain Razorpay order ID. Please try again.',
+//         );
+//         setIsPaying(false);
+//         return;
+//       }
+
+//       var options = {
+//         description: 'Shopinger Purchase',
+//         image:
+//           'https://media.istockphoto.com/id/486326115/photo/bull-and-bear.webp?b=1&s=170667a&w=0&k=20&c=HMb-bQbmU5M-RVnU6NoPydkGjh0FEigULJcpwwA3z7g=',
+//         currency: currencyConfig?.applicationData?.currency,
+//         key: currencyConfig?.applicationData?.razorpayKeyId,
+//         amount: pricex,
+//         name: 'Shopinger E-Commerce',
+//         order_id: orderId, // This is the crucial part that must be a REAL Razorpay order ID
+//         prefill: {
+//           email: 'customer@example.com', // Replace with actual user email
+//           contact: '9876543210', // Replace with actual user contact
+//           name: 'John Doe', // Replace with actual user name
+//         },
+//         theme: {color: '#ff6600'},
+//       };
+
+//       RazorpayCheckout.open(options)
+//         .then(async data => {
+//           console.log('Razorpay Success Data:', data);
+//           let rzpOrderId = data?.razorpay_order_id;
+//           let paymentId = data?.razorpay_payment_id;
+//           let signature = data?.razorpay_signature;
+
+//           let verificationResult;
+//           // Conditionally call mock or real backend for verification
+//           if (IS_MOCK_BACKEND_ENABLED) {
+//             verificationResult = await verifyMockRazorpayPayment(
+//               rzpOrderId,
+//               paymentId,
+//               signature,
+//             );
+//           } else {
+//             // This is where your real backend API call for verification would go
+//             verificationResult = await axiosInstance.post(
+//               '/api/verify-razorpay-payment',
+//               {
+//                 razorpay_order_id: rzpOrderId,
+//                 razorpay_payment_id: paymentId,
+//                 razorpay_signature: signature,
+//               },
+//             );
+//           }
+
+//           if (verificationResult.success) {
+//             Alert.alert('Payment Successful!', verificationResult.message);
+//             navigation.navigate('OrderSuccessScreen', {paymentId: paymentId});
+//           } else {
+//             Alert.alert(
+//               'Payment Verification Failed',
+//               'There was an issue verifying your payment. Please contact support.',
+//             );
+//           }
+//         })
+//         .catch(error => {
+//           console.error(`Razorpay Error: ${error.code} - ${error.description}`);
+//           Alert.alert('Payment Failed', `Error: ${error.description}`);
+//         })
+//         .finally(() => {
+//           setIsPaying(false);
+//         });
+//     } catch (error) {
+//       console.error('Error initiating Razorpay flow:', error);
+//       Alert.alert(
+//         'Payment Initialization Error',
+//         'Could not initiate payment. Please try again.',
+//       );
+//       setIsPaying(false);
+//     }
+//   };
+
+//   if (loadingCart) {
+//     return (
+//       <SafeAreaView style={styles.safeArea}>
+//         <View style={styles.loadingContainer}>
+//           <ActivityIndicator size="large" color="#ff6600" />
+//           <Text style={{marginTop: 10}}>Loading cart...</Text>
+//         </View>
+//       </SafeAreaView>
+//     );
+//   }
+
+//   if (cartItemsToDisplay.length === 0 && !loadingCart && !error) {
+//     return (
+//       <SafeAreaView style={styles.safeArea}>
+//         <View style={styles.emptyCartContainer}>
+//           <Text style={styles.emptyCartText}>Your cart is empty!</Text>
+//           <TouchableOpacity
+//             style={styles.browseButton}
+//             onPress={() => navigation.navigate('Home')}>
+//             <Text style={styles.browseButtonText}>Continue Shopping</Text>
+//           </TouchableOpacity>
+//         </View>
+//       </SafeAreaView>
+//     );
+//   }
+
+//   return (
+//     <SafeAreaView style={styles.safeArea}>
+//       <View style={styles.header}>
+//         <TouchableOpacity onPress={() => navigation.goBack()}>
+//           <Image
+//             source={{
+//               uri: 'https://placehold.co/24x24/000000/FFFFFF?text=%3C',
+//             }}
+//             style={styles.backArrowIcon}
+//           />
+//         </TouchableOpacity>
+//         <Text style={styles.headerTitle}>Checkout</Text>
+//         <View style={{width: 24}} />
+//       </View>
+
+//       <ScrollView
+//         contentContainerStyle={styles.container}
+//         showsVerticalScrollIndicator={false}>
+//         {error && (
+//           <View style={styles.errorBanner}>
+//             <Text style={styles.errorBannerText}>{error}</Text>
+//           </View>
+//         )}
+
+//         {cartItemsToDisplay.map(item => (
+//           <CheckoutCartItem key={item.id} item={item} />
+//         ))}
+
+//         <View style={styles.orderInfoContainer}>
+//           <Text style={styles.orderInfoTitle}>Order Info</Text>
+//           <View style={styles.orderInfoRow}>
+//             <Text style={styles.orderInfoLabel}>Subtotal</Text>
+//             <Text style={styles.orderInfoValue}>
+//               ₹{cartSummary.subtotal.toFixed(2)}
+//             </Text>
+//           </View>
+//           <View style={styles.orderInfoRow}>
+//             <Text style={styles.orderInfoLabel}>Platform Fee</Text>
+//             <Text style={styles.orderInfoValue}>
+//               ₹{cartSummary.platformFee.toFixed(2)}
+//             </Text>
+//           </View>
+//           <View style={styles.orderInfoRow}>
+//             <Text style={styles.orderInfoLabel}>GST</Text>
+//             <Text style={styles.orderInfoValue}>
+//               ₹{cartSummary.gst.toFixed(2)}
+//             </Text>
+//           </View>
+//           <View style={styles.orderInfoRow}>
+//             <Text style={styles.orderInfoLabel}>Delivery Fee</Text>
+//             <Text style={styles.orderInfoValue}>
+//               ₹{cartSummary.deliveryFee.toFixed(2)}
+//             </Text>
+//           </View>
+//           <View style={styles.totalRow}>
+//             <Text style={styles.totalLabel}>Total Amount</Text>
+//             <Text style={styles.totalValue}>
+//               ₹{cartSummary.totalAmount.toFixed(2)}
+//             </Text>
+//           </View>
+//         </View>
+
+//         <TouchableOpacity
+//           style={styles.proceedButton}
+//           onPress={() => handleBuyPress(cartSummary.totalAmount)}
+//           disabled={isPaying || loadingCart}>
+//           {isPaying ? (
+//             <ActivityIndicator color="#fff" size="small" />
+//           ) : (
+//             <Text style={styles.proceedButtonText}>Proceed to Payment</Text>
+//           )}
+//         </TouchableOpacity>
+
+//         <View style={{height: 40}} />
+//       </ScrollView>
+//     </SafeAreaView>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   safeArea: {
+//     flex: 1,
+//     backgroundColor: '#f8f8f8',
+//   },
+//   loadingContainer: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: '#f8f8f8',
+//   },
+//   errorContainer: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: '#f8f8f8',
+//     padding: 20,
+//   },
+//   errorText: {
+//     fontSize: 16,
+//     color: 'red',
+//     textAlign: 'center',
+//     marginBottom: 20,
+//   },
+//   retryButton: {
+//     backgroundColor: '#ff6600',
+//     paddingVertical: 10,
+//     paddingHorizontal: 20,
+//     borderRadius: 8,
+//   },
+//   retryButtonText: {
+//     color: '#fff',
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//   },
+//   emptyCartContainer: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: '#f8f8f8',
+//     padding: 20,
+//   },
+//   emptyCartText: {
+//     fontSize: 20,
+//     fontWeight: 'bold',
+//     color: '#555',
+//     marginBottom: 20,
+//   },
+//   browseButton: {
+//     backgroundColor: '#ff6600',
+//     paddingVertical: 12,
+//     paddingHorizontal: 25,
+//     borderRadius: 8,
+//   },
+//   browseButtonText: {
+//     color: '#fff',
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//   },
+//   header: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     justifyContent: 'space-between',
+//     paddingHorizontal: 15,
+//     paddingVertical: 10,
+//     backgroundColor: '#fff',
+//     borderBottomWidth: 1,
+//     borderBottomColor: '#eee',
+//   },
+//   backArrowIcon: {
+//     width: 24,
+//     height: 24,
+//     resizeMode: 'contain',
+//   },
+//   headerTitle: {
+//     fontSize: 18,
+//     fontWeight: 'bold',
+//     color: '#333',
+//   },
+//   container: {
+//     flexGrow: 1,
+//     paddingHorizontal: 15,
+//     paddingVertical: 20,
+//   },
+//   cartItemCard: {
+//     flexDirection: 'row',
+//     backgroundColor: '#fff',
+//     borderRadius: 10,
+//     padding: 15,
+//     marginBottom: 15,
+//     shadowColor: '#000',
+//     shadowOffset: {width: 0, height: 1},
+//     shadowOpacity: 0.05,
+//     shadowRadius: 3,
+//     elevation: 2,
+//     alignItems: 'center',
+//   },
+//   cartItemImage: {
+//     width: 80,
+//     height: 80,
+//     borderRadius: 8,
+//     resizeMode: 'contain',
+//     marginRight: 15,
+//   },
+//   cartItemDetails: {
+//     flex: 1,
+//   },
+//   cartItemName: {
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//     color: '#333',
+//   },
+//   cartItemBrand: {
+//     fontSize: 13,
+//     color: '#777',
+//     marginBottom: 5,
+//   },
+//   cartItemPrice: {
+//     fontSize: 14,
+//     fontWeight: 'bold',
+//     color: '#333',
+//     marginBottom: 10,
+//   },
+//   quantityControls: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     backgroundColor: '#f0f0f0',
+//     borderRadius: 20,
+//     paddingVertical: 5,
+//     paddingHorizontal: 5,
+//     alignSelf: 'flex-start',
+//   },
+//   quantityButton: {
+//     backgroundColor: '#fff',
+//     width: 28,
+//     height: 28,
+//     borderRadius: 14,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     borderWidth: 1,
+//     borderColor: '#eee',
+//   },
+//   quantityButtonText: {
+//     fontSize: 18,
+//     fontWeight: 'bold',
+//     color: '#333',
+//   },
+//   quantityText: {
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//     color: '#333',
+//     marginHorizontal: 15,
+//   },
+//   deleteIcon: {
+//     width: 24,
+//     height: 24,
+//     resizeMode: 'contain',
+//     tintColor: '#999',
+//     marginLeft: 10,
+//   },
+//   infoBlock: {
+//     backgroundColor: '#fff',
+//     borderRadius: 10,
+//     padding: 15,
+//     marginBottom: 15,
+//     shadowColor: '#000',
+//     shadowOffset: {width: 0, height: 1},
+//     shadowOpacity: 0.05,
+//     shadowRadius: 3,
+//     elevation: 2,
+//   },
+//   infoBlockHeader: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     alignItems: 'center',
+//     marginBottom: 10,
+//   },
+//   infoBlockTitle: {
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//     color: '#333',
+//   },
+//   infoBlockArrow: {
+//     width: 15,
+//     height: 15,
+//     resizeMode: 'contain',
+//     tintColor: '#999',
+//   },
+//   infoBlockContent: {
+//     flexDirection: 'row',
+//     alignItems: 'flex-start',
+//   },
+//   infoBlockIcon: {
+//     width: 24,
+//     height: 24,
+//     resizeMode: 'contain',
+//     marginRight: 10,
+//     tintColor: '#ff6600',
+//   },
+//   infoBlockText: {
+//     flex: 1,
+//     fontSize: 14,
+//     color: '#555',
+//     lineHeight: 20,
+//   },
+//   checkedIcon: {
+//     width: 20,
+//     height: 20,
+//     resizeMode: 'contain',
+//     tintColor: '#4CAF50',
+//     marginLeft: 10,
+//   },
+//   orderInfoContainer: {
+//     backgroundColor: '#fff',
+//     borderRadius: 10,
+//     padding: 15,
+//     marginBottom: 20,
+//     shadowColor: '#000',
+//     shadowOffset: {width: 0, height: 1},
+//     shadowOpacity: 0.05,
+//     shadowRadius: 3,
+//     elevation: 2,
+//   },
+//   orderInfoTitle: {
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//     color: '#333',
+//     marginBottom: 15,
+//   },
+//   orderInfoRow: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     marginBottom: 10,
+//   },
+//   orderInfoLabel: {
+//     fontSize: 14,
+//     color: '#555',
+//   },
+//   orderInfoValue: {
+//     fontSize: 14,
+//     fontWeight: 'bold',
+//     color: '#333',
+//   },
+//   totalRow: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     paddingTop: 10,
+//     borderTopWidth: 1,
+//     borderTopColor: '#eee',
+//     marginTop: 10,
+//   },
+//   totalLabel: {
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//     color: '#333',
+//   },
+//   totalValue: {
+//     fontSize: 18,
+//     fontWeight: 'bold',
+//     color: '#ff6600',
+//   },
+//   proceedButton: {
+//     backgroundColor: '#ff6600',
+//     borderRadius: 10,
+//     paddingVertical: 18,
+//     alignItems: 'center',
+//     marginTop: 10,
+//   },
+//   proceedButtonText: {
+//     color: '#fff',
+//     fontSize: 18,
+//     fontWeight: 'bold',
+//   },
+//   errorBanner: {
+//     backgroundColor: '#ffe0e0',
+//     padding: 10,
+//     borderRadius: 8,
+//     marginBottom: 15,
+//     borderWidth: 1,
+//     borderColor: '#ff6666',
+//   },
+//   errorBannerText: {
+//     color: '#cc0000',
+//     fontSize: 14,
+//     textAlign: 'center',
+//   },
+// });
+
+// export default CheckoutPage;
+
 import React, {useState, useEffect} from 'react';
 import {
   View,
@@ -1191,6 +1875,7 @@ const {width} = Dimensions.get('window');
 const IMAGE_BASE_URL = 'https://shopinger.co.in';
 
 // Static Data for cart items (used as fallback if API returns no items or fails)
+// KEEP THIS FOR FALLBACK, BUT WE'LL INITIALLY SET cartItemsToDisplay TO EMPTY
 const STATIC_CART_ITEMS_DATA = [
   {
     id: '1',
@@ -1216,14 +1901,21 @@ const STATIC_CART_ITEMS_DATA = [
 const IS_MOCK_BACKEND_ENABLED = true; // <--- TOGGLE THIS!
 
 const CheckoutCartItem = ({item}) => {
+  // Console log the item to see what data it receives
+  // console.log("Rendering CheckoutCartItem with item:", JSON.stringify(item, null, 2));
+
   const imageSource =
     typeof item.image === 'number'
       ? item.image
       : {
-          uri: item.image
-            ? `${IMAGE_BASE_URL}${item.image}`
-            : 'https://placehold.co/80x80/E0E0E0/555555?text=No+Image',
+          // Check if item.image is a non-empty string before prepending base URL
+          uri:
+            item.image && item.image.trim() !== ''
+              ? `${IMAGE_BASE_URL}${item.image}`
+              : 'https://placehold.co/80x80/E0E0E0/555555?text=No+Image',
         };
+
+  // console.log("Image Source URI:", imageSource.uri); // Log the final URI
 
   const productName = item.name || 'Unknown Product';
   const brandName = item.brand || 'Unknown Brand';
@@ -1258,9 +1950,8 @@ const CheckoutCartItem = ({item}) => {
 };
 
 const CheckoutPage = ({navigation}) => {
-  const [cartItemsToDisplay, setCartItemsToDisplay] = useState(
-    STATIC_CART_ITEMS_DATA,
-  );
+  // IMPORTANT: Initialize with an empty array to see if API data actually loads
+  const [cartItemsToDisplay, setCartItemsToDisplay] = useState([]);
   const [cartSummary, setCartSummary] = useState({
     subtotal: 0,
     platformFee: 0,
@@ -1272,8 +1963,6 @@ const CheckoutPage = ({navigation}) => {
   const [isPaying, setIsPaying] = useState(false);
   const [error, setError] = useState(null);
 
-  // Set your LIVE Razorpay Key ID here once you have it.
-  // For initial testing, you can use a test key (rzp_test_...)
   const [currencyConfig, setCurrencyConfig] = useState({
     applicationData: {
       currency: 'INR',
@@ -1283,9 +1972,11 @@ const CheckoutPage = ({navigation}) => {
 
   const fetchCartData = async () => {
     setLoadingCart(true);
-    setError(null);
+    setError(null); // Clear previous errors
+    console.log('Fetching cart data...');
     try {
       const response = await axiosInstance.get('/web/get-cart');
+      console.log('API Response Data:', JSON.stringify(response.data, null, 2));
 
       if (response.data) {
         const apiCartData = response.data;
@@ -1297,24 +1988,37 @@ const CheckoutPage = ({navigation}) => {
           deliveryFee: apiCartData.otherCharges?.deliveryFee || 0,
           totalAmount: apiCartData.totalAmountafterCharges || 0,
         });
+        console.log(
+          'Cart Summary updated:',
+          JSON.stringify(cartSummary, null, 2),
+        );
 
         if (apiCartData.items && apiCartData.items.length > 0) {
-          setCartItemsToDisplay(
-            apiCartData.items.map(item => ({
-              id: item._id,
-              image: item.product?.productImage[0]?.filePath,
-              name: item.product?.productName,
-              brand: item.product?.brand?.name || 'Generic',
-              price: item.product?.price,
-              quantity: item.quantity,
-            })),
+          const mappedItems = apiCartData.items.map(item => ({
+            id: item.cartItemId || item.productId,
+            // Ensure item.images[0] exists before using it
+            image:
+              item.images && item.images.length > 0 ? item.images[0] : null,
+            name: item.productName,
+            // 'brand' is not directly available in your provided response,
+            // it will remain 'N/A' as per your mapping.
+            brand: 'N/A',
+            price: item.sellingPrice,
+            quantity: item.quantity,
+          }));
+          console.log(
+            'Mapped Cart Items for Display:',
+            JSON.stringify(mappedItems, null, 2),
           );
+          setCartItemsToDisplay(mappedItems);
         } else {
-          setCartItemsToDisplay(STATIC_CART_ITEMS_DATA);
+          console.log('API returned no items. Setting static fallback data.');
+          setCartItemsToDisplay(STATIC_CART_ITEMS_DATA); // Fallback to static if API returns empty array
         }
       } else {
+        console.log('API response data is empty or null.');
         setError('Failed to fetch cart data: No data in response.');
-        setCartItemsToDisplay(STATIC_CART_ITEMS_DATA);
+        setCartItemsToDisplay(STATIC_CART_ITEMS_DATA); // Fallback to static on empty response
       }
     } catch (e) {
       console.error('Error fetching cart data:', e);
@@ -1328,142 +2032,22 @@ const CheckoutPage = ({navigation}) => {
         errorMessage = `Error: ${e.message}`;
       }
       setError(errorMessage);
-      setCartItemsToDisplay(STATIC_CART_ITEMS_DATA);
+      console.log('Setting static fallback data due to error.');
+      setCartItemsToDisplay(STATIC_CART_ITEMS_DATA); // Fallback to static on error
     } finally {
       setLoadingCart(false);
+      console.log('Finished fetching cart data.');
     }
   };
 
   useEffect(() => {
     fetchCartData();
-  }, []);
+  }, []); // Empty dependency array means this runs once on component mount
 
-  const handleBuyPress = async amount => {
-    if (
-      !currencyConfig.applicationData.razorpayKeyId ||
-      currencyConfig.applicationData.razorpayKeyId.includes(
-        'YOUR_RAZORPAY_KEY_ID',
-      ) // Check for placeholder
-    ) {
-      Alert.alert(
-        'Configuration Error',
-        'Please set your actual Razorpay Key ID. For testing, use a test key (rzp_test_...).',
-      );
-      return;
-    }
+  // ... (rest of your CheckoutPage component, handleBuyPress, and styles remain the same) ...
 
-    setIsPaying(true);
-    try {
-      let res;
-      // Conditionally call mock or real backend based on the flag
-      if (IS_MOCK_BACKEND_ENABLED) {
-        res = await createMockRazorpayOrder(
-          Number(amount * 100), // Razorpay expects amount in paise
-          currencyConfig.applicationData.currency,
-        );
-      } else {
-        // This is where your real backend API call would go
-        res = await axiosInstance.post('/api/create-razorpay-order', {
-          amount: Number(amount), // Send raw amount, backend converts to paise
-          currency: currencyConfig.applicationData.currency || 'INR',
-        });
-      }
-
-      const orderId = res?.razorpayOrder?.id;
-      const pricex = Number(amount * 100);
-
-      if (!orderId) {
-        Alert.alert(
-          'Payment Error',
-          'Failed to obtain Razorpay order ID. Please try again.',
-        );
-        setIsPaying(false);
-        return;
-      }
-
-      var options = {
-        description: 'Shopinger Purchase',
-        image:
-          'https://media.istockphoto.com/id/486326115/photo/bull-and-bear.webp?b=1&s=170667a&w=0&k=20&c=HMb-bQbmU5M-RVnU6NoPydkGjh0FEigULJcpwwA3z7g=',
-        currency: currencyConfig?.applicationData?.currency,
-        key: currencyConfig?.applicationData?.razorpayKeyId,
-        amount: pricex,
-        name: 'Shopinger E-Commerce',
-        order_id: orderId, // This is the crucial part that must be a REAL Razorpay order ID
-        prefill: {
-          email: 'customer@example.com', // Replace with actual user email
-          contact: '9876543210', // Replace with actual user contact
-          name: 'John Doe', // Replace with actual user name
-        },
-        theme: {color: '#ff6600'},
-      };
-
-      RazorpayCheckout.open(options)
-        .then(async data => {
-          console.log('Razorpay Success Data:', data);
-          let rzpOrderId = data?.razorpay_order_id;
-          let paymentId = data?.razorpay_payment_id;
-          let signature = data?.razorpay_signature;
-
-          let verificationResult;
-          // Conditionally call mock or real backend for verification
-          if (IS_MOCK_BACKEND_ENABLED) {
-            verificationResult = await verifyMockRazorpayPayment(
-              rzpOrderId,
-              paymentId,
-              signature,
-            );
-          } else {
-            // This is where your real backend API call for verification would go
-            verificationResult = await axiosInstance.post(
-              '/api/verify-razorpay-payment',
-              {
-                razorpay_order_id: rzpOrderId,
-                razorpay_payment_id: paymentId,
-                razorpay_signature: signature,
-              },
-            );
-          }
-
-          if (verificationResult.success) {
-            Alert.alert('Payment Successful!', verificationResult.message);
-            navigation.navigate('OrderSuccessScreen', {paymentId: paymentId});
-          } else {
-            Alert.alert(
-              'Payment Verification Failed',
-              'There was an issue verifying your payment. Please contact support.',
-            );
-          }
-        })
-        .catch(error => {
-          console.error(`Razorpay Error: ${error.code} - ${error.description}`);
-          Alert.alert('Payment Failed', `Error: ${error.description}`);
-        })
-        .finally(() => {
-          setIsPaying(false);
-        });
-    } catch (error) {
-      console.error('Error initiating Razorpay flow:', error);
-      Alert.alert(
-        'Payment Initialization Error',
-        'Could not initiate payment. Please try again.',
-      );
-      setIsPaying(false);
-    }
-  };
-
-  if (loadingCart) {
-    return (
-      <SafeAreaView style={styles.safeArea}>
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#ff6600" />
-          <Text style={{marginTop: 10}}>Loading cart...</Text>
-        </View>
-      </SafeAreaView>
-    );
-  }
-
-  if (cartItemsToDisplay.length === 0 && !loadingCart && !error) {
+  // Render the empty cart message only if loading is false AND items array is actually empty
+  if (!loadingCart && cartItemsToDisplay.length === 0 && !error) {
     return (
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.emptyCartContainer}>
@@ -1473,6 +2057,18 @@ const CheckoutPage = ({navigation}) => {
             onPress={() => navigation.navigate('Home')}>
             <Text style={styles.browseButtonText}>Continue Shopping</Text>
           </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  // If loading, show indicator
+  if (loadingCart) {
+    return (
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#ff6600" />
+          <Text style={{marginTop: 10}}>Loading cart...</Text>
         </View>
       </SafeAreaView>
     );
@@ -1502,6 +2098,7 @@ const CheckoutPage = ({navigation}) => {
           </View>
         )}
 
+        {/* This will now render API data or STATIC_CART_ITEMS_DATA if API fails/empty */}
         {cartItemsToDisplay.map(item => (
           <CheckoutCartItem key={item.id} item={item} />
         ))}

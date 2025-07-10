@@ -2554,7 +2554,7 @@ const SIMILAR_PRODUCTS_DATA = [
   },
 ];
 
-const ProductDetailsScreen = ({navigation}) => {
+const ProductDetailsScreen = ({navigation, route}) => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [productData, setProductData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -2564,6 +2564,8 @@ const ProductDetailsScreen = ({navigation}) => {
   // State to hold selected attribute values (e.g., {color: "Red", size: "M"})
   const [selectedAttributes, setSelectedAttributes] = useState({});
 
+  const {productSlug} = route.params;
+
   // Function to fetch product details using axios
   const fetchProductDetails = async () => {
     setLoading(true); // Set loading to true before fetching
@@ -2571,8 +2573,11 @@ const ProductDetailsScreen = ({navigation}) => {
     try {
       // Use apiInstance.get and specify the relative path
       const response = await axiosInstance.get(
-        "web/get-products/leotude-men's-oversized-half-sleeve-round-neck-t-shirt-(po3_fs49_bsd_sul_lsnls_p_beige-maron_3xl)",
+        `web/get-products/${productSlug}`,
       );
+      // const response = await axiosInstance.get(
+      //   "web/get-products/leotude-men's-oversized-half-sleeve-round-neck-t-shirt-(po3_fs49_bsd_sul_lsnls_p_beige-maron_3xl)",
+      // );
 
       if (
         response.data.success &&

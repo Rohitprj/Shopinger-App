@@ -1874,8 +1874,6 @@ const {width} = Dimensions.get('window');
 // --- IMPORTANT: Define your image base URL here directly ---
 const IMAGE_BASE_URL = 'https://shopinger.co.in';
 
-// Static Data for cart items (used as fallback if API returns no items or fails)
-// KEEP THIS FOR FALLBACK, BUT WE'LL INITIALLY SET cartItemsToDisplay TO EMPTY
 const STATIC_CART_ITEMS_DATA = [
   {
     id: '1',
@@ -1894,28 +1892,18 @@ const STATIC_CART_ITEMS_DATA = [
     quantity: 1,
   },
 ];
-
-// --- CONFIGURATION FOR MOCK/REAL BACKEND ---
-// Set this to true to use the mock backend for Razorpay order creation/verification.
-// Set to false when you have a real backend running and configured in axiosInstance.
-const IS_MOCK_BACKEND_ENABLED = true; // <--- TOGGLE THIS!
+const IS_MOCK_BACKEND_ENABLED = true;
 
 const CheckoutCartItem = ({item}) => {
-  // Console log the item to see what data it receives
-  // console.log("Rendering CheckoutCartItem with item:", JSON.stringify(item, null, 2));
-
   const imageSource =
     typeof item.image === 'number'
       ? item.image
       : {
-          // Check if item.image is a non-empty string before prepending base URL
           uri:
             item.image && item.image.trim() !== ''
               ? `${IMAGE_BASE_URL}${item.image}`
               : 'https://placehold.co/80x80/E0E0E0/555555?text=No+Image',
         };
-
-  // console.log("Image Source URI:", imageSource.uri); // Log the final URI
 
   const productName = item.name || 'Unknown Product';
   const brandName = item.brand || 'Unknown Brand';
@@ -1950,7 +1938,6 @@ const CheckoutCartItem = ({item}) => {
 };
 
 const CheckoutPage = ({navigation}) => {
-  // IMPORTANT: Initialize with an empty array to see if API data actually loads
   const [cartItemsToDisplay, setCartItemsToDisplay] = useState([]);
   const [cartSummary, setCartSummary] = useState({
     subtotal: 0,
@@ -1996,12 +1983,9 @@ const CheckoutPage = ({navigation}) => {
         if (apiCartData.items && apiCartData.items.length > 0) {
           const mappedItems = apiCartData.items.map(item => ({
             id: item.cartItemId || item.productId,
-            // Ensure item.images[0] exists before using it
             image:
               item.images && item.images.length > 0 ? item.images[0] : null,
             name: item.productName,
-            // 'brand' is not directly available in your provided response,
-            // it will remain 'N/A' as per your mapping.
             brand: 'N/A',
             price: item.sellingPrice,
             quantity: item.quantity,
@@ -2042,10 +2026,120 @@ const CheckoutPage = ({navigation}) => {
 
   useEffect(() => {
     fetchCartData();
-  }, []); // Empty dependency array means this runs once on component mount
+  }, []);
+  const handleBuyPress = async amount => {
+    if (
+      !currencyConfig.applicationData.razorpayKeyId ||
+      currencyConfig.applicationData.razorpayKeyId.includes(
+        'YOUR_RAZORPAY_KEY_ID',
+      )
+    ) {
+      Alert.alert(
+        'Configuration Error',
+        'Please set your actual Razorpay Key ID. For testing, use a test key (rzp_test_...).',
+      );
+      return;
+    }
 
-  // ... (rest of your CheckoutPage component, handleBuyPress, and styles remain the same) ...
+    setIsPaying(true);
+    try {
+      let res;
+      // Conditionally call mock or real backend based on the flag
+      if (IS_MOCK_BACKEND_ENABLED) {
+        res = await createMockRazorpayOrder(
+          Number(amount * 100), // Razorpay expects amount in paise
+          currencyConfig.applicationData.currency,
+        );
+      } else {
+        // This is where your real backend API call would go
+        res = await axiosInstance.post('/api/create-razorpay-order', {
+          amount: Number(amount), // Send raw amount, backend converts to paise
+          currency: currencyConfig.applicationData.currency || 'INR',
+        });
+      }
 
+      const orderId = res?.razorpayOrder?.id;
+      const pricex = Number(amount * 100);
+
+      if (!orderId) {
+        Alert.alert(
+          'Payment Error',
+          'Failed to obtain Razorpay order ID. Please try again.',
+        );
+        setIsPaying(false);
+        return;
+      }
+
+      var options = {
+        description: 'Shopinger Purchase',
+        image:
+          'https://media.istockphoto.com/id/486326115/photo/bull-and-bear.webp?b=1&s=170667a&w=0&k=20&c=HMb-bQbmU5M-RVnU6NoPydkGjh0FEigULJcpwwA3z7g=',
+        currency: currencyConfig?.applicationData?.currency,
+        key: currencyConfig?.applicationData?.razorpayKeyId,
+        amount: pricex,
+        name: 'Shopinger E-Commerce',
+        order_id: orderId, // This is the crucial part that must be a REAL Razorpay order ID
+        prefill: {
+          email: 'customer@example.com', // Replace with actual user email
+          contact: '9876543210', // Replace with actual user contact
+          name: 'John Doe', // Replace with actual user name
+        },
+        theme: {color: '#ff6600'},
+      };
+
+      RazorpayCheckout.open(options)
+        .then(async data => {
+          console.log('Razorpay Success Data:', data);
+          let rzpOrderId = data?.razorpay_order_id;
+          let paymentId = data?.razorpay_payment_id;
+          let signature = data?.razorpay_signature;
+
+          let verificationResult;
+          // Conditionally call mock or real backend for verification
+          if (IS_MOCK_BACKEND_ENABLED) {
+            verificationResult = await verifyMockRazorpayPayment(
+              rzpOrderId,
+              paymentId,
+              signature,
+            );
+          } else {
+            // This is where your real backend API call for verification would go
+            verificationResult = await axiosInstance.post(
+              '/api/verify-razorpay-payment',
+              {
+                razorpay_order_id: rzpOrderId,
+                razorpay_payment_id: paymentId,
+                razorpay_signature: signature,
+              },
+            );
+          }
+
+          if (verificationResult.success) {
+            Alert.alert('Payment Successful!', verificationResult.message);
+            navigation.navigate('OrderSuccessScreen', {paymentId: paymentId});
+          } else {
+            Alert.alert(
+              'Payment Verification Failed',
+              'There was an issue verifying your payment. Please contact support.',
+            );
+          }
+        })
+        .catch(error => {
+          console.error(`Razorpay Error: ${error.code} - ${error.description}`);
+          Alert.alert('Payment Failed', `Error: ${error.description}`);
+        })
+        .finally(() => {
+          setIsPaying(false);
+        });
+    } catch (error) {
+      console.error('Error initiating Razorpay flow:', error);
+      Alert.alert(
+        'Payment Initialization Error',
+        'Could not initiate payment. Please try again.',
+      );
+      setIsPaying(false);
+    }
+  };
   // Render the empty cart message only if loading is false AND items array is actually empty
   if (!loadingCart && cartItemsToDisplay.length === 0 && !error) {
     return (
@@ -2098,10 +2192,23 @@ const CheckoutPage = ({navigation}) => {
           </View>
         )}
 
-        {/* This will now render API data or STATIC_CART_ITEMS_DATA if API fails/empty */}
         {cartItemsToDisplay.map(item => (
           <CheckoutCartItem key={item.id} item={item} />
         ))}
+
+        <TouchableOpacity
+          style={styles.infoBlock}
+          onPress={() => navigation.navigate('Checkout')}>
+          <View style={styles.infoBlockHeader}>
+            <Text style={styles.infoBlockTitle}>Delivery Address</Text>
+            <Text style={styles.infoBlockTitle}>Edit</Text>
+          </View>
+          <View style={styles.infoBlockContent}>
+            <Text style={styles.infoBlockText}>
+              Add your delivery address here{'\n'}Location 📍
+            </Text>
+          </View>
+        </TouchableOpacity>
 
         <View style={styles.orderInfoContainer}>
           <Text style={styles.orderInfoTitle}>Order Info</Text>
@@ -2144,7 +2251,7 @@ const CheckoutPage = ({navigation}) => {
           {isPaying ? (
             <ActivityIndicator color="#fff" size="small" />
           ) : (
-            <Text style={styles.proceedButtonText}>Proceed to Payment</Text>
+            <Text style={styles.proceedButtonText}>Proceed to Checkout</Text>
           )}
         </TouchableOpacity>
 

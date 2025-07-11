@@ -3567,7 +3567,7 @@ const CheckoutPage = ({navigation}) => {
         <View style={styles.infoBlock}>
           <TouchableOpacity
             style={styles.infoBlockHeader}
-            onPress={() => navigation.navigate('Checkout')}>
+            onPress={() => navigation.navigate('AllAddresses')}>
             {' '}
             {/* Assuming 'Checkout' or a specific address screen */}
             <Text style={styles.infoBlockTitle}>Delivery Address</Text>

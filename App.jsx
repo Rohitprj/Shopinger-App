@@ -91,6 +91,7 @@ import StaticShoppingBagScreen from './src/Screens/ShoppingBag';
 import Payment from './src/Screens/Payment';
 import ProductAllData from './src/Screens/ProductAllData';
 import ProductDetails from './src/Screens/ProductDetails';
+import AllAddresses from './src/Screens/AllAddresses';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -125,6 +126,7 @@ const StackNavigator = ({initialRouteName}) => {
       <Stack.Screen name="MainTabs" component={TabNavigator} />
       <Stack.Screen name="ProductAllData" component={ProductAllData} />
       <Stack.Screen name="ProductDetails" component={ProductDetails} />
+      <Stack.Screen name="AllAddresses" component={AllAddresses} />
       <Stack.Screen name="Reviews" component={ReviewsScreen} />
       <Stack.Screen name="AddReview" component={AddReviewScreen} />
       <Stack.Screen name="Checkout" component={CheckoutScreen} />

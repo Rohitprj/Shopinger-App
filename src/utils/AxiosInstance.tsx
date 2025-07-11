@@ -107,7 +107,7 @@ axiosInstance.interceptors.request.use(
       // You might want to handle this error (e.g., log out user if token retrieval consistently fails)
     }
 
-    console.log('Request Interceptor:', config);
+    // console.log('Request Interceptor:', config);
     return config;
   },
   error => {
@@ -125,7 +125,7 @@ axiosInstance.interceptors.response.use(
   response => {
     // Any status code that lies in the range of 2xx cause this function to trigger.
     // Do something with response data
-    console.log('Response Interceptor (Success):', response);
+    // console.log('Response Interceptor (Success):', response);
     return response;
   },
   async error => {

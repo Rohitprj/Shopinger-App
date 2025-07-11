@@ -2944,8 +2944,8 @@ const ProductDetailsScreen = ({navigation, route}) => {
 
           <Text style={styles.productName}>{productData.name}</Text>
           <View style={styles.priceRatingRow}>
-            <Text style={styles.originalPrice}>₹{sellingPrice}</Text>
-            <Text style={styles.discountedPrice}>₹{price}</Text>
+            <Text style={styles.originalPrice}>₹{price}</Text>
+            <Text style={styles.discountedPrice}>₹{sellingPrice}</Text>
             <Text style={styles.discountPercentage}>{discountPercentage}</Text>
           </View>
           <View style={styles.ratingRow}>

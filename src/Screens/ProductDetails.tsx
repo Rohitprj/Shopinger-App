@@ -2983,7 +2983,7 @@ const ProductDetailsScreen = ({navigation, route}) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buyNowButton}
-              onPress={() => navigation.navigate('Checkout')}
+              onPress={() => navigation.navigate('CheckoutProduct')}
               disabled={!selectedVariant || selectedVariant.stock === 0}>
               <Image
                 source={{

@@ -1,13 +1,21 @@
 import React from 'react';
-import { StyleSheet, View, Text, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  ImageBackground,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
-const SplashScreen = ({ navigation }) => {
-//   const handleGetStarted = () => {
-//     // Navigate to your main application screen, onboarding, or login screen
-//     navigation.navigate('Onboarding'); // Example: Navigating to an Onboarding screen
-//   };
+const SplashScreen = ({navigation}) => {
+  console.log('Hello');
+  //   const handleGetStarted = () => {
+  //     // Navigate to your main application screen, onboarding, or login screen
+  //     navigation.navigate('Onboarding'); // Example: Navigating to an Onboarding screen
+  //   };
 
   return (
     <View style={styles.container}>
@@ -25,7 +33,9 @@ const SplashScreen = ({ navigation }) => {
           </View>
 
           {/* Get Started Button */}
-          <TouchableOpacity style={styles.button} onPress={()=> navigation.replace('MainTabs')}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.replace('MainTabs')}>
             <Text style={styles.buttonText}>Get Started</Text>
           </TouchableOpacity>
         </View>

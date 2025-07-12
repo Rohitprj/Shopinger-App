@@ -2565,7 +2565,7 @@ const ProductDetailsScreen = ({navigation, route}) => {
   const [selectedAttributes, setSelectedAttributes] = useState({});
 
   const {productSlug} = route.params;
-  console.log("productSlug",productSlug)
+  console.log('productSlug', productSlug);
 
   // Function to fetch product details using axios
   const fetchProductDetails = async () => {
@@ -2635,7 +2635,6 @@ const ProductDetailsScreen = ({navigation, route}) => {
 
   // --- New function for Add to Cart ---
   const handleAddToCart = async () => {
-    navigation.navigate('CheckoutProduct');
     if (!selectedVariant) {
       Alert.alert('Error', 'Please select a product variant first.');
       return;
@@ -2651,7 +2650,8 @@ const ProductDetailsScreen = ({navigation, route}) => {
       console.log('Add to cart payload:', payload); // Log payload for debugging
 
       const response = await axiosInstance.post('/web/add-to-cart', payload);
-console.log("add to cart response",response)
+
+      console.log('add to cart response', response);
       if (response.data.success) {
         Alert.alert('Success', 'Product added to cart!', [
           {
@@ -2967,7 +2967,11 @@ console.log("add to cart response",response)
           <View style={styles.actionButtonsContainer}>
             <TouchableOpacity
               style={styles.addToCartButton}
-              onPress={handleAddToCart} // Call the new handleAddToCart function
+              // onPress={()=>{handleAddToCart,navigation.navigate('CheckoutProduct')}} // Call the new handleAddToCart function
+              onPress={() => {
+                handleAddToCart();
+                navigation.navigate('CheckoutProduct');
+              }}
               disabled={!selectedVariant || selectedVariant.stock === 0} // Disable if no variant selected or out of stock
             >
               <Image

@@ -1966,7 +1966,9 @@ const App = ({navigation}) => {
             style={styles.logo}
           />
           <View style={styles.headerRight}>
-            <TouchableOpacity style={styles.headerAvatarContainer}>
+            <TouchableOpacity style={styles.headerAvatarContainer} 
+            onPress={() => navigation.navigate('ShoppingBag')}
+            >
               <Image
                 source={require('../../assets/images/Profile.png')}
                 style={styles.logo}

@@ -1461,7 +1461,6 @@
 
 // export default CheckoutPage;
 
-
 // import React, {useState, useEffect, useCallback} from 'react';
 // import {
 //   View,
@@ -5114,6 +5113,610 @@
 
 // export default CheckoutPage;
 
+// import React, {useState, useEffect, useCallback} from 'react';
+// import {
+//   View,
+//   Text,
+//   StyleSheet,
+//   Image,
+//   ScrollView,
+//   Dimensions,
+//   TouchableOpacity,
+//   ActivityIndicator, // For loading state
+//   Alert, // For error messages
+//   Platform, // For platform-specific styles like Picker
+// } from 'react-native';
+// import {SafeAreaView} from 'react-native-safe-area-context';
+// import RazorpayCheckout from 'react-native-razorpay'; // Import Razorpay SDK
+
+// import axiosInstance from '../utils/AxiosInstance'; // Your configured axios instance
+// // Import the mock API functions (assuming you have them in '../utils/mock')
+// // Ensure these paths and function names are correct if you are using them
+// // import {
+// //   createMockRazorpayOrder,
+// //   verifyMockRazorpayPayment,
+// // } from '../utils/mock'; // Commented out as per your likely production setup
+
+// const {width} = Dimensions.get('window');
+
+// // --- IMPORTANT: Define your image base URL here directly ---
+// const IMAGE_BASE_URL = 'https://shopinger.co.in'; // Verify this is your actual image base URL
+
+// // Set this to false for production to use real backend APIs
+// const IS_MOCK_BACKEND_ENABLED = false; // Keep this as false for real API calls
+
+// // Static Data for cart items (used as fallback if API returns no items or fails)
+// const STATIC_CART_ITEMS_DATA = [
+//   {
+//     id: '1', // Using a string ID for consistency
+//     image: require('../../assets/wishlist/shirt.png'), // Local image asset
+//     productName: "Men's Tie-Dye T-Shirt (Static)",
+//     brand: 'Nike Sportswear (Static)',
+//     sellingPrice: '45.00', // Example price as string
+//     quantity: 1,
+//   },
+//   {
+//     id: '2', // Using a string ID for consistency
+//     image: require('../../assets/wishlist/jacket.png'), // Local image asset
+//     productName: "Men's Jacket (Static)",
+//     brand: 'Adidas Originals (Static)',
+//     sellingPrice: '60.00', // Example price as string
+//     quantity: 1,
+//   },
+// ];
+
+// const CheckoutCartItem = ({item, onQuantityChange, isLoading}) => {
+//   // Determine image source: local require for static data, remote URI for API data
+//   const imageSource =
+//     typeof item.image === 'number'
+//       ? item.image // For local assets (e.g., require('../../assets/...'))
+//       : {
+//           uri:
+//             item.images &&
+//             item.images.length > 0 &&
+//             item.images[0].trim() !== ''
+//               ? `${IMAGE_BASE_URL}${item.images[0]}` // Use first image from images array
+//               : 'https://placehold.co/80x80/E0E0E0/555555?text=No+Image',
+//         };
+
+//   const productName = item.productName || 'Unknown Product';
+//   // 'brand' is not in the new API response, so it will be 'N/A' for API items
+//   const brandName = item.brand || 'N/A';
+//   const price = item.sellingPrice
+//     ? parseFloat(item.sellingPrice).toFixed(2)
+//     : '0.00';
+//   const quantity = item.quantity || 1;
+//   const cartItemId = item.cartItemId; // Use cartItemId from API response
+
+//   const handleDecrement = () => {
+//     if (quantity > 1) {
+//       onQuantityChange(cartItemId, quantity - 1);
+//     } else {
+//       Alert.alert(
+//         'Remove Item',
+//         'Do you want to remove this item from your cart?',
+//         [
+//           {
+//             text: 'Cancel',
+//             style: 'cancel',
+//           },
+//           {
+//             text: 'Remove',
+//             onPress: () => onQuantityChange(cartItemId, 0), // Send 0 to indicate removal
+//             style: 'destructive',
+//           },
+//         ],
+//       );
+//     }
+//   };
+
+//   const handleIncrement = () => {
+//     onQuantityChange(cartItemId, quantity + 1);
+//   };
+
+//   return (
+//     <View style={styles.cartItemCard}>
+//       <Image source={imageSource} style={styles.cartItemImage} />
+//       <View style={styles.cartItemDetails}>
+//         <Text style={styles.cartItemName}>{productName}</Text>
+//         <Text style={styles.cartItemBrand}>{brandName}</Text>
+//         <Text style={styles.cartItemPrice}>₹{price}</Text>
+//         <View style={styles.quantityControls}>
+//           <TouchableOpacity
+//             style={styles.quantityButton}
+//             onPress={handleDecrement}
+//             disabled={isLoading}>
+//             <Text style={styles.quantityButtonText}>-</Text>
+//           </TouchableOpacity>
+//           <Text style={styles.quantityText}>{quantity}</Text>
+//           <TouchableOpacity
+//             style={styles.quantityButton}
+//             onPress={handleIncrement}
+//             disabled={isLoading}>
+//             <Text style={styles.quantityButtonText}>+</Text>
+//           </TouchableOpacity>
+//         </View>
+//       </View>
+//       {/* Delete button (optional, if you want a separate remove button) */}
+//       <TouchableOpacity
+//         onPress={() => onQuantityChange(cartItemId, 0)} // Remove item by setting quantity to 0
+//         disabled={isLoading}>
+//         <Image
+//           source={{
+//             uri: 'https://placehold.co/24x24/999999/FFFFFF?text=X',
+//           }}
+//           style={styles.deleteIcon}
+//         />
+//       </TouchableOpacity>
+//     </View>
+//   );
+// };
+
+// const CheckoutPage = ({navigation}) => {
+//   const [cartItemsToDisplay, setCartItemsToDisplay] = useState([]);
+//   const [cartSummary, setCartSummary] = useState({
+//     subtotal: 0,
+//     platformFee: 0,
+//     gst: 0,
+//     deliveryFee: 0,
+//     totalAmount: 0,
+//   });
+//   const [deliveryAddress, setDeliveryAddress] = useState(null); // To store the fetched address
+//   const [loadingCart, setLoadingCart] = useState(true); // For cart data and quantity updates
+//   const [loadingAddress, setLoadingAddress] = useState(true); // For address data
+//   const [isPaying, setIsPaying] = useState(false); // For Razorpay payment process
+//   const [error, setError] = useState(null); // General error state
+
+//   const [currencyConfig] = useState({
+//     applicationData: {
+//       currency: 'INR',
+//       razorpayKeyId: 'rzp_live_ykAW0WN2mvhAjJ', // YOUR ACTUAL LIVE KEY ID
+//     },
+//   });
+
+//   const fetchCartData = useCallback(async () => {
+//     setLoadingCart(true); // Set loading for cart data fetch
+//     setError(null); // Clear previous errors
+//     console.log('Fetching cart data...');
+//     try {
+//       const response = await axiosInstance.get('/web/get-cart');
+//       console.log(
+//         'API Response Data for /web/get-cart:',
+//         JSON.stringify(response.data, null, 2),
+//       );
+
+//       if (response.data) {
+//         const apiCartData = response.data;
+
+//         setCartSummary({
+//           subtotal: apiCartData.summary?.subtotal || 0,
+//           platformFee: apiCartData.otherCharges?.plateformfee || 0,
+//           gst: apiCartData.otherCharges?.gst || 0,
+//           deliveryFee: apiCartData.otherCharges?.deliveryFee || 0,
+//           totalAmount: apiCartData.totalAmountafterCharges || 0,
+//         });
+
+//         if (apiCartData.items && apiCartData.items.length > 0) {
+//           const mappedItems = apiCartData.items.map(item => ({
+//             id: item.cartItemId.toString(), // Use cartItemId as unique key
+//             cartItemId: item.cartItemId, // Pass cartItemId for quantity updates
+//             productName: item.productName,
+//             sellingPrice: item.sellingPrice,
+//             quantity: item.quantity,
+//             images: item.images, // Array of image paths
+//             // 'brand' is not in the new API response, so it's omitted or set to N/A
+//             // brand: item.brand, // If brand was available
+//           }));
+//           setCartItemsToDisplay(mappedItems);
+//         } else {
+//           setCartItemsToDisplay([]); // Set to empty array if no items from API
+//         }
+//       } else {
+//         setError('Failed to fetch cart data: No data in response.');
+//         setCartItemsToDisplay([]); // Set to empty array on no response data
+//       }
+//     } catch (e) {
+//       console.error('Error fetching cart data:', e);
+//       let errorMessage =
+//         'Could not load cart items. Please check your network or try again.';
+//       if (e.response) {
+//         errorMessage =
+//           e.response.data?.message || `Server Error: ${e.response.status}`;
+//       } else if (e.request) {
+//         errorMessage =
+//           'Network Error: No response from server. Check your internet connection.';
+//       } else {
+//         errorMessage = `Error: ${e.message}`;
+//       }
+//       setError(errorMessage);
+//       setCartItemsToDisplay([]); // Set to empty array on error
+//     } finally {
+//       setLoadingCart(false); // End loading for cart data fetch
+//       console.log('Finished fetching cart data.');
+//     }
+//   }, []);
+
+//   const fetchAddressData = useCallback(async () => {
+//     setLoadingAddress(true); // Set loading for address data fetch
+//     setError(null);
+//     console.log('Fetching address data...');
+//     try {
+//       const response = await axiosInstance.get('/web/get-address');
+//       console.log(
+//         'API Response Data for /web/get-address:',
+//         JSON.stringify(response.data, null, 2),
+//       );
+
+//       if (
+//         response.data &&
+//         response.data.addresses &&
+//         response.data.addresses.length > 0
+//       ) {
+//         // Assuming you want to display the first address in the list
+//         setDeliveryAddress(response.data.addresses[0]);
+//       } else {
+//         setDeliveryAddress(null); // No address found
+//       }
+//     } catch (e) {
+//       console.error('Error fetching address data:', e);
+//       let errorMessage =
+//         'Could not load delivery address. Please check your network or add an address.';
+//       if (e.response) {
+//         errorMessage =
+//           e.response.data?.message || `Server Error: ${e.response.status}`;
+//       } else if (e.request) {
+//         errorMessage = 'Network Error: No response from server for address.';
+//       } else {
+//         errorMessage = `Error: ${e.message}`;
+//       }
+//       setError(errorMessage);
+//       setDeliveryAddress(null);
+//     } finally {
+//       setLoadingAddress(false); // End loading for address data fetch
+//       console.log('Finished fetching address data.');
+//     }
+//   }, []);
+
+//   // Effect to fetch initial cart and address data
+//   useEffect(() => {
+//     fetchCartData();
+//     fetchAddressData();
+//   }, [fetchCartData, fetchAddressData]);
+
+//   // --- MODIFIED handleQuantityUpdate function ---
+//   const handleQuantityUpdate = async (cartItemId, newQuantity) => {
+//     setLoadingCart(true); // Show loading while updating quantity
+//     setError(null); // Clear previous errors for this operation
+
+//     // Find the current item in the state to determine the 'action'
+//     const currentItem = cartItemsToDisplay.find(
+//       item => item.cartItemId === cartItemId,
+//     );
+//     if (!currentItem) {
+//       Alert.alert('Error', 'Cart item not found.');
+//       setLoadingCart(false);
+//       return;
+//     }
+
+//     let action;
+//     if (newQuantity > currentItem.quantity) {
+//       action = 'increment';
+//     } else if (newQuantity < currentItem.quantity) {
+//       // If newQuantity is 0, we still send 'decrement', assuming backend handles removal
+//       action = 'decrement';
+//     } else {
+//       // No change in quantity, do nothing
+//       setLoadingCart(false);
+//       return;
+//     }
+
+//     try {
+//       const response = await axiosInstance.patch(
+//         `/web/quantity-update/${cartItemId}`,
+//         {action: action}, // Send the 'action' in JSON payload
+//       );
+
+//       console.log('Quantity Update Response:', response.data);
+
+//       if (response.data && response.data.success) {
+//         // After successful quantity update, re-fetch the cart data to get updated totals
+//         await fetchCartData(); // This will update cartItemsToDisplay and cartSummary
+//         Alert.alert('Success', 'Cart updated successfully.'); // Provide success feedback
+//       } else {
+//         Alert.alert(
+//           'Update Failed',
+//           response.data?.message || 'Failed to update quantity.',
+//         );
+//       }
+//     } catch (e) {
+//       console.error('Error updating quantity:', e);
+//       let errorMessage = 'Failed to update item quantity.';
+//       if (e.response) {
+//         // Server responded with a status other than 2xx
+//         errorMessage =
+//           e.response.data?.message || `Server Error: ${e.response.status}`;
+//       } else if (e.request) {
+//         // Request was made but no response received
+//         errorMessage =
+//           'Network Error: No response from server for quantity update. Check your internet connection.';
+//       } else {
+//         // Something else happened while setting up the request
+//         errorMessage = `Error: ${e.message}`;
+//       }
+//       Alert.alert('Error', errorMessage);
+//     } finally {
+//       setLoadingCart(false); // End loading after update attempt
+//     }
+//   };
+//   // --- END MODIFIED handleQuantityUpdate function ---
+
+//   const handleBuyPress = async amount => {
+//     if (
+//       !currencyConfig.applicationData.razorpayKeyId ||
+//       currencyConfig.applicationData.razorpayKeyId.includes(
+//         'YOUR_RAZORPAY_KEY_ID',
+//       )
+//     ) {
+//       Alert.alert(
+//         'Configuration Error',
+//         'Please set your actual Razorpay Key ID. For testing, use a test key (rzp_test_...).',
+//       );
+//       return;
+//     }
+
+//     if (cartItemsToDisplay.length === 0) {
+//       Alert.alert(
+//         'Cart Empty',
+//         'Your cart is empty. Please add items before proceeding to checkout.',
+//       );
+//       return;
+//     }
+//     if (!deliveryAddress) {
+//       Alert.alert(
+//         'Address Required',
+//         'Please set a delivery address before proceeding to checkout.',
+//       );
+//       return;
+//     }
+
+//     setIsPaying(true); // Start payment loading state
+//     try {
+//       // Directly call real backend API for creating Razorpay order
+//       const createOrderResponse = await axiosInstance.post(
+//         '/web/create-razorpay-order',
+//         {
+//           amount: Math.round(Number(amount)), // Amount should be in integer, not paise here for your backend
+//           currency: currencyConfig.applicationData.currency || 'INR',
+//         },
+//       );
+//       const res = createOrderResponse.data; // Assuming axios response wraps actual data in .data
+
+//       const orderId = res?.orderId;
+//       const amountInPaise = Math.round(Number(amount) * 100); // Razorpay expects amount in smallest currency unit
+
+//       if (!orderId) {
+//         Alert.alert(
+//           'Payment Error',
+//           'Failed to obtain Razorpay order ID from backend. Please try again.',
+//         );
+//         setIsPaying(false);
+//         return;
+//       }
+
+//       var options = {
+//         description: 'Shopinger Purchase',
+//         image:
+//           'https://media.istockphoto.com/id/486326115/photo/bull-and-bear.webp?b=1&s=170667a&w=0&k=20&c=HMb-bQbmU5-RVnU6NoPydkGjh0FEigULJcpwwA3z7g=',
+//         currency: currencyConfig?.applicationData?.currency,
+//         key: currencyConfig?.applicationData?.razorpayKeyId,
+//         amount: amountInPaise, // Use amount in paise for Razorpay SDK
+//         name: 'Shopinger E-Commerce',
+//         order_id: orderId,
+//         prefill: {
+//           email: 'customer@example.com', // TODO: Replace with actual user email
+//           contact: '9876543210', // TODO: Replace with actual user contact
+//           name: 'John Doe', // TODO: Replace with actual user name
+//         },
+//         theme: {color: '#ff6600'},
+//       };
+
+//       RazorpayCheckout.open(options)
+//         .then(async data => {
+//           console.log('Razorpay Success Data:', data);
+//           let rzpOrderId = data?.razorpay_order_id;
+//           let paymentId = data?.razorpay_payment_id;
+//           let signature = data?.razorpay_signature;
+
+//           // Directly call real backend API for verifying Razorpay payment
+//           const verifyPaymentResponse = await axiosInstance.post(
+//             '/web/verify-razorpay-payment',
+//             {
+//               razorpay_order_id: rzpOrderId,
+//               razorpay_payment_id: paymentId,
+//               razorpay_signature: signature,
+//             },
+//           );
+//           const verificationResult = verifyPaymentResponse.data;
+
+//           if (verificationResult.success) {
+//             Alert.alert('Payment Successful!', verificationResult.message);
+//             navigation.navigate('OrderSuccessScreen', {paymentId: paymentId});
+//           } else {
+//             Alert.alert(
+//               'Payment Verification Failed',
+//               verificationResult.message ||
+//                 'There was an issue verifying your payment. Please contact support.',
+//             );
+//           }
+//         })
+//         .catch(error => {
+//           console.error(`Razorpay Error: ${error.code} - ${error.description}`);
+//           Alert.alert('Payment Failed', `Error: ${error.description}`);
+//         })
+//         .finally(() => {
+//           setIsPaying(false); // End payment loading state
+//         });
+//     } catch (error) {
+//       console.error('Error initiating Razorpay flow:', error);
+//       Alert.alert(
+//         'Payment Initialization Error',
+//         'Could not initiate payment. Please try again.',
+//       );
+//       setIsPaying(false); // End payment loading state
+//     }
+//   };
+
+//   // Render loading state for initial fetches
+//   if (loadingCart || loadingAddress) {
+//     return (
+//       <SafeAreaView style={styles.safeArea}>
+//         <View style={styles.loadingContainer}>
+//           <ActivityIndicator size="large" color="#ff6600" />
+//           <Text style={{marginTop: 10}}>Loading cart and address...</Text>
+//         </View>
+//       </SafeAreaView>
+//     );
+//   }
+
+//   // --- Main rendering logic starts here ---
+//   return (
+//     <SafeAreaView style={styles.safeArea}>
+//       <View style={styles.header}>
+//         <TouchableOpacity onPress={() => navigation.goBack()}>
+//           <Image
+//             source={{
+//               uri: 'https://placehold.co/24x24/000000/FFFFFF?text=%3C',
+//             }}
+//             style={styles.backArrowIcon}
+//           />
+//         </TouchableOpacity>
+//         <Text style={styles.headerTitle}>Checkout</Text>
+//         <View style={{width: 24}} />
+//       </View>
+
+//       <ScrollView
+//         contentContainerStyle={styles.container}
+//         showsVerticalScrollIndicator={false}>
+//         {error && (
+//           <View style={styles.errorBanner}>
+//             <Text style={styles.errorBannerText}>{error}</Text>
+//           </View>
+//         )}
+
+//         {/* Conditionally render cart items or a message if empty */}
+//         {cartItemsToDisplay.length > 0 ? (
+//           cartItemsToDisplay.map(item => (
+//             <CheckoutCartItem
+//               key={item.id} // Use item.id (which is cartItemId) for key
+//               item={item}
+//               onQuantityChange={handleQuantityUpdate}
+//               isLoading={loadingCart} // Pass loading state to disable buttons
+//             />
+//           ))
+//         ) : (
+//           <View style={styles.noItemsInCartContainer}>
+//             <Text style={styles.noItemsInCartText}>No items in your cart.</Text>
+//             <TouchableOpacity
+//               style={styles.browseButton}
+//               onPress={() => navigation.navigate('ProductAllData')}>
+//               <Text style={styles.browseButtonText}>Continue Shopping</Text>
+//             </TouchableOpacity>
+//           </View>
+//         )}
+
+//         <View style={styles.infoBlock}>
+//           <TouchableOpacity
+//             style={styles.infoBlockHeader}
+//             onPress={() => navigation.navigate('AllAddresses')}>
+//             {' '}
+//             {/* Assuming 'Checkout' or a specific address screen */}
+//             <Text style={styles.infoBlockTitle}>Delivery Address</Text>
+//             <Text style={styles.infoBlockTitle}>Edit</Text>
+//           </TouchableOpacity>
+//           <View style={styles.infoBlockContent}>
+//             <Image
+//               source={{
+//                 uri: 'https://placehold.co/24x24/ff6600/FFFFFF?text=L', // Placeholder for location pin
+//               }}
+//               style={styles.infoBlockIcon}
+//             />
+//             {deliveryAddress ? (
+//               <Text style={styles.infoBlockText}>
+//                 {deliveryAddress.houseNo}, {deliveryAddress.street},{'\n'}
+//                 {deliveryAddress.city}, {deliveryAddress.district},{' '}
+//                 {deliveryAddress.pincode},{'\n'}
+//                 {deliveryAddress.country}
+//                 {deliveryAddress.landmark
+//                   ? `\nLandmark: ${deliveryAddress.landmark}`
+//                   : ''}
+//                 {deliveryAddress.mobile
+//                   ? `\nMobile: ${deliveryAddress.mobile}`
+//                   : ''}
+//               </Text>
+//             ) : (
+//               <Text style={styles.infoBlockText}>
+//                 No delivery address found. Please add one.
+//               </Text>
+//             )}
+//           </View>
+//         </View>
+
+//         <View style={styles.orderInfoContainer}>
+//           <Text style={styles.orderInfoTitle}>Order Info</Text>
+//           <View style={styles.orderInfoRow}>
+//             <Text style={styles.orderInfoLabel}>Subtotal</Text>
+//             <Text style={styles.orderInfoValue}>
+//               ₹{cartSummary.subtotal.toFixed(2)}
+//             </Text>
+//           </View>
+//           <View style={styles.orderInfoRow}>
+//             <Text style={styles.orderInfoLabel}>Platform Fee</Text>
+//             <Text style={styles.orderInfoValue}>
+//               ₹{cartSummary.platformFee.toFixed(2)}
+//             </Text>
+//           </View>
+//           <View style={styles.orderInfoRow}>
+//             <Text style={styles.orderInfoLabel}>GST</Text>
+//             <Text style={styles.orderInfoValue}>
+//               ₹{cartSummary.gst.toFixed(2)}
+//             </Text>
+//           </View>
+//           <View style={styles.orderInfoRow}>
+//             <Text style={styles.orderInfoLabel}>Delivery Fee</Text>
+//             <Text style={styles.orderInfoValue}>
+//               ₹{cartSummary.deliveryFee.toFixed(2)}
+//             </Text>
+//           </View>
+//           <View style={styles.totalRow}>
+//             <Text style={styles.totalLabel}>Total Amount</Text>
+//             <Text style={styles.totalValue}>
+//               ₹{cartSummary.totalAmount.toFixed(2)}
+//             </Text>
+//           </View>
+//         </View>
+
+//         <TouchableOpacity
+//           style={styles.proceedButton}
+//           onPress={() => handleBuyPress(cartSummary.totalAmount)}
+//           disabled={
+//             isPaying ||
+//             loadingCart ||
+//             loadingAddress ||
+//             cartItemsToDisplay.length === 0 ||
+//             !deliveryAddress
+//           }>
+//           {isPaying ? (
+//             <ActivityIndicator color="#fff" size="small" />
+//           ) : (
+//             <Text style={styles.proceedButtonText}>Proceed to Checkout</Text>
+//           )}
+//         </TouchableOpacity>
+
+//         <View style={{height: 40}} />
+//       </ScrollView>
+//     </SafeAreaView>
+//   );
+// };
 import React, {useState, useEffect, useCallback} from 'react';
 import {
   View,
@@ -5123,71 +5726,59 @@ import {
   ScrollView,
   Dimensions,
   TouchableOpacity,
-  ActivityIndicator, // For loading state
-  Alert, // For error messages
-  Platform, // For platform-specific styles like Picker
+  ActivityIndicator,
+  Alert,
+  Platform,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import RazorpayCheckout from 'react-native-razorpay'; // Import Razorpay SDK
+import RazorpayCheckout from 'react-native-razorpay';
 
-import axiosInstance from '../utils/AxiosInstance'; // Your configured axios instance
-// Import the mock API functions (assuming you have them in '../utils/mock')
-// Ensure these paths and function names are correct if you are using them
-// import {
-//   createMockRazorpayOrder,
-//   verifyMockRazorpayPayment,
-// } from '../utils/mock'; // Commented out as per your likely production setup
+import axiosInstance from '../utils/AxiosInstance';
 
 const {width} = Dimensions.get('window');
 
-// --- IMPORTANT: Define your image base URL here directly ---
-const IMAGE_BASE_URL = 'https://shopinger.co.in'; // Verify this is your actual image base URL
+const IMAGE_BASE_URL = 'https://shopinger.co.in';
+const IS_MOCK_BACKEND_ENABLED = false;
 
-// Set this to false for production to use real backend APIs
-const IS_MOCK_BACKEND_ENABLED = false; // Keep this as false for real API calls
-
-// Static Data for cart items (used as fallback if API returns no items or fails)
 const STATIC_CART_ITEMS_DATA = [
   {
-    id: '1', // Using a string ID for consistency
-    image: require('../../assets/wishlist/shirt.png'), // Local image asset
+    id: '1',
+    image: require('../../assets/wishlist/shirt.png'),
     productName: "Men's Tie-Dye T-Shirt (Static)",
     brand: 'Nike Sportswear (Static)',
-    sellingPrice: '45.00', // Example price as string
+    sellingPrice: '45.00',
     quantity: 1,
   },
   {
-    id: '2', // Using a string ID for consistency
-    image: require('../../assets/wishlist/jacket.png'), // Local image asset
+    id: '2',
+    image: require('../../assets/wishlist/jacket.png'),
     productName: "Men's Jacket (Static)",
     brand: 'Adidas Originals (Static)',
-    sellingPrice: '60.00', // Example price as string
+    sellingPrice: '60.00',
     quantity: 1,
   },
 ];
 
 const CheckoutCartItem = ({item, onQuantityChange, isLoading}) => {
-  // Determine image source: local require for static data, remote URI for API data
   const imageSource =
     typeof item.image === 'number'
-      ? item.image // For local assets (e.g., require('../../assets/...'))
+      ? item.image
       : {
           uri:
             item.images &&
             item.images.length > 0 &&
             item.images[0].trim() !== ''
-              ? `${IMAGE_BASE_URL}${item.images[0]}` // Use first image from images array
+              ? `${IMAGE_BASE_URL}${item.images[0]}`
               : 'https://placehold.co/80x80/E0E0E0/555555?text=No+Image',
         };
 
   const productName = item.productName || 'Unknown Product';
-  // 'brand' is not in the new API response, so it will be 'N/A' for API items
   const brandName = item.brand || 'N/A';
   const price = item.sellingPrice
     ? parseFloat(item.sellingPrice).toFixed(2)
     : '0.00';
   const quantity = item.quantity || 1;
-  const cartItemId = item.cartItemId; // Use cartItemId from API response
+  const cartItemId = item.cartItemId;
 
   const handleDecrement = () => {
     if (quantity > 1) {
@@ -5203,7 +5794,7 @@ const CheckoutCartItem = ({item, onQuantityChange, isLoading}) => {
           },
           {
             text: 'Remove',
-            onPress: () => onQuantityChange(cartItemId, 0), // Send 0 to indicate removal
+            onPress: () => onQuantityChange(cartItemId, 0),
             style: 'destructive',
           },
         ],
@@ -5238,9 +5829,8 @@ const CheckoutCartItem = ({item, onQuantityChange, isLoading}) => {
           </TouchableOpacity>
         </View>
       </View>
-      {/* Delete button (optional, if you want a separate remove button) */}
       <TouchableOpacity
-        onPress={() => onQuantityChange(cartItemId, 0)} // Remove item by setting quantity to 0
+        onPress={() => onQuantityChange(cartItemId, 0)}
         disabled={isLoading}>
         <Image
           source={{
@@ -5262,22 +5852,25 @@ const CheckoutPage = ({navigation}) => {
     deliveryFee: 0,
     totalAmount: 0,
   });
-  const [deliveryAddress, setDeliveryAddress] = useState(null); // To store the fetched address
-  const [loadingCart, setLoadingCart] = useState(true); // For cart data and quantity updates
-  const [loadingAddress, setLoadingAddress] = useState(true); // For address data
-  const [isPaying, setIsPaying] = useState(false); // For Razorpay payment process
-  const [error, setError] = useState(null); // General error state
+  const [deliveryAddress, setDeliveryAddress] = useState(null);
+  const [loadingCart, setLoadingCart] = useState(true);
+  const [loadingAddress, setLoadingAddress] = useState(true);
+  const [isPaying, setIsPaying] = useState(false);
+  const [error, setError] = useState(null);
+  const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false); // New state for quantity updates
 
   const [currencyConfig] = useState({
     applicationData: {
       currency: 'INR',
-      razorpayKeyId: 'rzp_live_ykAW0WN2mvhAjJ', // YOUR ACTUAL LIVE KEY ID
+      razorpayKeyId: 'rzp_live_ykAW0WN2mvhAjJ',
     },
   });
 
-  const fetchCartData = useCallback(async () => {
-    setLoadingCart(true); // Set loading for cart data fetch
-    setError(null); // Clear previous errors
+  const fetchCartData = useCallback(async (showLoading = true) => {
+    if (showLoading) {
+      setLoadingCart(true);
+    }
+    setError(null);
     console.log('Fetching cart data...');
     try {
       const response = await axiosInstance.get('/web/get-cart');
@@ -5289,6 +5882,7 @@ const CheckoutPage = ({navigation}) => {
       if (response.data) {
         const apiCartData = response.data;
 
+        // Update cart summary
         setCartSummary({
           subtotal: apiCartData.summary?.subtotal || 0,
           platformFee: apiCartData.otherCharges?.plateformfee || 0,
@@ -5297,24 +5891,23 @@ const CheckoutPage = ({navigation}) => {
           totalAmount: apiCartData.totalAmountafterCharges || 0,
         });
 
+        // Update cart items
         if (apiCartData.items && apiCartData.items.length > 0) {
           const mappedItems = apiCartData.items.map(item => ({
-            id: item.cartItemId.toString(), // Use cartItemId as unique key
-            cartItemId: item.cartItemId, // Pass cartItemId for quantity updates
+            id: item.cartItemId.toString(),
+            cartItemId: item.cartItemId,
             productName: item.productName,
             sellingPrice: item.sellingPrice,
             quantity: item.quantity,
-            images: item.images, // Array of image paths
-            // 'brand' is not in the new API response, so it's omitted or set to N/A
-            // brand: item.brand, // If brand was available
+            images: item.images,
           }));
           setCartItemsToDisplay(mappedItems);
         } else {
-          setCartItemsToDisplay([]); // Set to empty array if no items from API
+          setCartItemsToDisplay([]);
         }
       } else {
         setError('Failed to fetch cart data: No data in response.');
-        setCartItemsToDisplay([]); // Set to empty array on no response data
+        setCartItemsToDisplay([]);
       }
     } catch (e) {
       console.error('Error fetching cart data:', e);
@@ -5330,15 +5923,17 @@ const CheckoutPage = ({navigation}) => {
         errorMessage = `Error: ${e.message}`;
       }
       setError(errorMessage);
-      setCartItemsToDisplay([]); // Set to empty array on error
+      setCartItemsToDisplay([]);
     } finally {
-      setLoadingCart(false); // End loading for cart data fetch
+      if (showLoading) {
+        setLoadingCart(false);
+      }
       console.log('Finished fetching cart data.');
     }
   }, []);
 
   const fetchAddressData = useCallback(async () => {
-    setLoadingAddress(true); // Set loading for address data fetch
+    setLoadingAddress(true);
     setError(null);
     console.log('Fetching address data...');
     try {
@@ -5353,10 +5948,9 @@ const CheckoutPage = ({navigation}) => {
         response.data.addresses &&
         response.data.addresses.length > 0
       ) {
-        // Assuming you want to display the first address in the list
         setDeliveryAddress(response.data.addresses[0]);
       } else {
-        setDeliveryAddress(null); // No address found
+        setDeliveryAddress(null);
       }
     } catch (e) {
       console.error('Error fetching address data:', e);
@@ -5373,27 +5967,27 @@ const CheckoutPage = ({navigation}) => {
       setError(errorMessage);
       setDeliveryAddress(null);
     } finally {
-      setLoadingAddress(false); // End loading for address data fetch
+      setLoadingAddress(false);
       console.log('Finished fetching address data.');
     }
   }, []);
 
-  // Effect to fetch initial cart and address data
   useEffect(() => {
     fetchCartData();
     fetchAddressData();
   }, [fetchCartData, fetchAddressData]);
 
-  // --- MODIFIED handleQuantityUpdate function ---
+  // IMPROVED handleQuantityUpdate function
   const handleQuantityUpdate = async (cartItemId, newQuantity) => {
-    setLoadingCart(true); // Show loading while updating quantity
-    setError(null); // Clear previous errors for this operation
+    setIsUpdatingQuantity(true); // Use separate loading state for quantity updates
+    setError(null);
 
-    // Find the current item in the state to determine the 'action'
-    const currentItem = cartItemsToDisplay.find(item => item.cartItemId === cartItemId);
+    const currentItem = cartItemsToDisplay.find(
+      item => item.cartItemId === cartItemId,
+    );
     if (!currentItem) {
       Alert.alert('Error', 'Cart item not found.');
-      setLoadingCart(false);
+      setIsUpdatingQuantity(false);
       return;
     }
 
@@ -5401,53 +5995,58 @@ const CheckoutPage = ({navigation}) => {
     if (newQuantity > currentItem.quantity) {
       action = 'increment';
     } else if (newQuantity < currentItem.quantity) {
-      // If newQuantity is 0, we still send 'decrement', assuming backend handles removal
       action = 'decrement';
     } else {
-      // No change in quantity, do nothing
-      setLoadingCart(false);
+      setIsUpdatingQuantity(false);
       return;
     }
 
     try {
+      console.log(
+        `Updating quantity for item ${cartItemId} with action: ${action}`,
+      );
+
       const response = await axiosInstance.patch(
         `/web/quantity-update/${cartItemId}`,
-        { action: action }, // Send the 'action' in JSON payload
+        {action: action},
       );
 
       console.log('Quantity Update Response:', response.data);
 
       if (response.data && response.data.success) {
-        // After successful quantity update, re-fetch the cart data to get updated totals
-        await fetchCartData(); // This will update cartItemsToDisplay and cartSummary
-        Alert.alert('Success', 'Cart updated successfully.'); // Provide success feedback
+        console.log('Quantity update successful, refreshing cart data...');
+
+        // Refresh cart data without showing main loading indicator
+        await fetchCartData(false);
+
+        // Optional: Show success message (you can remove this if it's too frequent)
+        // Alert.alert('Success', 'Cart updated successfully.');
+
+        console.log('Cart data refreshed successfully');
       } else {
-        Alert.alert(
-          'Update Failed',
-          response.data?.message || 'Failed to update quantity.',
-        );
+        await fetchCartData(false);
+        // Alert.alert(
+        //   'Update Failed',
+        //   response.data?.message || 'Failed to update quantity.',
+        // );
       }
     } catch (e) {
       console.error('Error updating quantity:', e);
       let errorMessage = 'Failed to update item quantity.';
       if (e.response) {
-        // Server responded with a status other than 2xx
         errorMessage =
           e.response.data?.message || `Server Error: ${e.response.status}`;
       } else if (e.request) {
-        // Request was made but no response received
         errorMessage =
           'Network Error: No response from server for quantity update. Check your internet connection.';
       } else {
-        // Something else happened while setting up the request
         errorMessage = `Error: ${e.message}`;
       }
       Alert.alert('Error', errorMessage);
     } finally {
-      setLoadingCart(false); // End loading after update attempt
+      setIsUpdatingQuantity(false);
     }
   };
-  // --- END MODIFIED handleQuantityUpdate function ---
 
   const handleBuyPress = async amount => {
     if (
@@ -5478,17 +6077,19 @@ const CheckoutPage = ({navigation}) => {
       return;
     }
 
-    setIsPaying(true); // Start payment loading state
+    setIsPaying(true);
     try {
-      // Directly call real backend API for creating Razorpay order
-      const createOrderResponse = await axiosInstance.post('/web/create-razorpay-order', {
-        amount: Math.round(Number(amount)), // Amount should be in integer, not paise here for your backend
-        currency: currencyConfig.applicationData.currency || 'INR',
-      });
-      const res = createOrderResponse.data; // Assuming axios response wraps actual data in .data
+      const createOrderResponse = await axiosInstance.post(
+        '/web/create-razorpay-order',
+        {
+          amount: Math.round(Number(amount)),
+          currency: currencyConfig.applicationData.currency || 'INR',
+        },
+      );
+      const res = createOrderResponse.data;
 
       const orderId = res?.orderId;
-      const amountInPaise = Math.round(Number(amount) * 100); // Razorpay expects amount in smallest currency unit
+      const amountInPaise = Math.round(Number(amount) * 100);
 
       if (!orderId) {
         Alert.alert(
@@ -5505,13 +6106,13 @@ const CheckoutPage = ({navigation}) => {
           'https://media.istockphoto.com/id/486326115/photo/bull-and-bear.webp?b=1&s=170667a&w=0&k=20&c=HMb-bQbmU5-RVnU6NoPydkGjh0FEigULJcpwwA3z7g=',
         currency: currencyConfig?.applicationData?.currency,
         key: currencyConfig?.applicationData?.razorpayKeyId,
-        amount: amountInPaise, // Use amount in paise for Razorpay SDK
+        amount: amountInPaise,
         name: 'Shopinger E-Commerce',
         order_id: orderId,
         prefill: {
-          email: 'customer@example.com', // TODO: Replace with actual user email
-          contact: '9876543210', // TODO: Replace with actual user contact
-          name: 'John Doe', // TODO: Replace with actual user name
+          email: 'customer@example.com',
+          contact: '9876543210',
+          name: 'John Doe',
         },
         theme: {color: '#ff6600'},
       };
@@ -5523,7 +6124,6 @@ const CheckoutPage = ({navigation}) => {
           let paymentId = data?.razorpay_payment_id;
           let signature = data?.razorpay_signature;
 
-          // Directly call real backend API for verifying Razorpay payment
           const verifyPaymentResponse = await axiosInstance.post(
             '/web/verify-razorpay-payment',
             {
@@ -5550,7 +6150,7 @@ const CheckoutPage = ({navigation}) => {
           Alert.alert('Payment Failed', `Error: ${error.description}`);
         })
         .finally(() => {
-          setIsPaying(false); // End payment loading state
+          setIsPaying(false);
         });
     } catch (error) {
       console.error('Error initiating Razorpay flow:', error);
@@ -5558,11 +6158,10 @@ const CheckoutPage = ({navigation}) => {
         'Payment Initialization Error',
         'Could not initiate payment. Please try again.',
       );
-      setIsPaying(false); // End payment loading state
+      setIsPaying(false);
     }
   };
 
-  // Render loading state for initial fetches
   if (loadingCart || loadingAddress) {
     return (
       <SafeAreaView style={styles.safeArea}>
@@ -5574,7 +6173,6 @@ const CheckoutPage = ({navigation}) => {
     );
   }
 
-  // --- Main rendering logic starts here ---
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
@@ -5599,14 +6197,25 @@ const CheckoutPage = ({navigation}) => {
           </View>
         )}
 
-        {/* Conditionally render cart items or a message if empty */}
+        {/* Show updating indicator when quantity is being updated */}
+        {/* {isUpdatingQuantity && (
+          <View style={styles.updatingBanner}>
+            <ActivityIndicator
+              size="small"
+              color="#ff6600"
+              style={{marginRight: 10}}
+            />
+            <Text style={styles.updatingBannerText}>Updating cart...</Text>
+          </View>
+        )} */}
+
         {cartItemsToDisplay.length > 0 ? (
           cartItemsToDisplay.map(item => (
             <CheckoutCartItem
-              key={item.id} // Use item.id (which is cartItemId) for key
+              key={item.id}
               item={item}
               onQuantityChange={handleQuantityUpdate}
-              isLoading={loadingCart} // Pass loading state to disable buttons
+              isLoading={isUpdatingQuantity} // Use quantity update loading state
             />
           ))
         ) : (
@@ -5624,15 +6233,13 @@ const CheckoutPage = ({navigation}) => {
           <TouchableOpacity
             style={styles.infoBlockHeader}
             onPress={() => navigation.navigate('AllAddresses')}>
-            {' '}
-            {/* Assuming 'Checkout' or a specific address screen */}
             <Text style={styles.infoBlockTitle}>Delivery Address</Text>
             <Text style={styles.infoBlockTitle}>Edit</Text>
           </TouchableOpacity>
           <View style={styles.infoBlockContent}>
             <Image
               source={{
-                uri: 'https://placehold.co/24x24/ff6600/FFFFFF?text=L', // Placeholder for location pin
+                uri: 'https://placehold.co/24x24/ff6600/FFFFFF?text=L',
               }}
               style={styles.infoBlockIcon}
             />
@@ -5696,6 +6303,7 @@ const CheckoutPage = ({navigation}) => {
           onPress={() => handleBuyPress(cartSummary.totalAmount)}
           disabled={
             isPaying ||
+            isUpdatingQuantity ||
             loadingCart ||
             loadingAddress ||
             cartItemsToDisplay.length === 0 ||
@@ -5713,7 +6321,6 @@ const CheckoutPage = ({navigation}) => {
     </SafeAreaView>
   );
 };
-
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,

@@ -6300,7 +6300,8 @@ const CheckoutPage = ({navigation}) => {
 
         <TouchableOpacity
           style={styles.proceedButton}
-          onPress={() => handleBuyPress(cartSummary.totalAmount)}
+          onPress={() => {navigation.navigate('ShoppingBag')}}
+          // onPress={() => handleBuyPress(cartSummary.totalAmount)}
           disabled={
             isPaying ||
             isUpdatingQuantity ||

@@ -1882,7 +1882,7 @@ const App = ({navigation}) => {
       const response = await axiosInstance.get('/web/get-all-category');
       console.log('Categories data:', response.data.categories);
       const userData = await getUserData(); // Assuming this is correct
-      console.log(userData);
+      console.log("User data at product page",userData);
       setCategories(response.data.categories);
     } catch (error) {
       console.error('Error fetching categories:', error);

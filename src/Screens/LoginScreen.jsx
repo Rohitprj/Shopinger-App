@@ -332,7 +332,7 @@ const LoginScreen = ({navigation}) => {
         },
       );
 
-      console.log('Login successful:', response.data);
+      console.log('Login successful:', JSON.stringify(response.data, null, 2    ));
 
       if (response.data.success) {
         setMessage({type: 'success', text: 'Login successful!'});
@@ -340,12 +340,14 @@ const LoginScreen = ({navigation}) => {
         // Extract data from the response
         const {token, user} = response.data;
         const userEmail = user.email;
+        const userId = user.id;
         const userRole = user.role;
 
         // Store the extracted data using the storeUserData function
         await storeUserData({
           email: userEmail,
           token: token,
+          userId: userId,
           role: userRole,
         });
 

@@ -6782,7 +6782,7 @@ const CheckoutPage = ({navigation}) => {
   const [error, setError] = useState(null);
   const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false);
   const [selectedPaymentMode, setSelectedPaymentMode] = useState('razorpay');
-
+console.log("deliveryAddress:", JSON.stringify(deliveryAddress), null, 2);
   const [currencyConfig] = useState({
     applicationData: {
       currency: 'INR',
@@ -7097,7 +7097,7 @@ console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
 
   const handlePlaceOrder = async () => {
     const userId = await getUserData();
-console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
+    console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
     navigation.navigate("ShoppingBag")
     if (cartItemsToDisplay.length === 0) {
       Alert.alert(
@@ -7132,7 +7132,7 @@ console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
           paymentMode: 'COD',
           paymentOrderId: `COD-${Date.now()}`, // Generate a unique ID for COD orders
           orderStatus: 'PENDING',
-          addressId: deliveryAddress._id, // Assuming your address object has an _id
+          addressId: deliveryAddress.id, // Assuming your address object has an _id
           totalAmount: cartSummary.totalAmount,
           productId: firstProductId, // Using the first product ID from the cart
           userId: userId.userId, // <--- MAKE SURE THIS IS YOUR ACTUAL USER ID
@@ -7149,7 +7149,7 @@ console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
           fetchCartData(false); // Refresh cart to show it's empty or updated
           navigation.navigate('OrderSuccessScreen', {paymentMode: 'COD', orderId: response.data.orderId}); // Pass backend order ID if returned
         } else {
-          Alert.alert('Order Failed', response.data.message || 'Failed to place COD order. Please try again.');
+          // Alert.alert('Order Failed', response.data.message || 'Failed to place COD order. Please try again.');
         }
       } else if (selectedPaymentMode === 'razorpay') {
         console.log('Initiating Razorpay payment...');

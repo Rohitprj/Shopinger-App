@@ -92,6 +92,7 @@ import Payment from './src/Screens/Payment';
 import ProductAllData from './src/Screens/ProductAllData';
 import ProductDetails from './src/Screens/ProductDetails';
 import AllAddresses from './src/Screens/AllAddresses';
+import ProductSubCategory from './src/Screens/ProductSubCategory';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -125,6 +126,7 @@ const StackNavigator = ({initialRouteName}) => {
       <Stack.Screen name="GetStarted" component={GetStarted} />
       <Stack.Screen name="MainTabs" component={TabNavigator} />
       <Stack.Screen name="ProductAllData" component={ProductAllData} />
+      <Stack.Screen name="ProductSubCategory" component={ProductSubCategory} />
       <Stack.Screen name="ProductDetails" component={ProductDetails} />
       <Stack.Screen name="AllAddresses" component={AllAddresses} />
       <Stack.Screen name="Reviews" component={ReviewsScreen} />

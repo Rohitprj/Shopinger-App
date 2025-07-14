@@ -1332,6 +1332,10 @@ const App = ({navigation}) => {
         {/* Dynamic Categories Section */}
         <View style={styles.dynamicCategoriesSection}>
           <View style={styles.dynamicCategoriesHeader}>
+            
+            <Text style={styles.sectionTitleDynamic}>
+              {getCurrentTitle()}
+            </Text>
             {currentDisplayLevel !== 'main' && (
               <TouchableOpacity
                 onPress={handleGoBack}
@@ -1346,9 +1350,6 @@ const App = ({navigation}) => {
                 <Text style={styles.backButtonText}>Back</Text>
               </TouchableOpacity>
             )}
-            <Text style={styles.sectionTitleDynamic}>
-              {getCurrentTitle()}
-            </Text>
           </View>
 
           {loadingCategories ? (

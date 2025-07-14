@@ -102,7 +102,7 @@ const TabNavigator = () => {
     <Tab.Navigator screenOptions={{headerShown: false}}>
       <Tab.Screen name="ProductsPage" component={ProductsPage} />
       <Tab.Screen name="Wishlist" component={Wishlist} />
-      <Tab.Screen name="Cart" component={Cart} />
+      <Tab.Screen name="Cart" component={CheckoutProduct} />
       <Tab.Screen name="Search" component={Search} />
       <Tab.Screen name="Settings" component={Settings} />
     </Tab.Navigator>

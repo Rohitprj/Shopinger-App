@@ -6,8 +6,6 @@ export type UserData = {
   token: string;
   role: string;
   userId:number
-  // You can add more fields here if your login response provides them and you need to store them
-  // For example: id: number; name: string;
 };
 
 const USER_DATA_KEY = 'loggedInUserData'; // A single key to store all user data

@@ -467,7 +467,10 @@ const ProductCard = ({item, onPress}) => {
 };
 
 // Main ProductAllData component
-export default function ProductAllData({navigation}) {
+export default function ProductAllData({navigation,route}) {
+
+  const { categorySlug } = route.params; // Get the sub-category slug from route params
+  console.log('subCategorySlug from route params',categorySlug);
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [errorProducts, setErrorProducts] = useState(null);
@@ -478,7 +481,7 @@ export default function ProductAllData({navigation}) {
       setErrorProducts(null);
       // Fetching products by sub-sub-category 't-shirts-1'
       const response = await axiosInstance.get(
-        '/web/get-products-by-sub-sub-category/t-shirts-1',
+        `/web/get-products-by-sub-sub-category/${categorySlug}`,
       );
       console.log('Products data all:', JSON.stringify(response.data, null, 2)); // Log pretty JSON
 

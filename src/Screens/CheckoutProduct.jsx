@@ -6650,19 +6650,11 @@ import RazorpayCheckout from 'react-native-razorpay';
 import axiosInstance from '../utils/AxiosInstance';
 import { getUserData } from '../utils/tokenStorage';
 
-// Assuming you have a way to get the current user's ID
-// This might come from an AuthContext, Redux store, or local storage.
-// For demonstration, I'll add a placeholder.
-// You will need to replace this with your actual logic to get the userId.
-// *** IMPORTANT: Replace this with your actual user ID retrieval mechanism ***
-const CURRENT_USER_ID = 'your_actual_user_id_here'; // Example: const { userId } = useAuth(); // if using an AuthContext
+const CURRENT_USER_ID = 'your_actual_user_id_here';
 
 const {width} = Dimensions.get('window');
 
 const IMAGE_BASE_URL = 'https://shopinger.co.in';
-// const IS_MOCK_BACKEND_ENABLED = false; // Not used in this version
-
-// STATIC_CART_ITEMS_DATA is not used in the final render, but kept for context if needed elsewhere.
 const STATIC_CART_ITEMS_DATA = [
   {
     id: '1',
@@ -6717,7 +6709,7 @@ const CheckoutCartItem = ({item, onQuantityChange, isLoading}) => {
           },
           {
             text: 'Remove',
-            onPress: () => onQuantityChange(cartItemId, 0), // Pass 0 to indicate removal
+            onPress: () => onQuantityChange(cartItemId, 0), 
             style: 'destructive',
           },
         ],
@@ -6753,7 +6745,7 @@ const CheckoutCartItem = ({item, onQuantityChange, isLoading}) => {
         </View>
       </View>
       <TouchableOpacity
-        onPress={() => onQuantityChange(cartItemId, 0)} // Pass 0 to indicate removal
+        onPress={() => onQuantityChange(cartItemId, 0)} 
         disabled={isLoading}>
         <Image
           source={{
@@ -6786,7 +6778,7 @@ console.log("deliveryAddress:", JSON.stringify(deliveryAddress), null, 2);
   const [currencyConfig] = useState({
     applicationData: {
       currency: 'INR',
-      razorpayKeyId: 'rzp_live_ykAW0WN2mvhAjJ', // Make sure this is your actual Razorpay Key ID
+      razorpayKeyId: 'rzp_live_ykAW0WN2mvhAjJ', 
     },
   });
 
@@ -6828,7 +6820,6 @@ console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
             sellingPrice: item.sellingPrice,
             quantity: item.quantity,
             images: item.images,
-            // Add other necessary product details if needed by your backend for order creation
           }));
           setCartItemsToDisplay(mappedItems);
         } else {
@@ -6877,8 +6868,7 @@ console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
         response.data.addresses &&
         response.data.addresses.length > 0
       ) {
-        // Assuming the first address is the default or preferred one for checkout.
-        // You might need more sophisticated logic here if users can select addresses.
+        
         setDeliveryAddress(response.data.addresses[0]);
       } else {
         setDeliveryAddress(null);
@@ -6912,7 +6902,6 @@ console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
     setIsUpdatingQuantity(true);
     setError(null);
 
-    // If newQuantity is 0, it means the item should be removed
     if (newQuantity === 0) {
       try {
         console.log(`Removing item with cartItemId: ${cartItemId}`);
@@ -7017,10 +7006,9 @@ console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
         {
           amount: Math.round(Number(amount)),
           currency: currencyConfig.applicationData.currency || 'INR',
-          addressId: deliveryAddress?._id, // Pass addressId to backend for order creation
-          // *** ADDING PRODUCT ID TO RAZORPAY ORDER CREATION PAYLOAD ***
-          productId: firstProductId, // Pass product ID from the cart to backend
-          userId: CURRENT_USER_ID, // Ensure userId is sent
+          addressId: deliveryAddress?._id,
+          productId: firstProductId,
+          userId: CURRENT_USER_ID, 
         },
       );
       const res = createOrderResponse.data;
@@ -7155,8 +7143,6 @@ console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
         console.log('Initiating Razorpay payment...');
         const paymentSuccess = await handleRazorpayPayment(cartSummary.totalAmount);
         if (!paymentSuccess) {
-            // If Razorpay payment failed or was cancelled, handle accordingly.
-            // setIsPaying will be reset in finally block.
             console.log('Razorpay payment did not complete successfully.');
         }
       }

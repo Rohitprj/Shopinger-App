@@ -972,6 +972,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import axiosInstance from '../utils/AxiosInstance'; // Ensure this path is correct
 import {getUserData} from '../utils/tokenStorage';
+import SplashScreen from '../utils/SplashScreen';
 
 const {width} = Dimensions.get('window');
 
@@ -1297,6 +1298,7 @@ const App = ({navigation}) => {
             source={require('../../assets/images/logo.png')}
             style={styles.logo}
           />
+          
           <View style={styles.headerRight}>
             <TouchableOpacity
               style={styles.headerAvatarContainer}

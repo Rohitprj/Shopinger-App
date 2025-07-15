@@ -257,7 +257,7 @@
 //             style={styles.logo}
 //           />
 //           <View style={styles.headerRight}>
-//             <TouchableOpacity style={styles.headerAvatarContainer} 
+//             <TouchableOpacity style={styles.headerAvatarContainer}
 //             onPress={() => navigation.navigate('ShoppingBag')}
 //             >
 //               <Image
@@ -972,7 +972,6 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import axiosInstance from '../utils/AxiosInstance'; // Ensure this path is correct
 import {getUserData} from '../utils/tokenStorage';
-import SplashScreen from '../utils/SplashScreen';
 
 const {width} = Dimensions.get('window');
 
@@ -993,13 +992,11 @@ const ProductCard = ({product, navigation}) => {
     product.variants && product.variants.length > 0
       ? parseFloat(product.variants[0].sellingprice || '0').toFixed(2)
       : '0.00';
-      
+
   const brandName = 'N/A'; // Or try to parse from product.name if always included
 
   return (
-    <TouchableOpacity
-      style={productCardStyles.productCard}
-    >
+    <TouchableOpacity style={productCardStyles.productCard}>
       <Image
         source={{uri: imageUrl}}
         style={productCardStyles.productImage}
@@ -1198,9 +1195,7 @@ const App = ({navigation}) => {
       }
     } else if (currentDisplayLevel === 'sub-sub') {
       // This is the deepest level, navigate with slug
-      console.log(
-        `Navigating to products for sub-sub-category: ${item.slug}`,
-      );
+      console.log(`Navigating to products for sub-sub-category: ${item.slug}`);
       navigation.navigate('ProductAllData', {categorySlug: item.slug});
     }
   };
@@ -1257,8 +1252,7 @@ const App = ({navigation}) => {
           currentDisplayLevel === 'sub-sub' &&
           !item.slug &&
           (!item.subSubCategories || item.subSubCategories.length === 0)
-        }
-      >
+        }>
         <Image
           source={{
             uri: item.imgUrl
@@ -1298,7 +1292,7 @@ const App = ({navigation}) => {
             source={require('../../assets/images/logo.png')}
             style={styles.logo}
           />
-          
+
           <View style={styles.headerRight}>
             <TouchableOpacity
               style={styles.headerAvatarContainer}
@@ -1334,10 +1328,7 @@ const App = ({navigation}) => {
         {/* Dynamic Categories Section */}
         <View style={styles.dynamicCategoriesSection}>
           <View style={styles.dynamicCategoriesHeader}>
-            
-            <Text style={styles.sectionTitleDynamic}>
-              {getCurrentTitle()}
-            </Text>
+            <Text style={styles.sectionTitleDynamic}>{getCurrentTitle()}</Text>
             {currentDisplayLevel !== 'main' && (
               <TouchableOpacity
                 onPress={handleGoBack}
@@ -1676,7 +1667,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     borderRadius: 10,
     paddingVertical: 10,
-    marginTop: 20,
+    marginVertical: 20,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.1,
@@ -2020,8 +2011,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   sponsoredText: {
-    fontSize: 14,
-    color: '#777',
+    fontSize: 18,
+    fontWeight: 'bold',
     marginHorizontal: 15,
     marginTop: 10,
     marginBottom: 5,
@@ -2052,7 +2043,7 @@ const styles = StyleSheet.create({
   },
   sponsoredAdSubtitleText: {
     fontSize: 16,
-    color: '#555',
+    fontWeight: 'bold',
     marginHorizontal: 15,
     marginTop: 10,
     marginBottom: 20,

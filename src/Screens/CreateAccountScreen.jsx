@@ -1,6 +1,6 @@
 // import React, { useState } from 'react';
 // import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
-// import Icon from 'react-native-vector-icons/Feather'; // For eye icon
+// import Icon from '/Feather'; // For eye icon
 // import GoogleIcon from 'react-native-vector-icons/AntDesign'; // For Google icon
 // import AppleIcon from 'react-native-vector-icons/FontAwesome'; // For Apple icon
 // import FacebookIcon from 'react-native-vector-icons/FontAwesome'; // For Facebook icon
@@ -198,7 +198,7 @@
 
 // export default CreateAccountScreen;
 
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -217,9 +217,9 @@ import FacebookIcon from 'react-native-vector-icons/FontAwesome'; // For Faceboo
 // Import the axiosInstance from your axiosConfig.js file
 import axiosInstance from '../utils/AxiosInstance'; // Adjust the path as per your project structure
 
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
-const CreateAccountScreen = ({ navigation }) => {
+const CreateAccountScreen = ({navigation}) => {
   const [name, setName] = useState(''); // New state for name
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -247,11 +247,15 @@ const CreateAccountScreen = ({ navigation }) => {
       requestBody.append('email', email);
       requestBody.append('password', password);
 
-      const response = await axiosInstance.post('/public/user-register', requestBody.toString(), {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+      const response = await axiosInstance.post(
+        '/public/user-register',
+        requestBody.toString(),
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
         },
-      });
+      );
 
       console.log('Registration successful:', response.data);
 
@@ -262,7 +266,11 @@ const CreateAccountScreen = ({ navigation }) => {
         navigation.navigate('LoginScreen');
       } else {
         // Handle API success: false, but still a 200 OK response
-        Alert.alert('Registration Failed', response.data.message || 'Failed to create account. Please try again.');
+        Alert.alert(
+          'Registration Failed',
+          response.data.message ||
+            'Failed to create account. Please try again.',
+        );
       }
     } catch (error) {
       console.error('Registration error:', error);
@@ -272,11 +280,18 @@ const CreateAccountScreen = ({ navigation }) => {
         console.error('Error response data:', error.response.data);
         console.error('Error response status:', error.response.status);
         console.error('Error response headers:', error.response.headers);
-        Alert.alert('Registration Failed', error.response.data.message || 'An error occurred during registration. Please try again.');
+        Alert.alert(
+          'Registration Failed',
+          error.response.data.message ||
+            'An error occurred during registration. Please try again.',
+        );
       } else if (error.request) {
         // The request was made but no response was received
         console.error('Error request:', error.request);
-        Alert.alert('Network Error', 'No response from server. Please check your internet connection.');
+        Alert.alert(
+          'Network Error',
+          'No response from server. Please check your internet connection.',
+        );
       } else {
         // Something happened in setting up the request that triggered an Error
         console.error('Error message:', error.message);
@@ -333,19 +348,29 @@ const CreateAccountScreen = ({ navigation }) => {
           onChangeText={setPassword}
           editable={!loading} // Disable input when loading
         />
-        <TouchableOpacity style={styles.eyeIcon} onPress={() => setShowPassword(!showPassword)} disabled={loading}>
-          <Icon name={showPassword ? 'eye' : 'eye-off'} size={20} color="#888" />
+        <TouchableOpacity
+          style={styles.eyeIcon}
+          onPress={() => setShowPassword(!showPassword)}
+          disabled={loading}>
+          <Icon
+            name={showPassword ? 'eye' : 'eye-off'}
+            size={20}
+            color="#888"
+          />
         </TouchableOpacity>
       </View>
 
       {/* Removed Confirm Password Input Field */}
 
       <Text style={styles.termsText}>
-        By clicking the <Text style={styles.registerLink}>Register</Text> button, you agree to
-        the public offer
+        By clicking the <Text style={styles.registerLink}>Register</Text>{' '}
+        button, you agree to the public offer
       </Text>
 
-      <TouchableOpacity style={styles.createAccountButton} onPress={handleCreateAccount} disabled={loading}>
+      <TouchableOpacity
+        style={styles.createAccountButton}
+        onPress={handleCreateAccount}
+        disabled={loading}>
         {loading ? (
           <ActivityIndicator color="#fff" />
         ) : (
@@ -368,7 +393,9 @@ const CreateAccountScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.alreadyHaveAccountContainer}>
-        <Text style={styles.alreadyHaveAccountText}>I Already Have an Account </Text>
+        <Text style={styles.alreadyHaveAccountText}>
+          I Already Have an Account{' '}
+        </Text>
         <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
           <Text style={styles.loginLink}>Login</Text>
         </TouchableOpacity>

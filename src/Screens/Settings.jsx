@@ -797,7 +797,7 @@ export default function Settings() {
 
     navigation.reset({
       index: 0,
-      routes: [{name: 'Home'}], // Navigate to the 'Home' screen, clearing the stack
+      routes: [{name: 'LoginScreen'}], // Navigate to the 'Home' screen, clearing the stack
     });
   };
 

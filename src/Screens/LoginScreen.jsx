@@ -292,10 +292,13 @@ import FacebookIcon from 'react-native-vector-icons/FontAwesome'; // For Faceboo
 import axiosInstance from '../utils/AxiosInstance'; // Adjust the path as per your project structure
 // Import the storeUserData function from your new tokenStorage.js file
 import {storeUserData} from '../utils/tokenStorage';
+import {useNavigation} from '@react-navigation/native';
 
 const {width} = Dimensions.get('window');
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = () => {
+  const navigation = useNavigation();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -332,7 +335,7 @@ const LoginScreen = ({navigation}) => {
         },
       );
 
-      console.log('Login successful:', JSON.stringify(response.data, null, 2    ));
+      console.log('Login successful:', JSON.stringify(response.data, null, 2));
 
       if (response.data.success) {
         setMessage({type: 'success', text: 'Login successful!'});
@@ -353,7 +356,11 @@ const LoginScreen = ({navigation}) => {
 
         // Navigate to the next screen upon successful login
         // Make sure 'GetStarted' is a valid route in your navigation stack
-        navigation.navigate('GetStarted');
+        // navigation.navigate('GetStarted');
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'GetStarted'}], // Navigate to the 'Home' screen, clearing the stack
+        });
       } else {
         // Handle API success: false, but still a 200 OK response
         setMessage({

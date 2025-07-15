@@ -972,6 +972,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import axiosInstance from '../utils/AxiosInstance'; // Ensure this path is correct
 import {getUserData} from '../utils/tokenStorage';
+import Feather from 'react-native-vector-icons/Feather';
 
 const {width} = Dimensions.get('window');
 
@@ -1307,9 +1308,15 @@ const App = ({navigation}) => {
 
         {/* Search Bar (No changes) */}
         <View style={styles.searchContainer}>
-          <Image
+          {/* <Image
             // source={require('./assets/search_icon.png')}
             style={styles.searchIcon}
+          /> */}
+          <Feather
+            size={20}
+            name="search"
+            color="lightgrey"
+            style={{right: 4, bottom: 1}}
           />
           <TextInput
             style={styles.searchInput}
@@ -1566,7 +1573,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#ffffff',
+    // backgroundColor: '#f8f8f8',
   },
   header: {
     flexDirection: 'row',
@@ -1733,6 +1741,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#555',
     textAlign: 'center',
+    width: 80,
   },
   categoryArrowIcon: {
     width: 10,

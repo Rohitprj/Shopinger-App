@@ -92,7 +92,7 @@
 // import ProductAllData from './src/Screens/ProductAllData';
 // import ProductDetails from './src/Screens/ProductDetails';
 // import AllAddresses from './src/Screens/AllAddresses';
-// import SplashScreen from './assets/ShopingerLogo.png'; 
+// import SplashScreen from './assets/ShopingerLogo.png';
 // const Stack = createNativeStackNavigator();
 // const Tab = createBottomTabNavigator();
 
@@ -215,15 +215,116 @@ import ProductAllData from './src/Screens/ProductAllData';
 import ProductDetails from './src/Screens/ProductDetails';
 import AllAddresses from './src/Screens/AllAddresses';
 import SplashScreen from './src/utils/SplashScreen';
+import Feather from 'react-native-vector-icons/Feather';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 // Define your Tab Navigator
+// const TabNavigator = () => {
+//   return (
+//     <Tab.Navigator screenOptions={{headerShown: false}}>
+//       <Tab.Screen
+//         name="Home"
+//         component={ProductsPage}
+//         options={{
+//           tabBarIcon: ({}) => <Feather name="home" size={22} color={'red'} />,
+//         }}
+//       />
+//       <Tab.Screen
+//         name="Wishlist"
+//         component={Wishlist}
+//         options={{
+//           tabBarIcon: ({}) => <Feather name="heart" size={22} color={'red'} />,
+//         }}
+//       />
+//       <Tab.Screen
+//         name="Cart"
+//         component={CheckoutProduct}
+//         options={{
+//           tabBarIcon: ({}) => (
+//             <Feather name="shopping-cart" size={22} color={'red'} />
+//           ),
+//         }}
+//       />
+//       <Tab.Screen
+//         name="Search"
+//         component={Search}
+//         options={{
+//           tabBarIcon: ({}) => <Feather name="search" size={22} color={'red'} />,
+//         }}
+//       />
+//       <Tab.Screen
+//         name="Profile"
+//         component={Settings}
+//         options={{
+//           tabBarIcon: ({}) => <Feather name="user" size={22} color={'red'} />,
+//         }}
+//       />
+//     </Tab.Navigator>
+//   );
+// };
+
 const TabNavigator = () => {
   return (
-    <Tab.Navigator screenOptions={{headerShown: false}}>
-      <Tab.Screen name="ProductsPage" component={ProductsPage} />
+    <Tab.Navigator
+      screenOptions={({route}) => ({
+        headerShown: false,
+        tabBarShowLabel: true,
+        tabBarLabelStyle: {
+          fontSize: 12,
+        },
+        tabBarStyle: {
+          height: 70,
+          paddingBottom: 5,
+        },
+        tabBarIcon: ({focused, color, size}) => {
+          let iconName;
+          switch (route.name) {
+            case 'Home':
+              iconName = 'home';
+              break;
+            case 'Wishlist':
+              iconName = 'heart';
+              break;
+            case 'Cart':
+              iconName = 'shopping-cart';
+              break;
+            case 'Search':
+              iconName = 'search';
+              break;
+            case 'Profile':
+              iconName = 'user';
+              break;
+          }
+
+          const iconColor = focused ? 'red' : 'black';
+          const iconSize = route.name === 'Cart' ? 24 : 22;
+
+          return (
+            <Feather
+              name={iconName}
+              size={iconSize}
+              color={iconColor}
+              style={
+                route.name === 'Cart'
+                  ? {
+                      backgroundColor: 'white',
+                      padding: 10,
+                      borderRadius: 50,
+                      elevation: 5,
+                      marginTop: -20,
+                      width: 45,
+                    }
+                  : {}
+              }
+            />
+          );
+        },
+        tabBarActiveTintColor: 'red',
+        tabBarInactiveTintColor: 'black',
+      })}>
+      <Tab.Screen name="Home" component={ProductsPage} />
       <Tab.Screen name="Wishlist" component={Wishlist} />
       <Tab.Screen name="Cart" component={CheckoutProduct} />
       <Tab.Screen name="Search" component={Search} />
@@ -262,7 +363,7 @@ const StackNavigator = ({initialRouteName}) => {
 
 export default function App() {
   const [initialRoute, setInitialRoute] = useState('Home');
-  const [showSplash, setShowSplash] = useState(true); 
+  const [showSplash, setShowSplash] = useState(true);
   const [appContentLoading, setAppContentLoading] = useState(true);
 
   useEffect(() => {
@@ -283,14 +384,13 @@ export default function App() {
       } finally {
         setAppContentLoading(false);
       }
-      
-      const minSplashTimePromise = new Promise(resolve => setTimeout(resolve, 2000));
+
+      const minSplashTimePromise = new Promise(resolve =>
+        setTimeout(resolve, 2000),
+      );
 
       // Wait for both the minimum splash time AND your app's initial loading
-      await Promise.all([
-        minSplashTimePromise,
-        
-      ]);
+      await Promise.all([minSplashTimePromise]);
 
       setShowSplash(false); // Hide the JavaScript splash screen
     };

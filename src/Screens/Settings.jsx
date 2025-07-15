@@ -7,9 +7,9 @@
 //   const navigation = useNavigation(); // Get the navigation object
 
 //   const handleLogout = async () => {
-//     await removeUserData(); 
+//     await removeUserData();
 //     console.log('User logged out. Navigating to Home.');
-    
+
 //     navigation.reset({
 //       index: 0,
 //       routes: [{name: 'Home'}], // Navigate to the 'Home' screen, clearing the stack
@@ -390,7 +390,6 @@
 //     }
 //   };
 
-
 //   // Function for navigation to other sections
 //   const navigateTo = (screenName) => {
 //     console.log(`Navigating to ${screenName}`);
@@ -722,8 +721,18 @@
 //   },
 // });
 
-import {View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, TextInput, ActivityIndicator, Alert} from 'react-native';
-import React, { useState, useEffect, useCallback } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  ScrollView,
+  TextInput,
+  ActivityIndicator,
+  Alert,
+} from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
 import {removeUserData, getUserData} from '../utils/tokenStorage'; // Adjust the path as necessary
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import axiosInstance from '../utils/AxiosInstance'; // Import axiosInstance
@@ -779,7 +788,7 @@ export default function Settings() {
       return () => {
         // Optional cleanup if needed when screen loses focus
       };
-    }, [fetchUserProfile])
+    }, [fetchUserProfile]),
   );
 
   const handleLogout = async () => {
@@ -816,25 +825,34 @@ export default function Settings() {
             // Authorization header is typically handled by axiosInstance if configured
             // otherwise, you'd add it here: 'Authorization': `Bearer ${userToken}`
           },
-        }
+        },
       );
 
       if (response.data && response.data.success) {
-        Alert.alert('Success', response.data.message || 'Profile updated successfully!');
+        Alert.alert(
+          'Success',
+          response.data.message || 'Profile updated successfully!',
+        );
         // Refresh profile data after successful update
         await fetchUserProfile();
         setShowProfileEditForm(false); // Go back to main settings view
       } else {
-        Alert.alert('Error', response.data.message || 'Failed to update profile. Please try again.');
+        Alert.alert(
+          'Error',
+          response.data.message ||
+            'Failed to update profile. Please try again.',
+        );
         setProfileError(response.data.message || 'Failed to update profile.');
       }
     } catch (e) {
       console.error('Error updating profile:', e);
       let errorMessage = 'Failed to update profile. Please try again.';
       if (e.response) {
-        errorMessage = e.response.data?.message || `Server Error: ${e.response.status}`;
+        errorMessage =
+          e.response.data?.message || `Server Error: ${e.response.status}`;
       } else if (e.request) {
-        errorMessage = 'Network Error: No response from server. Check your internet connection.';
+        errorMessage =
+          'Network Error: No response from server. Check your internet connection.';
       } else {
         errorMessage = `Error: ${e.message}`;
       }
@@ -845,9 +863,8 @@ export default function Settings() {
     }
   };
 
-
   // Function for navigation to other sections
-  const navigateTo = (screenName) => {
+  const navigateTo = screenName => {
     console.log(`Navigating to ${screenName}`);
     if (screenName === 'Profile') {
       setShowProfileEditForm(true); // Show the profile edit form
@@ -856,7 +873,10 @@ export default function Settings() {
     } else if (screenName === 'Addresses') {
       navigation.navigate('AllAddresses');
     } else {
-      Alert.alert('Navigation', `Navigate to ${screenName} is not yet implemented.`);
+      Alert.alert(
+        'Navigation',
+        `Navigate to ${screenName} is not yet implemented.`,
+      );
     }
   };
 
@@ -928,12 +948,12 @@ export default function Settings() {
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         {/* Header/Title */}
-        <Text style={styles.headerTitle}>Settings</Text>
+        <Text style={styles.headerTitle}>Profile</Text>
 
         {/* Profile Card */}
         <View style={styles.profileCard}>
           <Image
-            source={{ uri: 'https://placehold.co/60x60/FF6F00/FFFFFF?text=👤' }} // Placeholder for user avatar
+            source={{uri: 'https://placehold.co/60x60/FF6F00/FFFFFF?text=👤'}} // Placeholder for user avatar
             style={styles.avatar}
           />
           <View style={styles.profileInfo}>
@@ -944,9 +964,11 @@ export default function Settings() {
 
         {/* Menu Items Card */}
         <View style={styles.menuCard}>
-          <TouchableOpacity style={styles.menuItem} onPress={() => navigateTo('Profile')}>
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={() => navigateTo('Profile')}>
             <Image
-              source={{ uri: 'https://placehold.co/24x24/FF6F00/FFFFFF?text=👤' }} // Profile icon
+              source={{uri: 'https://placehold.co/24x24/FF6F00/FFFFFF?text=👤'}} // Profile icon
               style={styles.menuIcon}
             />
             <Text style={styles.menuItemText}>Profile</Text>
@@ -954,9 +976,11 @@ export default function Settings() {
 
           <View style={styles.separator} />
 
-          <TouchableOpacity style={styles.menuItem} onPress={() => navigateTo('MyOrders')}>
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={() => navigateTo('MyOrders')}>
             <Image
-              source={{ uri: 'https://placehold.co/24x24/FF6F00/FFFFFF?text=📦' }} // Orders icon
+              source={{uri: 'https://placehold.co/24x24/FF6F00/FFFFFF?text=📦'}} // Orders icon
               style={styles.menuIcon}
             />
             <Text style={styles.menuItemText}>My Orders</Text>
@@ -964,9 +988,11 @@ export default function Settings() {
 
           <View style={styles.separator} />
 
-          <TouchableOpacity style={styles.menuItem} onPress={() => navigateTo('Addresses')}>
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={() => navigateTo('Addresses')}>
             <Image
-              source={{ uri: 'https://placehold.co/24x24/FF6F00/FFFFFF?text=📍' }} // Addresses icon
+              source={{uri: 'https://placehold.co/24x24/FF6F00/FFFFFF?text=📍'}} // Addresses icon
               style={styles.menuIcon}
             />
             <Text style={styles.menuItemText}>Addresses</Text>
@@ -977,7 +1003,7 @@ export default function Settings() {
         <View style={styles.logoutCard}>
           <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
             <Image
-              source={{ uri: 'https://placehold.co/24x24/FF6F00/FFFFFF?text=➡️' }} // Logout icon
+              source={{uri: 'https://placehold.co/24x24/FF6F00/FFFFFF?text=➡️'}} // Logout icon
               style={styles.menuIcon}
             />
             <Text style={styles.logoutButtonText}>Logout</Text>
@@ -1012,7 +1038,7 @@ const styles = StyleSheet.create({
     padding: 15,
     marginBottom: 20,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
@@ -1045,7 +1071,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 20,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
@@ -1079,7 +1105,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 20, // Added margin for consistency
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
@@ -1129,7 +1155,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 5,
@@ -1148,7 +1174,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 2,
@@ -1176,5 +1202,3 @@ const styles = StyleSheet.create({
     color: '#555',
   },
 });
-
-

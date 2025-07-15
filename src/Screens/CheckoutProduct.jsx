@@ -6648,7 +6648,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import RazorpayCheckout from 'react-native-razorpay';
 
 import axiosInstance from '../utils/AxiosInstance';
-import { getUserData } from '../utils/tokenStorage';
+import {getUserData} from '../utils/tokenStorage';
 
 const CURRENT_USER_ID = 'your_actual_user_id_here';
 
@@ -6709,7 +6709,7 @@ const CheckoutCartItem = ({item, onQuantityChange, isLoading}) => {
           },
           {
             text: 'Remove',
-            onPress: () => onQuantityChange(cartItemId, 0), 
+            onPress: () => onQuantityChange(cartItemId, 0),
             style: 'destructive',
           },
         ],
@@ -6745,7 +6745,7 @@ const CheckoutCartItem = ({item, onQuantityChange, isLoading}) => {
         </View>
       </View>
       <TouchableOpacity
-        onPress={() => onQuantityChange(cartItemId, 0)} 
+        onPress={() => onQuantityChange(cartItemId, 0)}
         disabled={isLoading}>
         <Image
           source={{
@@ -6774,17 +6774,17 @@ const CheckoutPage = ({navigation}) => {
   const [error, setError] = useState(null);
   const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false);
   const [selectedPaymentMode, setSelectedPaymentMode] = useState('razorpay');
-console.log("deliveryAddress:", JSON.stringify(deliveryAddress), null, 2);
+  console.log('deliveryAddress:', JSON.stringify(deliveryAddress), null, 2);
   const [currencyConfig] = useState({
     applicationData: {
       currency: 'INR',
-      razorpayKeyId: 'rzp_live_ykAW0WN2mvhAjJ', 
+      razorpayKeyId: 'rzp_live_ykAW0WN2mvhAjJ',
     },
   });
 
   const fetchCartData = useCallback(async (showLoading = true) => {
     const userId = await getUserData();
-console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
+    console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
 
     if (showLoading) {
       setLoadingCart(true);
@@ -6868,7 +6868,6 @@ console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
         response.data.addresses &&
         response.data.addresses.length > 0
       ) {
-        
         setDeliveryAddress(response.data.addresses[0]);
       } else {
         setDeliveryAddress(null);
@@ -6905,16 +6904,27 @@ console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
     if (newQuantity === 0) {
       try {
         console.log(`Removing item with cartItemId: ${cartItemId}`);
-        const response = await axiosInstance.delete(`/web/remove-item/${cartItemId}`);
+        const response = await axiosInstance.delete(
+          `/web/remove-item/${cartItemId}`,
+        );
         if (response.data && response.data.success) {
-          Alert.alert('Success', response.data.message || 'Item removed from cart.');
+          Alert.alert(
+            'Success',
+            response.data.message || 'Item removed from cart.',
+          );
           await fetchCartData(false); // Refresh cart data
         } else {
-          Alert.alert('Error', response.data.message || 'Failed to remove item from cart.');
+          Alert.alert(
+            'Error',
+            response.data.message || 'Failed to remove item from cart.',
+          );
         }
       } catch (e) {
         console.error('Error removing item:', e);
-        Alert.alert('Error', 'Failed to remove item from cart. Please try again.');
+        Alert.alert(
+          'Error',
+          'Failed to remove item from cart. Please try again.',
+        );
       } finally {
         setIsUpdatingQuantity(false);
       }
@@ -6993,11 +7003,12 @@ console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
 
     try {
       // Ensure productId is available for the Razorpay order creation
-      const firstProductId = cartItemsToDisplay.length > 0 ? cartItemsToDisplay[0].productId : null;
+      const firstProductId =
+        cartItemsToDisplay.length > 0 ? cartItemsToDisplay[0].productId : null;
 
       if (!firstProductId) {
-          Alert.alert('Error', 'No product ID found in cart for Razorpay order.');
-          return false;
+        Alert.alert('Error', 'No product ID found in cart for Razorpay order.');
+        return false;
       }
 
       // Create Razorpay order on backend
@@ -7008,7 +7019,7 @@ console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
           currency: currencyConfig.applicationData.currency || 'INR',
           addressId: deliveryAddress?._id,
           productId: firstProductId,
-          userId: CURRENT_USER_ID, 
+          userId: CURRENT_USER_ID,
         },
       );
       const res = createOrderResponse.data;
@@ -7086,7 +7097,7 @@ console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
   const handlePlaceOrder = async () => {
     const userId = await getUserData();
     console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
-    navigation.navigate("ShoppingBag")
+    navigation.navigate('ShoppingBag');
     if (cartItemsToDisplay.length === 0) {
       Alert.alert(
         'Cart Empty',
@@ -7108,12 +7119,18 @@ console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
       if (selectedPaymentMode === 'cod') {
         console.log('Attempting to place COD order...');
 
-        const firstProductId = cartItemsToDisplay.length > 0 ? cartItemsToDisplay[0].productId : null;
+        const firstProductId =
+          cartItemsToDisplay.length > 0
+            ? cartItemsToDisplay[0].productId
+            : null;
 
         if (!firstProductId) {
-            Alert.alert('Error', 'No product ID found in cart. Cannot place COD order.');
-            setIsPaying(false);
-            return;
+          Alert.alert(
+            'Error',
+            'No product ID found in cart. Cannot place COD order.',
+          );
+          setIsPaying(false);
+          return;
         }
 
         const codPayload = {
@@ -7129,30 +7146,47 @@ console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
 
         console.log('COD Order Payload:', JSON.stringify(codPayload, null, 2));
 
-        const response = await axiosInstance.post('/web/create-order', codPayload); // Use the provided endpoint
+        const response = await axiosInstance.post(
+          '/web/create-order',
+          codPayload,
+        ); // Use the provided endpoint
 
         if (response.data && response.data.success) {
-          Alert.alert('Order Placed', response.data.message || 'Your COD order has been placed successfully!');
+          Alert.alert(
+            'Order Placed',
+            response.data.message ||
+              'Your COD order has been placed successfully!',
+          );
           // You might clear the cart locally or refetch cart data after successful order
           fetchCartData(false); // Refresh cart to show it's empty or updated
-          navigation.navigate('OrderSuccessScreen', {paymentMode: 'COD', orderId: response.data.orderId}); // Pass backend order ID if returned
+          navigation.navigate('OrderSuccessScreen', {
+            paymentMode: 'COD',
+            orderId: response.data.orderId,
+          }); // Pass backend order ID if returned
         } else {
           // Alert.alert('Order Failed', response.data.message || 'Failed to place COD order. Please try again.');
         }
+        const cart = await axiosInstance.get('web/get-orders');
+        console.log('get cart data ', cart);
       } else if (selectedPaymentMode === 'razorpay') {
         console.log('Initiating Razorpay payment...');
-        const paymentSuccess = await handleRazorpayPayment(cartSummary.totalAmount);
+        const paymentSuccess = await handleRazorpayPayment(
+          cartSummary.totalAmount,
+        );
         if (!paymentSuccess) {
-            console.log('Razorpay payment did not complete successfully.');
+          console.log('Razorpay payment did not complete successfully.');
         }
       }
     } catch (error) {
       console.error('Error placing order:', error);
       let errorMessage = 'Could not place your order. Please try again.';
       if (error.response) {
-        errorMessage = error.response.data?.message || `Server Error: ${error.response.status}`;
+        errorMessage =
+          error.response.data?.message ||
+          `Server Error: ${error.response.status}`;
       } else if (error.request) {
-        errorMessage = 'Network Error: No response from server. Check your internet connection.';
+        errorMessage =
+          'Network Error: No response from server. Check your internet connection.';
       } else {
         errorMessage = `Error: ${error.message}`;
       }
@@ -7284,7 +7318,8 @@ console.log(`User ID for order: ${JSON.stringify(userId.userId, null, 2)}`);
               <View
                 style={[
                   styles.radioButton,
-                  selectedPaymentMode === 'razorpay' && styles.radioButtonSelected,
+                  selectedPaymentMode === 'razorpay' &&
+                    styles.radioButtonSelected,
                 ]}
               />
               <Image
@@ -8359,7 +8394,6 @@ export default CheckoutPage;
 //             </View>
 //           </TouchableOpacity>
 //         </View>
-
 
 //         <View style={styles.orderInfoContainer}>
 //           <Text style={styles.orderInfoTitle}>Order Info</Text>

@@ -482,7 +482,7 @@ const LoginScreen = () => {
 
       <Text style={styles.orContinueWith}>- OR Continue with -</Text>
 
-      <View style={styles.socialButtonsContainer}>
+      {/* <View style={styles.socialButtonsContainer}>
         <TouchableOpacity style={styles.socialButton}>
           <GoogleIcon name="google" size={30} color="#DB4437" />
         </TouchableOpacity>
@@ -492,7 +492,7 @@ const LoginScreen = () => {
         <TouchableOpacity style={styles.socialButton}>
           <FacebookIcon name="facebook" size={30} color="#4267B2" />
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       <View style={styles.createAccountContainer}>
         <Text style={styles.createAccountText}>Create An Account </Text>

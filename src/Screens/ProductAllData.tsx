@@ -489,7 +489,6 @@ const ProductCard = ({item, onPress, onToggleWishlist}) => {
   return (
     <TouchableOpacity style={styles.productCard} onPress={onPress}>
       <View style={styles.imageContainer}>
-        {' '}
         {/* Added for positioning the heart icon */}
         <Image
           source={{uri: imageUrl}}

@@ -14,15 +14,12 @@
 // import {SafeAreaView} from 'react-native-safe-area-context';
 // import axiosInstance from '../utils/AxiosInstance'; // Ensure this path is correct
 // import {getUserData} from '../utils/tokenStorage';
+// import Feather from 'react-native-vector-icons/Feather';
 
 // const {width} = Dimensions.get('window');
 
-// // --- IMPORTANT: Define your image base URL here ---
 // const IMAGE_BASE_URL = 'https://shopinger.co.in';
 
-// // ===============================================
-// // ProductCard Component
-// // ===============================================
 // const ProductCard = ({product, navigation}) => {
 //   // Get the first variant's first image, or use a placeholder
 //   const imageUrl =
@@ -39,16 +36,10 @@
 //       ? parseFloat(product.variants[0].sellingprice || '0').toFixed(2)
 //       : '0.00';
 
-//   // For the brand, since it's not directly in your product data,
-//   // we'll default it or you can extract it from the name if always present.
 //   const brandName = 'N/A'; // Or try to parse from product.name if always included
 
 //   return (
-//     <TouchableOpacity
-//       style={productCardStyles.productCard} // Use specific styles for ProductCard
-//       // You can navigate to a product detail page here if you have one
-//       // onPress={() => navigation.navigate('ProductDetail', { productId: product.id })}
-//     >
+//     <TouchableOpacity style={productCardStyles.productCard}>
 //       <Image
 //         source={{uri: imageUrl}}
 //         style={productCardStyles.productImage}
@@ -100,7 +91,6 @@
 //   );
 // };
 
-// // Styles for ProductCard
 // const productCardStyles = StyleSheet.create({
 //   productCard: {
 //     width: (width - 45) / 2, // 15 margin on each side, 15 in between
@@ -158,13 +148,15 @@
 //   },
 // });
 
-// // ===============================================
-// // Main App Component
-// // ===============================================
 // const App = ({navigation}) => {
 //   const [categories, setCategories] = useState([]);
 //   const [loadingCategories, setLoadingCategories] = useState(true);
 //   const [errorCategories, setErrorCategories] = useState(null);
+
+//   // New state variables for nested categories
+//   const [currentDisplayLevel, setCurrentDisplayLevel] = useState('main'); // 'main', 'sub', 'sub-sub'
+//   const [parentCategory, setParentCategory] = useState(null); // Stores the selected main category
+//   const [parentSubCategory, setParentSubCategory] = useState(null); // Stores the selected sub-category
 
 //   const fetchCategoriesData = async () => {
 //     try {
@@ -173,7 +165,7 @@
 //       const response = await axiosInstance.get('/web/get-all-category');
 //       console.log('Categories data:', response.data.categories);
 //       const userData = await getUserData(); // Assuming this is correct
-//       console.log("User data at product page",userData);
+//       console.log('User data at product page', userData);
 //       setCategories(response.data.categories);
 //     } catch (error) {
 //       console.error('Error fetching categories:', error);
@@ -223,43 +215,131 @@
 //     fetchProductsData();
 //   }, []); // Run once on component mount
 
-//   const renderCategoryItem = ({item}) => (
-//     <TouchableOpacity
-//       style={styles.categoryItem}
-//       onPress={() => navigation.navigate('ProductAllData')}>
-//       <Image
-//         source={{
-//           uri: item.imgUrl
-//             ? `${IMAGE_BASE_URL}${item.imgUrl}`
-//             : 'https://placehold.co/50x50/cccccc/000000?text=No+Image',
-//         }}
-//         style={styles.categoryIcon}
-//         onError={e =>
-//           console.log(
-//             'Image loading error for category:',
-//             e.nativeEvent.error,
-//             'URL:',
-//             item.imgUrl ? `${IMAGE_BASE_URL}${item.imgUrl}` : 'N/A',
-//           )
-//         }
-//       />
-//       <Text style={styles.categoryText}>{item.name}</Text>
-//     </TouchableOpacity>
-//   );
+//   // --- Category Navigation Logic ---
+//   const handleCategoryPress = item => {
+//     if (currentDisplayLevel === 'main') {
+//       if (item.subCategories && item.subCategories.length > 0) {
+//         setParentCategory(item);
+//         setCurrentDisplayLevel('sub');
+//       } else {
+//         console.log(`Category "${item.name}" has no sub-categories.`);
+//         setParentCategory(item); // Still set it as parent to show an empty list
+//         setCurrentDisplayLevel('sub'); // Move to sub level, which will be empty
+//       }
+//     } else if (currentDisplayLevel === 'sub') {
+//       if (item.subSubCategories && item.subSubCategories.length > 0) {
+//         setParentSubCategory(item);
+//         setCurrentDisplayLevel('sub-sub');
+//       } else {
+//         // If sub-category has no sub-subcategories, show empty.
+//         console.log(`Sub-category "${item.name}" has no sub-sub-categories.`);
+//         setParentSubCategory(item); // Still set it as parent to show an empty list
+//         setCurrentDisplayLevel('sub-sub'); // Move to sub-sub level, which will be empty
+//       }
+//     } else if (currentDisplayLevel === 'sub-sub') {
+//       // This is the deepest level, navigate with slug
+//       console.log(`Navigating to products for sub-sub-category: ${item.slug}`);
+//       navigation.navigate('ProductAllData', {categorySlug: item.slug});
+//     }
+//   };
+
+//   const handleGoBack = () => {
+//     if (currentDisplayLevel === 'sub-sub') {
+//       setCurrentDisplayLevel('sub');
+//       setParentSubCategory(null); // Clear sub-sub parent
+//     } else if (currentDisplayLevel === 'sub') {
+//       setCurrentDisplayLevel('main');
+//       setParentCategory(null); // Clear main parent
+//     }
+//     // No action if already at 'main' level
+//   };
+
+//   const getCurrentCategoriesToDisplay = () => {
+//     if (currentDisplayLevel === 'main') {
+//       return categories;
+//     } else if (currentDisplayLevel === 'sub' && parentCategory) {
+//       return parentCategory.subCategories;
+//     } else if (currentDisplayLevel === 'sub-sub' && parentSubCategory) {
+//       return parentSubCategory.subSubCategories;
+//     }
+//     return []; // Fallback, should ideally not happen if state is managed correctly
+//   };
+
+//   const getCurrentTitle = () => {
+//     if (currentDisplayLevel === 'main') {
+//       return 'Categories';
+//     } else if (currentDisplayLevel === 'sub' && parentCategory) {
+//       return `${parentCategory.name}`;
+//     } else if (currentDisplayLevel === 'sub-sub' && parentSubCategory) {
+//       return `${parentSubCategory.name}`;
+//     }
+//     return 'Categories'; // Default title
+//   };
+
+//   const renderCategoryItem = ({item}) => {
+//     // Determine if the item has children for the current level
+//     const hasChildren =
+//       (currentDisplayLevel === 'main' &&
+//         item.subCategories &&
+//         item.subCategories.length > 0) ||
+//       (currentDisplayLevel === 'sub' &&
+//         item.subSubCategories &&
+//         item.subSubCategories.length > 0);
+
+//     return (
+//       <TouchableOpacity
+//         style={styles.categoryItem}
+//         onPress={() => handleCategoryPress(item)}
+//         // Disable press if it's a leaf node with no slug for navigation, or if it has no children but isn't a leaf
+//         disabled={
+//           currentDisplayLevel === 'sub-sub' &&
+//           !item.slug &&
+//           (!item.subSubCategories || item.subSubCategories.length === 0)
+//         }>
+//         <Image
+//           source={{
+//             uri: item.imgUrl
+//               ? `${IMAGE_BASE_URL}${item.imgUrl}`
+//               : 'https://placehold.co/50x50/cccccc/000000?text=No+Image',
+//           }}
+//           style={styles.categoryIcon}
+//           onError={e =>
+//             console.log(
+//               'Image loading error for category:',
+//               e.nativeEvent.error,
+//               'URL:',
+//               item.imgUrl ? `${IMAGE_BASE_URL}${item.imgUrl}` : 'N/A',
+//             )
+//           }
+//         />
+//         <Text style={styles.categoryText}>{item.name}</Text>
+//         {/* Optional: Add an indicator if it has children */}
+//         {hasChildren && (
+//           <Image
+//             source={{
+//               uri: 'https://placehold.co/10x10/000000/FFFFFF?text=%3E',
+//             }} // Placeholder for a right arrow
+//             style={styles.categoryArrowIcon}
+//           />
+//         )}
+//       </TouchableOpacity>
+//     );
+//   };
 
 //   return (
 //     <SafeAreaView style={styles.safeArea}>
 //       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-//         {/* Header */}
+//         {/* Header (No changes) */}
 //         <View style={styles.header}>
 //           <Image
 //             source={require('../../assets/images/logo.png')}
 //             style={styles.logo}
 //           />
+
 //           <View style={styles.headerRight}>
-//             <TouchableOpacity style={styles.headerAvatarContainer}
-//             onPress={() => navigation.navigate('ShoppingBag')}
-//             >
+//             <TouchableOpacity
+//               style={styles.headerAvatarContainer}
+//               onPress={() => navigation.navigate('ShoppingBag')}>
 //               <Image
 //                 source={require('../../assets/images/Profile.png')}
 //                 style={styles.logo}
@@ -268,11 +348,17 @@
 //           </View>
 //         </View>
 
-//         {/* Search Bar */}
+//         {/* Search Bar (No changes) */}
 //         <View style={styles.searchContainer}>
-//           <Image
-//             // source={require('./assets/search_icon.png')} // Replace with your search icon
+//           {/* <Image
+//             // source={require('./assets/search_icon.png')}
 //             style={styles.searchIcon}
+//           /> */}
+//           <Feather
+//             size={20}
+//             name="search"
+//             color="lightgrey"
+//             style={{right: 4, bottom: 1}}
 //           />
 //           <TextInput
 //             style={styles.searchInput}
@@ -281,38 +367,62 @@
 //           />
 //           <TouchableOpacity style={styles.filterButton}>
 //             <Image
-//               // source={require('./assets/filter_icon.png')} // Replace with your filter icon
+//               // source={require('./assets/filter_icon.png')}
 //               style={styles.filterIcon}
 //             />
 //             <Text style={styles.filterText}>Filter</Text>
 //           </TouchableOpacity>
 //         </View>
 
-//         {/* All Featured Categories */}
-//         <Text style={styles.sectionTitle}>All Featured</Text>
-//         {loadingCategories ? (
-//           <ActivityIndicator
-//             size="large"
-//             color="#ff6600"
-//             style={{marginTop: 20}}
-//           />
-//         ) : errorCategories ? (
-//           <Text style={{color: 'red', textAlign: 'center', marginTop: 20}}>
-//             {errorCategories}
-//           </Text>
-//         ) : (
-//           <FlatList
-//             data={categories}
-//             keyExtractor={(item, index) =>
-//               item.id ? item.id.toString() : index.toString()
-//             }
-//             renderItem={renderCategoryItem}
-//             horizontal
-//             showsHorizontalScrollIndicator={false}
-//             contentContainerStyle={styles.categoriesContainer}
-//           />
-//         )}
+//         {/* Dynamic Categories Section */}
+//         <View style={styles.dynamicCategoriesSection}>
+//           <View style={styles.dynamicCategoriesHeader}>
+//             <Text style={styles.sectionTitleDynamic}>{getCurrentTitle()}</Text>
+//             {currentDisplayLevel !== 'main' && (
+//               <TouchableOpacity
+//                 onPress={handleGoBack}
+//                 style={styles.backButton}>
+//                 {/* Replace with your back arrow icon */}
+//                 <Image
+//                   source={{
+//                     uri: 'https://placehold.co/20x20/000000/FFFFFF?text=%3C',
+//                   }}
+//                   style={styles.backIcon}
+//                 />
+//                 <Text style={styles.backButtonText}>Back</Text>
+//               </TouchableOpacity>
+//             )}
+//           </View>
 
+//           {loadingCategories ? (
+//             <ActivityIndicator
+//               size="large"
+//               color="#ff6600"
+//               style={{marginTop: 20}}
+//             />
+//           ) : errorCategories ? (
+//             <Text style={{color: 'red', textAlign: 'center', marginTop: 20}}>
+//               {errorCategories}
+//             </Text>
+//           ) : getCurrentCategoriesToDisplay().length > 0 ? (
+//             <FlatList
+//               data={getCurrentCategoriesToDisplay()}
+//               keyExtractor={(item, index) =>
+//                 item.id ? item.id.toString() : index.toString()
+//               }
+//               renderItem={renderCategoryItem}
+//               horizontal={false} // Change to vertical for nested display
+//               numColumns={3} // Adjust as needed, e.g., 2 or 3 items per row
+//               showsHorizontalScrollIndicator={false}
+//               showsVerticalScrollIndicator={false}
+//               contentContainerStyle={styles.categoriesGridContainer}
+//             />
+//           ) : (
+//             <Text style={styles.noCategoriesText}>No items found here.</Text>
+//           )}
+//         </View>
+
+//         {/* Rest of your existing content (banners, deals, products) */}
 //         {/* 50-40% Off Banner */}
 //         <Image
 //           source={require('../../assets/products/carousel.png')}
@@ -377,6 +487,7 @@
 //           source={require('../../assets/products/heels.png')}
 //           style={styles.flatHeelsBannerImage}
 //         />
+//         {/* Time remaining banner */}
 //         <View
 //           style={{...styles.dealOfTheDayContainer, backgroundColor: 'pink'}}>
 //           <View style={styles.dealTimerContainer}>
@@ -505,7 +616,8 @@
 //   },
 //   container: {
 //     flex: 1,
-//     backgroundColor: '#f8f8f8',
+//     backgroundColor: '#ffffff',
+//     // backgroundColor: '#f8f8f8',
 //   },
 //   header: {
 //     flexDirection: 'row',
@@ -600,13 +712,63 @@
 //     marginTop: 20,
 //     marginBottom: 10,
 //   },
-//   categoriesContainer: {
+//   // New styles for dynamic category section
+//   dynamicCategoriesSection: {
+//     backgroundColor: '#fff',
+//     marginHorizontal: 15,
+//     borderRadius: 10,
+//     paddingVertical: 10,
+//     marginVertical: 20,
+//     shadowColor: '#000',
+//     shadowOffset: {width: 0, height: 1},
+//     shadowOpacity: 0.1,
+//     shadowRadius: 3,
+//     elevation: 2,
+//   },
+//   dynamicCategoriesHeader: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
 //     paddingHorizontal: 15,
-//     paddingBottom: 10,
+//     marginBottom: 10,
+//   },
+//   sectionTitleDynamic: {
+//     fontSize: 18,
+//     fontWeight: 'bold',
+//     color: '#333',
+//     marginLeft: 5, // Adjust for back button
+//     flex: 1, // Take remaining space
+//   },
+//   backButton: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     paddingVertical: 5,
+//     paddingRight: 10,
+//   },
+//   backIcon: {
+//     width: 16,
+//     height: 16,
+//     marginRight: 5,
+//     tintColor: '#ff6600',
+//   },
+//   backButtonText: {
+//     fontSize: 16,
+//     color: '#ff6600',
+//   },
+//   categoriesGridContainer: {
+//     paddingHorizontal: 15,
+//     // No paddingBottom here to allow the scroll view to handle it
+//     justifyContent: 'flex-start', // Align items to the start
 //   },
 //   categoryItem: {
 //     alignItems: 'center',
-//     marginRight: 15,
+//     justifyContent: 'center', // Center content vertically
+//     width: (width - 30 - 30) / 3, // (Total width - horizontal margins - spacing between items) / numColumns
+//     marginHorizontal: 5, // Spacing between items
+//     marginBottom: 15,
+//     // Add these for better visual if needed
+//     // backgroundColor: '#f9f9f9',
+//     // borderRadius: 8,
+//     // paddingVertical: 10,
 //   },
 //   categoryIcon: {
 //     width: 50,
@@ -621,7 +783,25 @@
 //   categoryText: {
 //     fontSize: 12,
 //     color: '#555',
+//     textAlign: 'center',
+//     width: 80,
 //   },
+//   categoryArrowIcon: {
+//     width: 10,
+//     height: 10,
+//     resizeMode: 'contain',
+//     tintColor: '#999',
+//     marginTop: 5, // Space between text and arrow
+//   },
+//   noCategoriesText: {
+//     textAlign: 'center',
+//     color: '#777',
+//     marginTop: 20,
+//     fontSize: 14,
+//     paddingHorizontal: 15,
+//     paddingBottom: 10,
+//   },
+//   // End new styles
 //   bannerContainer: {
 //     marginHorizontal: 15,
 //     marginTop: 20,
@@ -883,8 +1063,8 @@
 //     fontSize: 14,
 //   },
 //   sponsoredText: {
-//     fontSize: 14,
-//     color: '#777',
+//     fontSize: 18,
+//     fontWeight: 'bold',
 //     marginHorizontal: 15,
 //     marginTop: 10,
 //     marginBottom: 5,
@@ -915,7 +1095,7 @@
 //   },
 //   sponsoredAdSubtitleText: {
 //     fontSize: 16,
-//     color: '#555',
+//     fontWeight: 'bold',
 //     marginHorizontal: 15,
 //     marginTop: 10,
 //     marginBottom: 20,
@@ -1141,6 +1321,11 @@ const App = ({navigation}) => {
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [errorProducts, setErrorProducts] = useState(null);
 
+  // New state for trending products
+  const [trendingProducts, setTrendingProducts] = useState([]);
+  const [loadingTrendingProducts, setLoadingTrendingProducts] = useState(true);
+  const [errorTrendingProducts, setErrorTrendingProducts] = useState(null);
+
   const fetchProductsData = async () => {
     try {
       setLoadingProducts(true);
@@ -1168,6 +1353,46 @@ const App = ({navigation}) => {
       setLoadingProducts(false);
     }
   };
+
+  // New useEffect to fetch trending products (Facewash)
+  useEffect(() => {
+    const fetchTrendingProducts = async () => {
+      try {
+        setLoadingTrendingProducts(true);
+        setErrorTrendingProducts(null);
+        const response = await axiosInstance.get(
+          '/web/get-products-by-sub-sub-category/facewash',
+        );
+        console.log('Facewash Products data:', response.data);
+
+        if (
+          response.data &&
+          response.data.success &&
+          Array.isArray(response.data.data)
+        ) {
+          setTrendingProducts(response.data.data);
+        } else {
+          setTrendingProducts([]);
+          console.warn(
+            'API response data structure for trending products unexpected:',
+            response.data,
+          );
+          setErrorTrendingProducts(
+            'No trending products found or unexpected data format.',
+          );
+        }
+      } catch (error) {
+        console.error('Error fetching trending products:', error);
+        setErrorTrendingProducts(
+          'Failed to load trending products. Please try again.',
+        );
+      } finally {
+        setLoadingTrendingProducts(false);
+      }
+    };
+
+    fetchTrendingProducts();
+  }, []); // Run once on component mount
 
   useEffect(() => {
     fetchProductsData();
@@ -1308,10 +1533,6 @@ const App = ({navigation}) => {
 
         {/* Search Bar (No changes) */}
         <View style={styles.searchContainer}>
-          {/* <Image
-            // source={require('./assets/search_icon.png')}
-            style={styles.searchIcon}
-          /> */}
           <Feather
             size={20}
             name="search"
@@ -1373,10 +1594,11 @@ const App = ({navigation}) => {
               numColumns={3} // Adjust as needed, e.g., 2 or 3 items per row
               showsHorizontalScrollIndicator={false}
               showsVerticalScrollIndicator={false}
+              scrollEnabled={false}
               contentContainerStyle={styles.categoriesGridContainer}
             />
           ) : (
-            <Text style={styles.noCategoriesText}>No items found here.</Text>
+            <Text style={styles.noCategoriesText}>No items found here</Text>
           )}
         </View>
 
@@ -1445,6 +1667,7 @@ const App = ({navigation}) => {
           source={require('../../assets/products/heels.png')}
           style={styles.flatHeelsBannerImage}
         />
+        {/* Time remaining banner */}
         <View
           style={{...styles.dealOfTheDayContainer, backgroundColor: 'pink'}}>
           <View style={styles.dealTimerContainer}>
@@ -1460,73 +1683,101 @@ const App = ({navigation}) => {
             <Text style={styles.viewAllText}>View All</Text>
           </TouchableOpacity>
         </View>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.trendingProductsContainer}>
-          <View style={styles.trendingProductCard}>
-            <Image
-              source={require('../../assets/products/watch.png')} // Replace with your watch image
-              style={styles.trendingProductImage}
-            />
-            <Text style={styles.trendingProductBrand}>RWC</Text>
-            <Text style={styles.trendingProductTitle}>
-              Swiss Chronograph Watch (REF. 2017-45MM)...
-            </Text>
-            <View style={styles.trendingProductPriceRating}>
-              <Text style={styles.trendingProductPrice}>$120.00</Text>
-              <View style={styles.ratingContainer}>
-                <Image
-                  // source={require('./assets/star_icon.png')} // Replace with your star icon
-                  style={styles.starIcon}
-                />
-                <Text style={styles.ratingText}>4.8</Text>
-              </View>
-            </View>
-          </View>
 
-          <View style={styles.trendingProductCard}>
-            <Image
-              source={require('../../assets/products/whiteSneakers.png')} // Replace with your shoes image
-              style={styles.trendingProductImage}
-            />
-            <Text style={styles.trendingProductBrand}>Lusion</Text>
-            <Text style={styles.trendingProductTitle}>
-              White shoes for Man and female
-            </Text>
-            <View style={styles.trendingProductPriceRating}>
-              <Text style={styles.trendingProductPrice}>$75.00</Text>
-              <View style={styles.ratingContainer}>
+        {/* Trending Products Section - Now uses FlatList with API data */}
+        {loadingTrendingProducts ? (
+          <ActivityIndicator
+            size="large"
+            color="#ff6600"
+            style={{marginTop: 20}}
+          />
+        ) : errorTrendingProducts ? (
+          <Text style={{color: 'red', textAlign: 'center', marginTop: 20}}>
+            {errorTrendingProducts}
+          </Text>
+        ) : trendingProducts.length > 0 ? (
+          <FlatList
+            data={trendingProducts}
+            keyExtractor={item => item.id.toString()}
+            renderItem={({item}) => (
+              <View style={styles.trendingProductCard}>
                 <Image
-                  // source={require('./assets/star_icon.png')} // Replace with your star icon
-                  style={styles.starIcon}
+                  source={{
+                    uri:
+                      item.variants &&
+                      item.variants.length > 0 &&
+                      item.variants[0].images &&
+                      item.variants[0].images.length > 0
+                        ? `${IMAGE_BASE_URL}${item.variants[0].images[0]}`
+                        : 'https://placehold.co/120x120/E0E0E0/555555?text=No+Image',
+                  }}
+                  style={styles.trendingProductImage}
+                  onError={e =>
+                    console.log(
+                      'Trending product image loading error:',
+                      e.nativeEvent.error,
+                      'URL:',
+                      item.variants &&
+                        item.variants.length > 0 &&
+                        item.variants[0].images &&
+                        item.variants[0].images.length > 0
+                        ? `${IMAGE_BASE_URL}${item.variants[0].images[0]}`
+                        : 'N/A',
+                    )
+                  }
                 />
-                <Text style={styles.ratingText}>4.2</Text>
+                {/* Assuming product.mainCategory.name can serve as brand or parse from product.name */}
+                <Text style={styles.trendingProductBrand}>
+                  {item.mainCategory?.name || 'N/A'}
+                </Text>
+                <Text style={styles.trendingProductTitle} numberOfLines={2}>
+                  {item.name || 'N/A'}
+                </Text>
+                <View style={styles.trendingProductPriceRating}>
+                  <Text style={styles.trendingProductPrice}>
+                    ₹
+                    {item.variants && item.variants.length > 0
+                      ? parseFloat(
+                          item.variants[0].sellingprice || '0',
+                        ).toFixed(2)
+                      : '0.00'}
+                  </Text>
+                  {item.averageRating !== null &&
+                  item.averageRating !== undefined ? (
+                    <View style={styles.ratingContainer}>
+                      <Image
+                        source={{
+                          uri: 'https://placehold.co/12x12/FFD700/FFFFFF?text=%E2%98%85',
+                        }}
+                        style={styles.starIcon}
+                      />
+                      <Text style={styles.ratingText}>
+                        {parseFloat(item.averageRating).toFixed(1)}
+                      </Text>
+                    </View>
+                  ) : (
+                    <View style={styles.ratingContainer}>
+                      <Image
+                        source={{
+                          uri: 'https://placehold.co/12x12/FFD700/FFFFFF?text=%E2%98%85',
+                        }}
+                        style={styles.starIcon}
+                      />
+                      <Text style={styles.ratingText}>N/A</Text>
+                    </View>
+                  )}
+                </View>
               </View>
-            </View>
-          </View>
-
-          <View style={styles.trendingProductCard}>
-            <Image
-              source={require('../../assets/products/watch.png')} // Replace with your jacket image
-              style={styles.trendingProductImage}
-            />
-            <Text style={styles.trendingProductBrand}>Levi's</Text>
-            <Text style={styles.trendingProductTitle}>
-              Denim Jacket for Men
-            </Text>
-            <View style={styles.trendingProductPriceRating}>
-              <Text style={styles.trendingProductPrice}>$99.00</Text>
-              <View style={styles.ratingContainer}>
-                <Image
-                  // source={require('./assets/star_icon.png')} // Replace with your star icon
-                  style={styles.starIcon}
-                />
-                <Text style={styles.ratingText}>4.5</Text>
-              </View>
-            </View>
-          </View>
-        </ScrollView>
+            )}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.trendingProductsContainer}
+          />
+        ) : (
+          <Text style={{textAlign: 'center', marginTop: 20, color: '#777'}}>
+            No trending products found.
+          </Text>
+        )}
 
         {/* Hot Summer Sale Banner */}
         <View
@@ -1574,7 +1825,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
-    // backgroundColor: '#f8f8f8',
   },
   header: {
     flexDirection: 'row',

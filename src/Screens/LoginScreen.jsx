@@ -284,9 +284,6 @@ import {
   // Removed Alert import as it's replaced by state-based messages
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather'; // For eye icon
-import GoogleIcon from 'react-native-vector-icons/AntDesign'; // For Google icon
-import AppleIcon from 'react-native-vector-icons/FontAwesome'; // For Apple icon
-import FacebookIcon from 'react-native-vector-icons/FontAwesome'; // For Facebook icon
 
 // Import the axiosInstance from your axiosConfig.js file
 import axiosInstance from '../utils/AxiosInstance'; // Adjust the path as per your project structure
@@ -481,18 +478,6 @@ const LoginScreen = () => {
       )}
 
       <Text style={styles.orContinueWith}>- OR Continue with -</Text>
-
-      {/* <View style={styles.socialButtonsContainer}>
-        <TouchableOpacity style={styles.socialButton}>
-          <GoogleIcon name="google" size={30} color="#DB4437" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.socialButton}>
-          <AppleIcon name="apple" size={30} color="#000" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.socialButton}>
-          <FacebookIcon name="facebook" size={30} color="#4267B2" />
-        </TouchableOpacity>
-      </View> */}
 
       <View style={styles.createAccountContainer}>
         <Text style={styles.createAccountText}>Create An Account </Text>

@@ -3625,7 +3625,9 @@ const ProductDetailsScreen = ({navigation, route}) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axiosInstance.get(`web/get-products/${productSlug}`);
+      const response = await axiosInstance.get(
+        `web/get-products/${productSlug}`,
+      );
       console.log('API Response:', JSON.stringify(response.data, null, 2));
 
       if (
@@ -3721,7 +3723,7 @@ const ProductDetailsScreen = ({navigation, route}) => {
           },
         ]);
       } else {
-        navigation.navigate('CheckoutProduct')
+        navigation.navigate('CheckoutProduct');
         // Alert.alert(
         //   'Failed to Add to Cart',
         //   response.data.message || 'Something went wrong.',
@@ -3769,7 +3771,9 @@ const ProductDetailsScreen = ({navigation, route}) => {
             style={styles.reviewAvatar}
           />
           <View style={styles.reviewInfo}>
-            <Text style={styles.reviewerName}>{item.user.name || 'Anonymous'}</Text>
+            <Text style={styles.reviewerName}>
+              {item.user.name || 'Anonymous'}
+            </Text>
             <Text style={styles.reviewDate}>{reviewDate}</Text>
           </View>
           <View style={styles.reviewRatingContainer}>
@@ -4089,9 +4093,7 @@ const ProductDetailsScreen = ({navigation, route}) => {
         <View style={styles.reviewsSection}>
           <View style={styles.reviewsHeader}>
             {/* Dynamic total reviews */}
-            <Text style={styles.reviewsTitle}>
-              {totalReviewsCount} Reviews
-            </Text>
+            <Text style={styles.reviewsTitle}>{totalReviewsCount} Reviews</Text>
             <View style={styles.reviewsOverallRating}>
               {/* Dynamic average rating */}
               <Text style={styles.reviewsOverallRatingText}>
@@ -4132,7 +4134,10 @@ const ProductDetailsScreen = ({navigation, route}) => {
                   />
                   <View style={styles.progressBarBackground}>
                     <View
-                      style={[styles.progressBarFill, {width: `${percentage}%`}]}
+                      style={[
+                        styles.progressBarFill,
+                        {width: `${percentage}%`},
+                      ]}
                     />
                   </View>
                   <Text style={styles.starRowCount}>{count}</Text>
@@ -4152,7 +4157,9 @@ const ProductDetailsScreen = ({navigation, route}) => {
               scrollEnabled={false} // Make reviews part of parent scroll
             />
           ) : (
-            <Text style={styles.noReviewsText}>No reviews yet. Be the first to review!</Text>
+            <Text style={styles.noReviewsText}>
+              No reviews yet. Be the first to review!
+            </Text>
           )}
         </View>
 

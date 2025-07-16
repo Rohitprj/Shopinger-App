@@ -285,6 +285,7 @@ import ProductDetails from './src/Screens/ProductDetails';
 import AllAddresses from './src/Screens/AllAddresses';
 import SplashScreen from './src/utils/SplashScreen';
 import Feather from 'react-native-vector-icons/Feather';
+import otpVerify from './src/Screens/otpVerify';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -369,6 +370,7 @@ const StackNavigator = ({initialRouteName}) => {
         name="CreateAccountScreen"
         component={CreateAccountScreen}
       />
+      <Stack.Screen name="otpVerify" component={otpVerify} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
       <Stack.Screen name="GetStarted" component={GetStarted} />
       <Stack.Screen name="MainTabs" component={TabNavigator} />

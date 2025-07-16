@@ -49,12 +49,17 @@
 //       ? 'In Stock'
 //       : 'Out of Stock';
 
+//   // --- FIX START: Robust handling for rating and reviewCount ---
 //   const rating =
-//     item.averageRating !== null ? item.averageRating.toFixed(1) : 'N/A';
+//     item.averageRating !== null && item.averageRating !== undefined
+//       ? parseFloat(item.averageRating).toFixed(1)
+//       : 'N/A';
+
 //   const reviewCount =
 //     item._count && item._count.ProductReview !== undefined
 //       ? item._count.ProductReview.toLocaleString()
 //       : '0';
+//   // --- FIX END ---
 
 //   return (
 //     <TouchableOpacity style={styles.productCard}>
@@ -122,8 +127,8 @@
 //     setError(null);
 //     try {
 //       const response = await axiosInstance.get(`/web/search-product/${query}`);
-//       console.log('search query data', JSON.stringify(response, null, 2));
 
+//       console.log('Search Response Data:', response.data);
 //       if (
 //         response.data &&
 //         response.data.success &&
@@ -221,8 +226,8 @@
 //             numColumns={2}
 //             columnWrapperStyle={styles.row}
 //             contentContainerStyle={styles.flatListContent}
-//             // style={styles.resultsList} {/* Apply style to FlatList component itself */}
-//             // showsVerticalScrollIndicator={false}
+//             style={styles.resultsList}
+//             showsVerticalScrollIndicator={false}
 //           />
 //         ) : (
 //           <View style={styles.noResultsContainer}>
@@ -410,8 +415,8 @@ const {width} = Dimensions.get('window');
 const IMAGE_BASE_URL = 'https://shopinger.co.in';
 
 // ProductCard component to render individual product items
-// Reused from previous interactions, adapted for search results
-const ProductCard = ({item}) => {
+const ProductCard = ({item, navigation}) => {
+  // Add navigation prop here
   const imageUrl =
     item.variants &&
     item.variants.length > 0 &&
@@ -450,8 +455,17 @@ const ProductCard = ({item}) => {
       : '0';
   // --- FIX END ---
 
+  const handleCardPress = () => {
+    // Navigate to ProductDetails screen, passing the product slug
+    if (navigation && item.slug) {
+      navigation.navigate('ProductDetails', {productSlug: item.slug});
+    } else {
+      console.warn('Navigation object or product slug is missing.');
+    }
+  };
+
   return (
-    <TouchableOpacity style={styles.productCard}>
+    <TouchableOpacity style={styles.productCard} onPress={handleCardPress}>
       <View style={styles.imageContainer}>
         <Image
           source={{uri: imageUrl}}
@@ -498,7 +512,8 @@ const ProductCard = ({item}) => {
 };
 
 // Main SearchScreen component
-export default function SearchScreen() {
+export default function SearchScreen({navigation}) {
+  // Add navigation prop here
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -516,6 +531,8 @@ export default function SearchScreen() {
     setError(null);
     try {
       const response = await axiosInstance.get(`/web/search-product/${query}`);
+
+      console.log('Search Response Data:', response.data);
       if (
         response.data &&
         response.data.success &&
@@ -608,7 +625,10 @@ export default function SearchScreen() {
         ) : searchResults.length > 0 ? (
           <FlatList
             data={searchResults}
-            renderItem={({item}) => <ProductCard item={item} />}
+            renderItem={({item}) => (
+              // Pass navigation prop to ProductCard
+              <ProductCard item={item} navigation={navigation} />
+            )}
             keyExtractor={item => item.id.toString()}
             numColumns={2}
             columnWrapperStyle={styles.row}

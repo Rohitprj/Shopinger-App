@@ -1159,7 +1159,10 @@ const {width} = Dimensions.get('window');
 const IMAGE_BASE_URL = 'https://shopinger.co.in';
 
 const ProductCard = ({product, navigation}) => {
-  // Get the first variant's first image, or use a placeholder
+  console.log(
+    'All data --------------',
+    JSON.stringify(product.subSubCategory.slug, null, 2),
+  );
   const imageUrl =
     product.variants &&
     product.variants.length > 0 &&
@@ -1177,7 +1180,12 @@ const ProductCard = ({product, navigation}) => {
   const brandName = 'N/A'; // Or try to parse from product.name if always included
 
   return (
-    <TouchableOpacity style={productCardStyles.productCard}>
+    <TouchableOpacity
+      style={productCardStyles.productCard}
+      onPress={() => {
+        navigation.navigate('ProductAllData'),
+          {categorySlug: product.subSubCategory.slug};
+      }}>
       <Image
         source={{uri: imageUrl}}
         style={productCardStyles.productImage}
@@ -1544,13 +1552,13 @@ const App = ({navigation}) => {
             placeholder="Search any product..."
             placeholderTextColor="#888"
           />
-          <TouchableOpacity style={styles.filterButton}>
+          {/* <TouchableOpacity style={styles.filterButton}>
             <Image
               // source={require('./assets/filter_icon.png')}
               style={styles.filterIcon}
             />
             <Text style={styles.filterText}>Filter</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         {/* Dynamic Categories Section */}
@@ -1700,7 +1708,13 @@ const App = ({navigation}) => {
             data={trendingProducts}
             keyExtractor={item => item.id.toString()}
             renderItem={({item}) => (
-              <View style={styles.trendingProductCard}>
+              <TouchableOpacity
+                style={styles.trendingProductCard}
+                onPress={() =>
+                  navigation.navigate('ProductAllData', {
+                    categorySlug: item.subSubCategory.slug,
+                  })
+                }>
                 <Image
                   source={{
                     uri:
@@ -1761,13 +1775,13 @@ const App = ({navigation}) => {
                         source={{
                           uri: 'https://placehold.co/12x12/FFD700/FFFFFF?text=%E2%98%85',
                         }}
-                        style={styles.starIcon}
+                        // style={styles.starIcon}
                       />
                       <Text style={styles.ratingText}>N/A</Text>
                     </View>
                   )}
                 </View>
-              </View>
+              </TouchableOpacity>
             )}
             horizontal={true}
             showsHorizontalScrollIndicator={false}

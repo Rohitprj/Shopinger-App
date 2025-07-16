@@ -736,6 +736,8 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {removeUserData, getUserData} from '../utils/tokenStorage'; // Adjust the path as necessary
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import axiosInstance from '../utils/AxiosInstance'; // Import axiosInstance
+import Feather from 'react-native-vector-icons/Feather';
+// import Icons from 'react-native-vector-icons/MaterialDesignIcons';
 
 export default function Settings() {
   const navigation = useNavigation();
@@ -872,6 +874,8 @@ export default function Settings() {
       navigation.navigate('ShoppingBag'); // Assuming ShoppingBag is for orders
     } else if (screenName === 'Addresses') {
       navigation.navigate('AllAddresses');
+    } else if (screenName === 'Wishlist') {
+      navigation.navigate('Wishlist');
     } else {
       Alert.alert(
         'Navigation',
@@ -953,7 +957,7 @@ export default function Settings() {
         {/* Profile Card */}
         <View style={styles.profileCard}>
           <Image
-            source={{uri: 'https://placehold.co/60x60/FF6F00/FFFFFF?text=👤'}} // Placeholder for user avatar
+            source={require('../../assets/images/Profile.png')}
             style={styles.avatar}
           />
           <View style={styles.profileInfo}>
@@ -967,9 +971,15 @@ export default function Settings() {
           <TouchableOpacity
             style={styles.menuItem}
             onPress={() => navigateTo('Profile')}>
-            <Image
+            {/* <Image
               source={{uri: 'https://placehold.co/24x24/FF6F00/FFFFFF?text=👤'}} // Profile icon
               style={styles.menuIcon}
+            /> */}
+            <Feather
+              size={26}
+              name="user"
+              color="black"
+              style={{right: 7, bottom: 1}}
             />
             <Text style={styles.menuItemText}>Profile</Text>
           </TouchableOpacity>
@@ -979,9 +989,15 @@ export default function Settings() {
           <TouchableOpacity
             style={styles.menuItem}
             onPress={() => navigateTo('MyOrders')}>
-            <Image
+            {/* <Image
               source={{uri: 'https://placehold.co/24x24/FF6F00/FFFFFF?text=📦'}} // Orders icon
               style={styles.menuIcon}
+            /> */}
+            <Feather
+              size={26}
+              name="shopping-bag"
+              color="black"
+              style={{right: 7, bottom: 1}}
             />
             <Text style={styles.menuItemText}>My Orders</Text>
           </TouchableOpacity>
@@ -991,20 +1007,36 @@ export default function Settings() {
           <TouchableOpacity
             style={styles.menuItem}
             onPress={() => navigateTo('Addresses')}>
-            <Image
-              source={{uri: 'https://placehold.co/24x24/FF6F00/FFFFFF?text=📍'}} // Addresses icon
-              style={styles.menuIcon}
+            <Feather
+              size={26}
+              name="plus"
+              color="black"
+              style={{right: 7, bottom: 1}}
             />
             <Text style={styles.menuItemText}>Addresses</Text>
+          </TouchableOpacity>
+          <View style={styles.separator} />
+          <TouchableOpacity
+            style={{...styles.menuItem, left: 3}}
+            onPress={() => navigation.navigate('Wishlist')}>
+            <Feather
+              size={26}
+              name="heart"
+              color="black"
+              style={{right: 10, bottom: 1}}
+            />
+            <Text style={styles.menuItemText}>Wishlist</Text>
           </TouchableOpacity>
         </View>
 
         {/* Logout Button Card (or directly as a button) */}
         <View style={styles.logoutCard}>
           <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Image
-              source={{uri: 'https://placehold.co/24x24/FF6F00/FFFFFF?text=➡️'}} // Logout icon
-              style={styles.menuIcon}
+            <Feather
+              size={26}
+              name="log-out"
+              color="black"
+              style={{right: 10, bottom: 1}}
             />
             <Text style={styles.logoutButtonText}>Logout</Text>
           </TouchableOpacity>
@@ -1098,7 +1130,7 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     backgroundColor: '#f0f0f0',
-    marginLeft: 54, // Align with text, past the icon
+    marginLeft: 24, // Align with text, past the icon
   },
   logoutCard: {
     backgroundColor: '#fff',

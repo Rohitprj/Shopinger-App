@@ -793,13 +793,41 @@ export default function Settings() {
     }, [fetchUserProfile]),
   );
 
+  // const handleLogout = async () => {
+  //   await removeUserData();
+  //   console.log('User logged out. Navigating to Home.');
+
+  //   navigation.reset({
+  //     index: 0,
+  //     routes: [{name: 'LoginScreen'}], // Navigate to the 'Home' screen, clearing the stack
+  //   });
+  // };
+
+  const confirmLogout = () => {
+    Alert.alert(
+      'Logout',
+      'Do you want to logout?',
+      [
+        {
+          text: 'No',
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: handleLogout,
+          style: 'destructive',
+        },
+      ],
+      {cancelable: true},
+    );
+  };
+
   const handleLogout = async () => {
     await removeUserData();
-    console.log('User logged out. Navigating to Home.');
-
+    console.log('User logged out. Navigating to Login.');
     navigation.reset({
       index: 0,
-      routes: [{name: 'LoginScreen'}], // Navigate to the 'Home' screen, clearing the stack
+      routes: [{name: 'LoginScreen'}],
     });
   };
 
@@ -1031,7 +1059,7 @@ export default function Settings() {
 
         {/* Logout Button Card (or directly as a button) */}
         <View style={styles.logoutCard}>
-          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+          <TouchableOpacity style={styles.logoutButton} onPress={confirmLogout}>
             <Feather
               size={26}
               name="log-out"

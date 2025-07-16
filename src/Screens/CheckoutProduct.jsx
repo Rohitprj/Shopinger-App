@@ -7227,7 +7227,7 @@ const CheckoutPage = ({navigation}) => {
           <Text style={styles.noItemsInCartText}>Your cart is empty!</Text>
           <TouchableOpacity
             style={styles.browseButton}
-            onPress={() => navigation.navigate('ProductAllData')}>
+            onPress={() => navigation.goBack()}>
             <Text style={styles.browseButtonText}>🛒 Shop Now</Text>
           </TouchableOpacity>
         </View>

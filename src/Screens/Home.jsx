@@ -1,15 +1,22 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
 import Swiper from 'react-native-swiper'; // You'll need to install this library: npm install react-native-swiper
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 // Assuming these images are in your assets folder
 const ChooseProductsImage = require('../../assets/images/product.png'); // Replace with your actual path
-const MakePaymentImage = require('../../assets/images/payment.png');     // Replace with your actual path
+const MakePaymentImage = require('../../assets/images/payment.png'); // Replace with your actual path
 const GetYourOrderImage = require('../../assets/images/order.png'); // Replace with your actual path
 
-const OnboardingScreen = ({ navigation }) => {
+const OnboardingScreen = ({navigation}) => {
   const handleSkip = () => {
     navigation.navigate('Home'); // Navigate to your main app screen
   };
@@ -25,62 +32,91 @@ const OnboardingScreen = ({ navigation }) => {
       showsPagination={true}
       dotStyle={styles.dotStyle}
       activeDotStyle={styles.activeDotStyle}
-      paginationStyle={styles.paginationStyle}
-    >
+      paginationStyle={styles.paginationStyle}>
       {/* Page 1: Choose Products */}
       <View style={styles.slide}>
-        <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
+        {/* <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
           <Text style={styles.skipText}>Skip</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <Text style={styles.pageNumber}>1/3</Text>
-        <Image source={ChooseProductsImage} style={styles.image} resizeMode="contain" />
+        <Image
+          source={ChooseProductsImage}
+          style={styles.image}
+          resizeMode="contain"
+        />
         <Text style={styles.title}>Choose Products</Text>
         <Text style={styles.description}>
-          Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.
+          Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
+          sint. Velit officia consequat duis enim velit mollit.
         </Text>
-        <TouchableOpacity style={styles.nextButton} onPress={() => { /* Swiper automatically handles next for you */ }}>
+        {/* <TouchableOpacity style={styles.nextButton} onPress={() => {}}>
           <Text style={styles.nextText}>Next</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       {/* Page 2: Make Payment */}
       <View style={styles.slide}>
-        <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
+        {/* <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
           <Text style={styles.skipText}>Skip</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <Text style={styles.pageNumber}>2/3</Text>
-        <Image source={MakePaymentImage} style={styles.image} resizeMode="contain" />
+        <Image
+          source={MakePaymentImage}
+          style={styles.image}
+          resizeMode="contain"
+        />
         <Text style={styles.title}>Make Payment</Text>
         <Text style={styles.description}>
-          Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.
+          Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
+          sint. Velit officia consequat duis enim velit mollit.
         </Text>
         <View style={styles.navigationButtons}>
-          <TouchableOpacity style={styles.prevButton} onPress={() => { /* Swiper automatically handles prev for you */ }}>
+          {/* <TouchableOpacity
+            style={styles.prevButton}
+            onPress={() => {
+              
+            }}>
             <Text style={styles.prevText}>Prev</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.nextButton} onPress={() => { /* Swiper automatically handles next for you */ }}>
+          </TouchableOpacity> */}
+          {/* <TouchableOpacity
+            style={styles.nextButton}
+            onPress={() => {
+              
+            }}>
             <Text style={styles.nextText}>Next</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
 
       {/* Page 3: Get Your Order */}
       <View style={styles.slide}>
-        <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
+        {/* <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
           <Text style={styles.skipText}>Skip</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <Text style={styles.pageNumber}>3/3</Text>
-        <Image source={GetYourOrderImage} style={styles.image} resizeMode="contain" />
+        <Image
+          source={GetYourOrderImage}
+          style={styles.image}
+          resizeMode="contain"
+        />
         <Text style={styles.title}>Get Your Order</Text>
         <Text style={styles.description}>
-          Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.
+          Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
+          sint. Velit officia consequat duis enim velit mollit.
         </Text>
         <View style={styles.navigationButtons}>
-          <TouchableOpacity style={styles.prevButton} onPress={() => { /* Swiper automatically handles prev for you */ }}>
-            <Text style={styles.prevText}>Prev</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.getStartedButton} onPress={()=>navigation.navigate('LoginScreen')}>
-            <Text style={styles.getStartedText}>Get Started</Text>
+          {/* <TouchableOpacity
+          
+            onPress={() => {
+              
+            }}>
+            <Text style={styles.prevText}></Text>
+          </TouchableOpacity> */}
+
+          <TouchableOpacity
+            style={styles.nextButton}
+            onPress={() => navigation.navigate('LoginScreen')}>
+            <Text style={styles.nextText}>Get Started</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -161,6 +197,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 25,
+    marginBottom: 50,
+    marginLeft: 60,
   },
   nextText: {
     color: '#fff',
